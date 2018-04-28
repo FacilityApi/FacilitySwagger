@@ -1,7 +1,7 @@
 # FacilitySwagger
 
 Swagger (OpenAPI) 2.0 support for the [Facility API Framework](https://facilityapi.github.io/).
-[![AppVeyor](https://img.shields.io/appveyor/ci/ejball/facility.svg)](https://ci.appveyor.com/project/ejball/facility)
+[![AppVeyor](https://img.shields.io/appveyor/ci/ejball/facilityswagger.svg)](https://ci.appveyor.com/project/ejball/facilityswagger)
 
 Name | Description | NuGet
 --- | --- | ---
