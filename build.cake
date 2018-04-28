@@ -7,11 +7,11 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var versionSuffix = Argument("versionSuffix", "");
 
-var solutionFileName = "Facility.sln";
-var docsAssemblies = new[] { "Facility.Definition", "Facility.CodeGen.Console" };
-var docsAssemblyDirectory = $"src/fsdgenfsd/bin/{configuration}";
-var docsSourceUri = "https://github.com/FacilityApi/Facility/tree/master/src";
-var codeGenExe = $"src/fsdgenfsd/bin/{configuration}/fsdgenfsd.exe";
+var solutionFileName = "FacilitySwagger.sln";
+var docsAssemblies = new[] { "Facility.Definition.Swagger" };
+var docsAssemblyDirectory = $"src/fsdgenswagger/bin/{configuration}";
+var docsSourceUri = "https://github.com/FacilityApi/FacilitySwagger/tree/master/src";
+var codeGenExe = $"src/fsdgenswagger/bin/{configuration}/fsdgenswagger.exe";
 
 var nugetSource = "https://api.nuget.org/v3/index.json";
 var nugetApiKey = EnvironmentVariable("NUGET_API_KEY");
@@ -25,8 +25,6 @@ var buildBranch = EnvironmentVariable("APPVEYOR_REPO_BRANCH");
 
 void CodeGen(bool verify)
 {
-	ExecuteCodeGen("example/ExampleApi.fsd example/output/fsd", verify);
-	ExecuteCodeGen("example/ExampleApi.fsd example/output/nowidgets --excludeTag widgets", verify);
 	ExecuteCodeGen("example/ExampleApi.fsd example/output/swagger --swagger", verify);
 	ExecuteCodeGen("example/ExampleApi.fsd example/output/swagger --swagger --yaml", verify);
 	ExecuteCodeGen("example/output/swagger/ExampleApi.json example/output/swagger/fsd", verify);

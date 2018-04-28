@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A219E328-B15A-41FF-BAA5-5F46679EF9C8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		build.cake = build.cake
+		build.ps1 = build.ps1
+		build.sh = build.sh
+		CONTRIBUTING.md = CONTRIBUTING.md
+		Directory.Build.props = Directory.Build.props
+		example\ExampleApi.fsd = example\ExampleApi.fsd
+		LICENSE = LICENSE
+		README.md = README.md
+		VersionHistory.md = VersionHistory.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.Definition.Swagger", "src\Facility.Definition.Swagger\Facility.Definition.Swagger.csproj", "{803FAFD4-5B25-4486-9BB4-6151D250944C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fsdgenswagger", "src\fsdgenswagger\fsdgenswagger.csproj", "{9A118AAD-1CBF-47E7-B08E-7A3CB72A191B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.Definition.Swagger.UnitTests", "tests\Facility.Definition.Swagger.UnitTests\Facility.Definition.Swagger.UnitTests.csproj", "{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{803FAFD4-5B25-4486-9BB4-6151D250944C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{803FAFD4-5B25-4486-9BB4-6151D250944C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{803FAFD4-5B25-4486-9BB4-6151D250944C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{803FAFD4-5B25-4486-9BB4-6151D250944C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A118AAD-1CBF-47E7-B08E-7A3CB72A191B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A118AAD-1CBF-47E7-B08E-7A3CB72A191B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A118AAD-1CBF-47E7-B08E-7A3CB72A191B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A118AAD-1CBF-47E7-B08E-7A3CB72A191B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {647F7A73-0365-411F-941D-6DDA8A4CFA1A}
+	EndGlobalSection
+EndGlobal
