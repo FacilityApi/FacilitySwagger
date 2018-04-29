@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Facility.Definition.Swagger;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -23,7 +22,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		[Test]
 		public void GenerateSimpleServiceJson()
 		{
-			var generator = new SwaggerGenerator { GeneratorName = "tests" };
+			var generator = new SwaggerGenerator { Json = true, GeneratorName = "tests" };
 			var fsdService = TestUtility.ParseTestApi(s_fsdText);
 			var file = generator.GenerateOutput(fsdService).Files.Single();
 			file.Name.Should().Be("TestApi.json");
@@ -43,7 +42,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		[Test]
 		public void GenerateSimpleServiceYaml()
 		{
-			var generator = new SwaggerGenerator { Yaml = true, GeneratorName = "tests" };
+			var generator = new SwaggerGenerator { Json = false, GeneratorName = "tests" };
 			var fsdService = TestUtility.ParseTestApi(s_fsdText);
 			var file = generator.GenerateOutput(fsdService).Files.Single();
 			file.Name.Should().Be("TestApi.yaml");

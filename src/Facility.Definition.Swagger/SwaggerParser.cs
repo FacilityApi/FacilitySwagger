@@ -25,8 +25,9 @@ namespace Facility.Definition.Swagger
 		/// </summary>
 		protected override bool TryParseDefinitionCore(ServiceDefinitionText source, out ServiceInfo service, out IReadOnlyList<ServiceDefinitionError> errors)
 		{
-			if (source.Name.EndsWith(".fsd", StringComparison.OrdinalIgnoreCase))
-				return new FsdParser().TryParseDefinition(source, out service, out errors);
+			bool isFsd = new FsdParser().TryParseDefinition(source, out service, out errors);
+			if (isFsd || source.Name.EndsWith(".fsd", StringComparison.OrdinalIgnoreCase))
+				return isFsd;
 
 			service = null;
 

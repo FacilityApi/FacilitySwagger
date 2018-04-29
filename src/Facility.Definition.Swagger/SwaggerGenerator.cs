@@ -19,9 +19,9 @@ namespace Facility.Definition.Swagger
 	public sealed class SwaggerGenerator : CodeGenerator
 	{
 		/// <summary>
-		/// True to generate YAML.
+		/// True to generate JSON (instead of YAML).
 		/// </summary>
-		public bool Yaml { get; set; }
+		public bool Json { get; set; }
 
 		/// <summary>
 		/// Generates Swagger (OpenAPI 2.0) for a service definition.
@@ -101,20 +101,20 @@ namespace Facility.Definition.Swagger
 		{
 			var swaggerService = GenerateSwaggerService(service);
 
-			if (Yaml)
-			{
-				return new CodeGenOutput(CreateFile($"{service.Name}.yaml", code =>
-				{
-					var yamlObject = ConvertJTokenToObject(JToken.FromObject(swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings)));
-					new SerializerBuilder().DisableAliases().EmitDefaults().WithEventEmitter(x => new OurEventEmitter(x)).Build().Serialize(code.TextWriter, yamlObject);
-				}));
-			}
-			else
+			if (Json)
 			{
 				return new CodeGenOutput(CreateFile($"{service.Name}.json", code =>
 				{
 					using (var jsonTextWriter = new JsonTextWriter(code.TextWriter) { Formatting = Formatting.Indented, CloseOutput = false })
 						JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings).Serialize(jsonTextWriter, swaggerService);
+				}));
+			}
+			else
+			{
+				return new CodeGenOutput(CreateFile($"{service.Name}.yaml", code =>
+				{
+					var yamlObject = ConvertJTokenToObject(JToken.FromObject(swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings)));
+					new SerializerBuilder().DisableAliases().EmitDefaults().WithEventEmitter(x => new OurEventEmitter(x)).Build().Serialize(code.TextWriter, yamlObject);
 				}));
 			}
 		}

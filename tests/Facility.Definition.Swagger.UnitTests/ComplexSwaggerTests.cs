@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Facility.Definition.Swagger;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,7 +13,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		[Test]
 		public void GenerateComplexService()
 		{
-			var generator = new SwaggerGenerator { GeneratorName = "tests" };
+			var generator = new SwaggerGenerator { Json = true, GeneratorName = "tests" };
 			var fsdService = TestUtility.ParseTestApi(s_fsdText);
 			var output = generator.GenerateOutput(fsdService);
 			var file = output.Files.Single();

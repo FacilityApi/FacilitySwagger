@@ -14,15 +14,15 @@ namespace fsdgenswagger
 
 		protected override IReadOnlyList<string> Description => new[]
 		{
-			"Interprets Swagger (OpenAPI) 2.0 as a Facility Service Definition.",
+			"Converts Swagger (OpenAPI) 2.0 to/from a Facility Service Definition.",
 		};
 
 		protected override IReadOnlyList<string> ExtraUsage => new[]
 		{
-			"   --swagger",
-			"      Generates Swagger (OpenAPI) 2.0.",
-			"   --yaml",
-			"      Generates YAML instead of JSON.",
+			"   --fsd",
+			"      Generates a Facility Service Definition (instead of Swagger).",
+			"   --json",
+			"      Generates JSON (instead of YAML).",
 		};
 
 		protected override ServiceParser CreateParser(ArgsReader args)
@@ -36,10 +36,10 @@ namespace fsdgenswagger
 
 		protected override CodeGenerator CreateGenerator(ArgsReader args)
 		{
-			if (args.ReadFlag("swagger"))
-				return new SwaggerGenerator { Yaml = args.ReadFlag("yaml") };
-			else
+			if (args.ReadFlag("fsd"))
 				return new FsdGenerator();
+			else
+				return new SwaggerGenerator { Json = args.ReadFlag("json") };
 		}
 
 		protected override bool SupportsSingleOutput => true;

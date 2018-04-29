@@ -1,4 +1,3 @@
-using Facility.Definition.Swagger;
 using FluentAssertions;
 using NUnit.Framework;
 
