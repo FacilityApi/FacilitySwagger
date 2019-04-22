@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fsdgenswagger", "src\fsdgen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.Definition.Swagger.UnitTests", "tests\Facility.Definition.Swagger.UnitTests\Facility.Definition.Swagger.UnitTests.csproj", "{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "tools\Build\Build.csproj", "{1E0BD797-ACF7-478C-B470-9EF4A825097F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E0BD797-ACF7-478C-B470-9EF4A825097F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E0BD797-ACF7-478C-B470-9EF4A825097F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E0BD797-ACF7-478C-B470-9EF4A825097F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E0BD797-ACF7-478C-B470-9EF4A825097F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
