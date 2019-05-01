@@ -9,12 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
-		build.cake = build.cake
-		build.ps1 = build.ps1
+		build.cmd = build.cmd
 		build.sh = build.sh
 		CONTRIBUTING.md = CONTRIBUTING.md
-		Directory.Build.props = Directory.Build.props
-		example\ExampleApi.fsd = example\ExampleApi.fsd
 		LICENSE = LICENSE
 		README.md = README.md
 		VersionHistory.md = VersionHistory.md
@@ -27,6 +24,26 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.Definition.Swagger.UnitTests", "tests\Facility.Definition.Swagger.UnitTests\Facility.Definition.Swagger.UnitTests.csproj", "{61444245-9A0C-46AE-BA11-54CC6B1F3CB4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "tools\Build\Build.csproj", "{1E0BD797-ACF7-478C-B470-9EF4A825097F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{19ED1605-C8ED-4C7A-BE5D-CBF29C66768C}"
+	ProjectSection(SolutionItems) = preProject
+		tools\Directory.Build.props = tools\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BB11F7D0-114E-46B8-A8A5-E7A85BFC929A}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1810804C-CD73-44CD-BAB6-0530FF82B07C}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{3ADF1E4E-6CE8-4442-B94A-4ED9DB69B10E}"
+	ProjectSection(SolutionItems) = preProject
+		example\ExampleApi.fsd = example\ExampleApi.fsd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
