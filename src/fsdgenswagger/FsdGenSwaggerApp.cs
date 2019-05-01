@@ -23,11 +23,13 @@ namespace fsdgenswagger
 			"      Generates a Facility Service Definition (instead of Swagger).",
 			"   --json",
 			"      Generates JSON (instead of YAML).",
+			"   --service-name <name>",
+			"      Overrides the service name.",
 		};
 
 		protected override ServiceParser CreateParser(ArgsReader args)
 		{
-			string serviceName = args.ReadOption("serviceName");
+			string serviceName = args.ReadOption("service-name");
 			if (serviceName != null && ServiceDefinitionUtility.IsValidName(serviceName))
 				throw new ArgsReaderException($"Invalid service name '{serviceName}'.");
 
