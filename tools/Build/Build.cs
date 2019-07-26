@@ -17,14 +17,19 @@ internal static class Build
 
 		var dotNetBuildSettings = new DotNetBuildSettings
 		{
+			NuGetApiKey = Environment.GetEnvironmentVariable("NUGET_API_KEY"),
 			DocsSettings = new DotNetDocsSettings
 			{
 				GitLogin = new GitLoginInfo("FacilityApiBot", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
 				GitAuthor = new GitAuthorInfo("FacilityApiBot", "facilityapi@gmail.com"),
+				GitBranchName = Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH"),
 				SourceCodeUrl = "https://github.com/FacilityApi/RepoName/tree/master/src",
 			},
 			DotNetTools = dotNetTools,
-			ProjectUsesSourceLink = name => !name.StartsWith("fsdgen", StringComparison.Ordinal),
+			SourceLinkSettings = new SourceLinkSettings
+			{
+				ShouldTestPackage = name => !name.StartsWith("fsdgen", StringComparison.Ordinal),
+			},
 		};
 
 		build.AddDotNetTargets(dotNetBuildSettings);
@@ -55,18 +60,18 @@ internal static class Build
 
 			string verifyOption = verify ? "--verify" : null;
 
-			RunApp(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--json", verifyOption);
-			RunApp(toolPath, "example/ExampleApi.fsd", "example/output/swagger", verifyOption);
-			RunApp(toolPath, "example/output/swagger/ExampleApi.json", "example/output/swagger/fsd", "--fsd", verifyOption);
+			RunApp(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--json", "--newline", "lf", verifyOption);
+			RunApp(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--newline", "lf", verifyOption);
+			RunApp(toolPath, "example/output/swagger/ExampleApi.json", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
 			if (verify)
-				RunApp(toolPath, "example/output/swagger/ExampleApi.yaml", "example/output/swagger/fsd", "--fsd", verifyOption);
+				RunApp(toolPath, "example/output/swagger/ExampleApi.yaml", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
 
 			foreach (var yamlPath in FindFiles("example/*.yaml"))
-				RunApp(toolPath, yamlPath, "example/output/fsd", "--fsd", verifyOption);
+				RunApp(toolPath, yamlPath, "example/output/fsd", "--fsd", "--newline", "lf", verifyOption);
 
 			Directory.CreateDirectory("example/output/fsd/swagger");
 			foreach (var fsdPath in FindFiles("example/output/fsd/*.fsd"))
-				RunApp(toolPath, fsdPath, $"example/output/fsd/swagger/{Path.GetFileNameWithoutExtension(fsdPath)}.yaml", verifyOption);
+				RunApp(toolPath, fsdPath, $"example/output/fsd/swagger/{Path.GetFileNameWithoutExtension(fsdPath)}.yaml", "--newline", "lf", verifyOption);
 		}
 	});
 }
