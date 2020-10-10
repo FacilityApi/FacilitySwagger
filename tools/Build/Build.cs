@@ -1,9 +1,6 @@
 using System;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Faithlife.Build;
-using static Faithlife.Build.AppRunner;
 using static Faithlife.Build.BuildUtility;
 using static Faithlife.Build.DotNetRunner;
 
@@ -13,8 +10,6 @@ internal static class Build
 	{
 		var codegen = "fsdgenswagger";
 
-		var dotNetTools = new DotNetTools(Path.Combine("tools", "bin")).AddSource(Path.Combine("tools", "bin"));
-
 		var dotNetBuildSettings = new DotNetBuildSettings
 		{
 			NuGetApiKey = Environment.GetEnvironmentVariable("NUGET_API_KEY"),
@@ -22,13 +17,8 @@ internal static class Build
 			{
 				GitLogin = new GitLoginInfo("FacilityApiBot", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
 				GitAuthor = new GitAuthorInfo("FacilityApiBot", "facilityapi@gmail.com"),
-				GitBranchName = Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH"),
 				SourceCodeUrl = "https://github.com/FacilityApi/FacilitySwagger/tree/master/src",
-			},
-			DotNetTools = dotNetTools,
-			SourceLinkSettings = new SourceLinkSettings
-			{
-				ShouldTestPackage = name => !name.StartsWith("fsdgen", StringComparison.Ordinal),
+				ProjectHasDocs = name => !name.StartsWith("fsdgen", StringComparison.Ordinal),
 			},
 		};
 
@@ -37,41 +27,35 @@ internal static class Build
 		build.Target("codegen")
 			.DependsOn("build")
 			.Describe("Generates code from the FSD")
-			.Does(() => codeGen(verify: false));
+			.Does(() => CodeGen(verify: false));
 
 		build.Target("verify-codegen")
 			.DependsOn("build")
 			.Describe("Ensures the generated code is up-to-date")
-			.Does(() => codeGen(verify: true));
+			.Does(() => CodeGen(verify: true));
 
 		build.Target("test")
 			.DependsOn("verify-codegen");
 
-		void codeGen(bool verify)
+		void CodeGen(bool verify)
 		{
-			string configuration = dotNetBuildSettings.BuildOptions.ConfigurationOption.Value;
-			string versionSuffix = $"cg{DateTime.UtcNow:yyyyMMddHHmmss}";
-			RunDotNet("pack", Path.Combine("src", codegen, $"{codegen}.csproj"), "-c", configuration, "--no-build",
-				"--output", Path.GetFullPath(Path.Combine("tools", "bin")), "--version-suffix", versionSuffix);
+			var configuration = dotNetBuildSettings!.BuildOptions!.ConfigurationOption!.Value;
+			var toolPath = FindFiles($"src/{codegen}/bin/{configuration}/netcoreapp3.1/{codegen}.dll").FirstOrDefault();
 
-			string packagePath = FindFiles($"tools/bin/{codegen}.*-{versionSuffix}.nupkg").Single();
-			string packageVersion = Regex.Match(packagePath, @"[/\\][^/\\]*\.([0-9]+\.[0-9]+\.[0-9]+(-.+)?)\.nupkg$").Groups[1].Value;
-			string toolPath = dotNetTools.GetToolPath($"{codegen}/{packageVersion}");
+			var verifyOption = verify ? "--verify" : null;
 
-			string verifyOption = verify ? "--verify" : null;
-
-			RunApp(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--json", "--newline", "lf", verifyOption);
-			RunApp(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--newline", "lf", verifyOption);
-			RunApp(toolPath, "example/output/swagger/ExampleApi.json", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
+			RunDotNet(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--json", "--newline", "lf", verifyOption);
+			RunDotNet(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--newline", "lf", verifyOption);
+			RunDotNet(toolPath, "example/output/swagger/ExampleApi.json", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
 			if (verify)
-				RunApp(toolPath, "example/output/swagger/ExampleApi.yaml", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
+				RunDotNet(toolPath, "example/output/swagger/ExampleApi.yaml", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
 
 			foreach (var yamlPath in FindFiles("example/*.yaml"))
-				RunApp(toolPath, yamlPath, "example/output/fsd", "--fsd", "--newline", "lf", verifyOption);
+				RunDotNet(toolPath, yamlPath, "example/output/fsd", "--fsd", "--newline", "lf", verifyOption);
 
 			Directory.CreateDirectory("example/output/fsd/swagger");
 			foreach (var fsdPath in FindFiles("example/output/fsd/*.fsd"))
-				RunApp(toolPath, fsdPath, $"example/output/fsd/swagger/{Path.GetFileNameWithoutExtension(fsdPath)}.yaml", "--newline", "lf", verifyOption);
+				RunDotNet(toolPath, fsdPath, $"example/output/fsd/swagger/{Path.GetFileNameWithoutExtension(fsdPath)}.yaml", "--newline", "lf", verifyOption);
 		}
 	});
 }
