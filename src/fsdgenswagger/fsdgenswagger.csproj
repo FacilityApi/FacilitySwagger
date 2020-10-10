@@ -5,7 +5,8 @@
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <Description>A .NET Tool that converts Swagger (OpenAPI) 2.0 to/from a Facility Service Definition.</Description>
     <PackageTags>Facility FSD Swagger OpenAPI CodeGen</PackageTags>
-    <PackAsTool>True</PackAsTool>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
