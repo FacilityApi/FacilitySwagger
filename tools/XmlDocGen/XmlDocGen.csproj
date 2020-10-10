@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Facility.Definition.Swagger\Facility.Definition.Swagger.csproj" />
   </ItemGroup>
 
   <ItemGroup>
