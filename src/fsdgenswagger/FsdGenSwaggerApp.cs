@@ -27,23 +27,22 @@ namespace fsdgenswagger
 			"      Overrides the service name.",
 		};
 
-		protected override ServiceParser CreateParser(ArgsReader args)
+		protected override CodeGenerator CreateGenerator() => new SwaggerGenerator();
+
+		protected override FileGeneratorSettings CreateSettings(ArgsReader args)
 		{
-			string serviceName = args.ReadOption("service-name");
+			var serviceName = args.ReadOption("service-name");
 			if (serviceName != null && ServiceDefinitionUtility.IsValidName(serviceName))
 				throw new ArgsReaderException($"Invalid service name '{serviceName}'.");
 
-			return new SwaggerParser { ServiceName = serviceName };
+			return new SwaggerGeneratorSettings
+			{
+				GeneratesFsd = args.ReadFlag("fsd"),
+				GeneratesJson = args.ReadFlag("json"),
+				ServiceName = serviceName,
+			};
 		}
 
-		protected override CodeGenerator CreateGenerator(ArgsReader args)
-		{
-			if (args.ReadFlag("fsd"))
-				return new FsdGenerator();
-			else
-				return new SwaggerGenerator { Json = args.ReadFlag("json") };
-		}
-
-		protected override bool SupportsSingleOutput => true;
+		protected override ServiceParser CreateParser() => new SwaggerParser();
 	}
 }

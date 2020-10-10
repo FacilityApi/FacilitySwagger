@@ -13,7 +13,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		[Test]
 		public void GenerateComplexService()
 		{
-			var generator = new SwaggerGenerator { Json = true, GeneratorName = "tests" };
+			var generator = new SwaggerGenerator { GeneratesJson = true, GeneratorName = "tests" };
 			var fsdService = TestUtility.ParseTestApi(c_fsdText);
 			var output = generator.GenerateOutput(fsdService);
 			var file = output.Files.Single();

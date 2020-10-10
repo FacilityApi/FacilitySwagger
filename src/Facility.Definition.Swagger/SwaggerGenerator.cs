@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Facility.Definition.CodeGen;
+using Facility.Definition.Fsd;
 using Facility.Definition.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,9 +20,25 @@ namespace Facility.Definition.Swagger
 	public sealed class SwaggerGenerator : CodeGenerator
 	{
 		/// <summary>
+		/// Generates Swagger.
+		/// </summary>
+		/// <param name="settings">The settings.</param>
+		/// <returns>The number of updated files.</returns>
+		public static int GenerateSwagger(SwaggerGeneratorSettings settings) =>
+			FileGenerator.GenerateFiles(
+				new SwaggerParser { ServiceName = settings.ServiceName },
+				new SwaggerGenerator { GeneratorName = nameof(SwaggerGenerator) },
+				settings);
+
+		/// <summary>
+		/// True to generate a Facility Service Definition (instead of Swagger).
+		/// </summary>
+		public bool GeneratesFsd { get; set; }
+
+		/// <summary>
 		/// True to generate JSON (instead of YAML).
 		/// </summary>
-		public bool Json { get; set; }
+		public bool GeneratesJson { get; set; }
 
 		/// <summary>
 		/// Generates Swagger (OpenAPI 2.0) for a service definition.
@@ -39,11 +56,11 @@ namespace Facility.Definition.Swagger
 					Title = GetSummaryOrNull(service) ?? service.Name,
 					Description = GetRemarksOrNull(service),
 					Version = service.TryGetAttribute("info")?.TryGetParameterValue("version") ?? "0.0.0",
-					CodeGen = CodeGenUtility.GetCodeGenComment(GeneratorName),
+					CodeGen = CodeGenUtility.GetCodeGenComment(GeneratorName ?? ""),
 				},
 			};
 
-			string defaultBaseUri = httpServiceInfo.Url;
+			var defaultBaseUri = httpServiceInfo.Url;
 			if (defaultBaseUri != null)
 			{
 				var baseUri = new Uri(defaultBaseUri);
@@ -64,14 +81,14 @@ namespace Facility.Definition.Swagger
 			foreach (var httpMethodInfo in httpServiceInfo.Methods)
 			{
 				if (httpMethodInfo.RequestBodyField != null)
-					AddDtos(dtoInfos, GetDtosForType(service.GetFieldType(httpMethodInfo.RequestBodyField.ServiceField)));
+					AddDtos(dtoInfos, GetDtosForType(service.GetFieldType(httpMethodInfo.RequestBodyField.ServiceField)!));
 
 				AddDto(dtoInfos, TryCreateMethodRequestBodyType(httpMethodInfo)?.Dto);
 
 				foreach (var httpResponseInfo in httpMethodInfo.ValidResponses)
 				{
 					if (httpResponseInfo.BodyField != null)
-						AddDtos(dtoInfos, GetDtosForType(service.GetFieldType(httpResponseInfo.BodyField.ServiceField)));
+						AddDtos(dtoInfos, GetDtosForType(service.GetFieldType(httpResponseInfo.BodyField.ServiceField)!));
 
 					AddDto(dtoInfos, TryCreateMethodResponseBodyType(httpMethodInfo, httpResponseInfo)?.Dto);
 				}
@@ -81,7 +98,7 @@ namespace Facility.Definition.Swagger
 			{
 				var dtoCount = dtoInfos.Count;
 				foreach (var field in dtoInfos.Values.SelectMany(x => x.Fields).ToList())
-					AddDtos(dtoInfos, GetDtosForType(service.GetFieldType(field)));
+					AddDtos(dtoInfos, GetDtosForType(service.GetFieldType(field)!));
 				if (dtoCount == dtoInfos.Count)
 					break;
 			}
@@ -97,13 +114,16 @@ namespace Facility.Definition.Swagger
 		/// <summary>
 		/// Generates a Swagger (OpenAPI 2.0) file for a service definition.
 		/// </summary>
-		protected override CodeGenOutput GenerateOutputCore(ServiceInfo service)
+		public override CodeGenOutput GenerateOutput(ServiceInfo serviceInfo)
 		{
-			var swaggerService = GenerateSwaggerService(service);
+			if (GeneratesFsd)
+				return new FsdGenerator { GeneratorName = GeneratorName, IndentText = IndentText, NewLine = NewLine }.GenerateOutput(serviceInfo);
 
-			if (Json)
+			var swaggerService = GenerateSwaggerService(serviceInfo);
+
+			if (GeneratesJson)
 			{
-				return new CodeGenOutput(CreateFile($"{service.Name}.json", code =>
+				return new CodeGenOutput(CreateFile($"{serviceInfo.Name}.json", code =>
 				{
 					using var jsonTextWriter = new JsonTextWriter(code.TextWriter) { Formatting = Formatting.Indented, CloseOutput = false };
 					JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings).Serialize(jsonTextWriter, swaggerService);
@@ -111,13 +131,28 @@ namespace Facility.Definition.Swagger
 			}
 			else
 			{
-				return new CodeGenOutput(CreateFile($"{service.Name}.yaml", code =>
+				return new CodeGenOutput(CreateFile($"{serviceInfo.Name}.yaml", code =>
 				{
 					var yamlObject = ConvertJTokenToObject(JToken.FromObject(swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings)));
 					new SerializerBuilder().DisableAliases().EmitDefaults().WithEventEmitter(x => new OurEventEmitter(x)).Build().Serialize(code.TextWriter, yamlObject);
 				}));
 			}
 		}
+
+		/// <summary>
+		/// Applies generator-specific settings.
+		/// </summary>
+		public override void ApplySettings(FileGeneratorSettings settings)
+		{
+			var swaggerSettings = (SwaggerGeneratorSettings) settings;
+			GeneratesFsd = swaggerSettings.GeneratesFsd;
+			GeneratesJson = swaggerSettings.GeneratesJson;
+		}
+
+		/// <summary>
+		/// Supports single output.
+		/// </summary>
+		public override bool SupportsSingleOutput => true;
 
 		private void AddDtos(IDictionary<string, ServiceDtoInfo> dictionary, IEnumerable<ServiceDtoInfo> dtos)
 		{
@@ -133,7 +168,7 @@ namespace Facility.Definition.Swagger
 
 		private static ServiceTypeInfo? TryCreateMethodRequestBodyType(HttpMethodInfo httpMethodInfo)
 		{
-			if (httpMethodInfo.RequestNormalFields == null || httpMethodInfo.RequestNormalFields.Count == 0)
+			if (httpMethodInfo.RequestNormalFields.Count == 0)
 				return null;
 
 			return ServiceTypeInfo.CreateDto(new ServiceDtoInfo(
@@ -159,7 +194,7 @@ namespace Facility.Definition.Swagger
 				yield return GetErrorDto();
 				break;
 			case ServiceTypeKind.Dto:
-				yield return type.Dto;
+				yield return type.Dto!;
 				break;
 			case ServiceTypeKind.Result:
 				yield return GetResultDto(type);
@@ -198,13 +233,13 @@ namespace Facility.Definition.Swagger
 			switch (typeKind)
 			{
 			case ServiceTypeKind.Dto:
-				return type.Dto.Name;
+				return type.Dto!.Name;
 			case ServiceTypeKind.Enum:
-				return type.Enum.Name;
+				return type.Enum!.Name;
 			case ServiceTypeKind.Result:
 			case ServiceTypeKind.Array:
 			case ServiceTypeKind.Map:
-				return GetTypeAsDtoName(type.ValueType) + typeKind;
+				return GetTypeAsDtoName(type.ValueType!) + typeKind;
 			default:
 				return typeKind.ToString();
 			}
@@ -215,7 +250,7 @@ namespace Facility.Definition.Swagger
 			return new ServiceDtoInfo(name: GetTypeAsDtoName(type),
 				fields: new[]
 				{
-					new ServiceFieldInfo(name: "value", typeName: type.ValueType.ToString(), summary: "The value."),
+					new ServiceFieldInfo(name: "value", typeName: type.ValueType!.ToString(), summary: "The value."),
 					new ServiceFieldInfo(name: "error", typeName: "error", summary: "The error."),
 				},
 				summary: "A result value or error.");
@@ -239,7 +274,7 @@ namespace Facility.Definition.Swagger
 
 			if (httpMethodInfo.RequestNormalFields.Count != 0 || httpMethodInfo.RequestBodyField != null)
 				operation.Consumes = new[] { "application/json" };
-			if (httpMethodInfo.ValidResponses.Any(x => (x.NormalFields != null && x.NormalFields.Count != 0) || (x.BodyField != null && service.GetFieldType(x.BodyField.ServiceField).Kind != ServiceTypeKind.Boolean)))
+			if (httpMethodInfo.ValidResponses.Any(x => (x.NormalFields != null && x.NormalFields.Count != 0) || (x.BodyField != null && service.GetFieldType(x.BodyField.ServiceField)!.Kind != ServiceTypeKind.Boolean)))
 				operation.Produces = new[] { "application/json" };
 
 			var parameters = new List<SwaggerParameter>();
@@ -311,7 +346,7 @@ namespace Facility.Definition.Swagger
 
 		private static SwaggerParameter CreateSwaggerParameter(ServiceInfo service, ServiceFieldInfo fieldInfo, string inKind, string? name)
 		{
-			var parameterObject = GetTypeSchema<SwaggerParameter>(service.GetFieldType(fieldInfo));
+			var parameterObject = GetTypeSchema<SwaggerParameter>(service.GetFieldType(fieldInfo)!);
 			parameterObject.In = inKind;
 			parameterObject.Name = name ?? fieldInfo.Name;
 			if (parameterObject.Name != fieldInfo.Name)
@@ -368,15 +403,15 @@ namespace Facility.Definition.Swagger
 			case ServiceTypeKind.Error:
 				return GetErrorSchemaRef<T>();
 			case ServiceTypeKind.Dto:
-				return GetDtoSchemaRef<T>(type.Dto);
+				return GetDtoSchemaRef<T>(type.Dto!);
 			case ServiceTypeKind.Enum:
-				return GetEnumSchema<T>(type.Enum);
+				return GetEnumSchema<T>(type.Enum!);
 			case ServiceTypeKind.Result:
 				return GetResultTypeRef<T>(type);
 			case ServiceTypeKind.Array:
-				return GetArrayOfSchema<T>(type.ValueType);
+				return GetArrayOfSchema<T>(type.ValueType!);
 			case ServiceTypeKind.Map:
-				return (T) (object) GetMapOfSchema(type.ValueType);
+				return (T) (object) GetMapOfSchema(type.ValueType!);
 			default:
 				throw new InvalidOperationException("Unexpected field type kind: " + type.Kind);
 			}
@@ -388,7 +423,7 @@ namespace Facility.Definition.Swagger
 
 			foreach (var fieldInfo in dtoInfo.Fields)
 			{
-				SwaggerSchema propertyObject = GetTypeSchema<SwaggerSchema>(serviceInfo.GetFieldType(fieldInfo));
+				SwaggerSchema propertyObject = GetTypeSchema<SwaggerSchema>(serviceInfo.GetFieldType(fieldInfo)!);
 				if (propertyObject.Ref == null)
 				{
 					propertyObject.Description = GetSummaryOrNull(fieldInfo);

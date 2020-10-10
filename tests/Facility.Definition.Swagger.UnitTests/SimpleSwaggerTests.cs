@@ -22,7 +22,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		[Test]
 		public void GenerateSimpleServiceJson()
 		{
-			var generator = new SwaggerGenerator { Json = true, GeneratorName = "tests" };
+			var generator = new SwaggerGenerator { GeneratesJson = true, GeneratorName = "tests" };
 			var fsdService = TestUtility.ParseTestApi(c_fsdText);
 			var file = generator.GenerateOutput(fsdService).Files.Single();
 			file.Name.Should().Be("TestApi.json");
@@ -42,7 +42,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		[Test]
 		public void GenerateSimpleServiceYaml()
 		{
-			var generator = new SwaggerGenerator { Json = false, GeneratorName = "tests" };
+			var generator = new SwaggerGenerator { GeneratesJson = false, GeneratorName = "tests" };
 			var fsdService = TestUtility.ParseTestApi(c_fsdText);
 			var file = generator.GenerateOutput(fsdService).Files.Single();
 			file.Name.Should().Be("TestApi.yaml");

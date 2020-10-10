@@ -115,7 +115,7 @@ namespace Facility.Definition.Swagger
 		/// <summary>
 		/// Attempts to convert Swagger (OpenAPI) 2.0 into a service definition.
 		/// </summary>
-		public bool TryConvertSwaggerService(SwaggerService swaggerService, out ServiceInfo? service, out IReadOnlyList<ServiceDefinitionError>? errors)
+		public bool TryConvertSwaggerService(SwaggerService swaggerService, out ServiceInfo? service, out IReadOnlyList<ServiceDefinitionError> errors)
 		{
 			var conversion = SwaggerConversion.Create(swaggerService, ServiceName, SwaggerParserContext.None);
 			service = conversion.Service;

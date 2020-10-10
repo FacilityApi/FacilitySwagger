@@ -44,8 +44,8 @@ namespace Facility.Definition.Swagger
 				name = m_swaggerService.Info?.Identifier;
 			if (name != null && !ServiceDefinitionUtility.IsValidName(name))
 				m_errors.Add(context.CreateError("info/x-identifier is not a valid service name.", "info/x-identifier"));
-			if (name == null)
-				name = CodeGenUtility.ToPascalCase(m_swaggerService.Info?.Title);
+			if (name == null && m_swaggerService.Info?.Title is string title)
+				name = CodeGenUtility.ToPascalCase(title);
 			if (name == null)
 				m_errors.Add(context.CreateError("info/title is missing.", "info"));
 			if (name != null && !ServiceDefinitionUtility.IsValidName(name))
@@ -57,8 +57,8 @@ namespace Facility.Definition.Swagger
 			if (!string.IsNullOrWhiteSpace(version))
 			{
 				attributes.Add(new ServiceAttributeInfo("info",
-					new[] { new ServiceAttributeParameterInfo("version", version, context.CreatePart("info/version")) },
-					context.CreatePart("info")));
+					new[] { new ServiceAttributeParameterInfo("version", version!, context.CreatePart("info/version")!) },
+					context.CreatePart("info")!));
 			}
 
 			var scheme = GetBestScheme(m_swaggerService.Schemes);
@@ -68,8 +68,7 @@ namespace Facility.Definition.Swagger
 			{
 				string url = new UriBuilder(scheme!, host!) { Path = basePath }.Uri.AbsoluteUri;
 				attributes.Add(new ServiceAttributeInfo("http",
-					new[] { new ServiceAttributeParameterInfo("url", url, context.CreatePart()) },
-					context.CreatePart()));
+					new[] { new ServiceAttributeParameterInfo("url", url) }));
 			}
 
 			var position = context.CreatePosition();
@@ -104,8 +103,7 @@ namespace Facility.Definition.Swagger
 
 			Service = new ServiceInfo(name: name ?? "Api", members: members, attributes: attributes,
 				summary: PrepareSummary(m_swaggerService.Info?.Title),
-				remarks: SplitRemarks(m_swaggerService.Info?.Description),
-				parts: context.CreatePart());
+				remarks: SplitRemarks(m_swaggerService.Info?.Description));
 			m_errors.AddRange(Service.GetValidationErrors());
 		}
 
@@ -166,7 +164,7 @@ namespace Facility.Definition.Swagger
 				return $"{{{paramName}}}";
 			});
 
-			string name = CodeGenUtility.ToCamelCase(swaggerOperation.OperationId);
+			var name = swaggerOperation.OperationId == null ? null : CodeGenUtility.ToCamelCase(swaggerOperation.OperationId);
 			if (!ServiceDefinitionUtility.IsValidName(name))
 				name = CodeGenUtility.ToCamelCase($"{method} {path}");
 
@@ -178,7 +176,7 @@ namespace Facility.Definition.Swagger
 
 			var requestFields = new List<ServiceFieldInfo>();
 			foreach (var swaggerParameter in swaggerOperationsParameters.EmptyIfNull().Concat(swaggerOperation.Parameters.EmptyIfNull()))
-				AddRequestFields(requestFields, ResolveParameter(swaggerParameter, part?.Position), name, method, part);
+				AddRequestFields(requestFields, ResolveParameter(swaggerParameter, part?.Position), name!, method, part);
 
 			var responseFields = new List<ServiceFieldInfo>();
 			var swaggerResponsePairs = swaggerOperation.Responses.EmptyIfNull()
@@ -186,7 +184,7 @@ namespace Facility.Definition.Swagger
 			foreach (var swaggerResponsePair in swaggerResponsePairs)
 			{
 				AddResponseFields(responseFields, swaggerResponsePair.Key, ResolveResponse(swaggerResponsePair.Value, part?.Position),
-					name, httpAttributeValues, swaggerOperation.Responses!.Count == 1, part);
+					name!, httpAttributeValues, swaggerOperation.Responses!.Count == 1, part);
 			}
 
 			var attributes = new List<ServiceAttributeInfo> { new ServiceAttributeInfo("http", httpAttributeValues) };
@@ -196,13 +194,13 @@ namespace Facility.Definition.Swagger
 				attributes.AddRange(swaggerOperation.Tags.Select(x => new ServiceAttributeInfo("tag", new[] { new ServiceAttributeParameterInfo("name", x) })));
 
 			members.Add(new ServiceMethodInfo(
-				name: name,
+				name: name!,
 				requestFields: requestFields,
 				responseFields: responseFields,
 				attributes: attributes,
 				summary: PrepareSummary(swaggerOperation.Summary),
 				remarks: SplitRemarks(swaggerOperation.Description),
-				parts: part));
+				parts: part!));
 		}
 
 		private void AddRequestFields(IList<ServiceFieldInfo> requestFields, SwaggerParameter swaggerParameter, string serviceMethodName, string httpMethod, ServicePart? part)
@@ -223,7 +221,7 @@ namespace Facility.Definition.Swagger
 
 					var fieldName = swaggerParameter.Identifier ?? swaggerParameter.Name;
 					if (!ServiceDefinitionUtility.IsValidName(fieldName))
-						fieldName = CodeGenUtility.ToCamelCase(fieldName);
+						fieldName = CodeGenUtility.ToCamelCase(fieldName!);
 
 					if (kind == SwaggerParameterKind.Query)
 					{
@@ -231,7 +229,7 @@ namespace Facility.Definition.Swagger
 						if (httpMethod != "GET")
 							parameters.Add(new ServiceAttributeParameterInfo("from", "query"));
 						if (fieldName != swaggerParameter.Name)
-							parameters.Add(new ServiceAttributeParameterInfo("name", swaggerParameter.Name));
+							parameters.Add(new ServiceAttributeParameterInfo("name", swaggerParameter.Name!));
 						if (parameters.Count != 0)
 							attributes.Add(new ServiceAttributeInfo("http", parameters));
 					}
@@ -241,12 +239,12 @@ namespace Facility.Definition.Swagger
 							new[]
 							{
 								new ServiceAttributeParameterInfo("from", "header"),
-								new ServiceAttributeParameterInfo("name", swaggerParameter.Name),
+								new ServiceAttributeParameterInfo("name", swaggerParameter.Name!),
 							}));
 					}
 
 					requestFields.Add(new ServiceFieldInfo(
-						fieldName,
+						fieldName!,
 						typeName: typeName,
 						attributes: attributes,
 						summary: PrepareSummary(swaggerParameter.Description),
@@ -287,29 +285,29 @@ namespace Facility.Definition.Swagger
 			if (bodySchema.Value != null && (bodySchema.Value.Type ?? SwaggerSchemaType.Object) == SwaggerSchemaType.Object &&
 				(bodySchema.Key == null || bodySchema.Key.Equals(serviceMethodName + "Response", StringComparison.OrdinalIgnoreCase)))
 			{
-				httpAttributeValues.Add(new ServiceAttributeParameterInfo("code", statusCode, part));
+				httpAttributeValues.Add(new ServiceAttributeParameterInfo("code", statusCode, part!));
 				AddFieldsFromSchema(responseFields, part!, bodySchema);
 			}
 			else if (swaggerResponse.Identifier == null && isOnlyResponse && swaggerResponse.Schema == null)
 			{
-				httpAttributeValues.Add(new ServiceAttributeParameterInfo("code", statusCode, part));
+				httpAttributeValues.Add(new ServiceAttributeParameterInfo("code", statusCode, part!));
 			}
 			else
 			{
 				responseFields.Add(new ServiceFieldInfo(
-					swaggerResponse.Identifier ?? CodeGenUtility.ToCamelCase(bodySchema.Key) ?? GetBodyFieldNameForStatusCode(statusCode),
+					swaggerResponse.Identifier ?? (bodySchema.Key == null ? null : CodeGenUtility.ToCamelCase(bodySchema.Key)) ?? GetBodyFieldNameForStatusCode(statusCode),
 					typeName: bodySchema.Key ?? (bodySchema.Value != null ? FilterBodyTypeName(TryGetFacilityTypeName(bodySchema.Value, part!.Position)) : null) ?? "boolean",
 					attributes: new[]
 					{
 						new ServiceAttributeInfo("http",
 							new[]
 							{
-								new ServiceAttributeParameterInfo("from", "body", part),
-								new ServiceAttributeParameterInfo("code", statusCode, part),
+								new ServiceAttributeParameterInfo("from", "body", part!),
+								new ServiceAttributeParameterInfo("code", statusCode, part!),
 							}),
 					},
 					summary: PrepareSummary(swaggerResponse.Description),
-					parts: part));
+					parts: part!));
 			}
 		}
 

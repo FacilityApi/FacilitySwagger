@@ -17,7 +17,7 @@ namespace Facility.Definition.Swagger
 
 		public ServiceDefinitionPosition? CreatePosition(string? path = null) => m_serviceDefinitionText == null ? null : new ServiceDefinitionPosition(m_serviceDefinitionText.Name, () => FindLineColumn(path));
 
-		public ServicePart? CreatePart(string? path = null) => m_serviceDefinitionText == null ? null : new ServicePart(ServicePartKind.Keyword, CreatePosition(path));
+		public ServicePart? CreatePart(string? path = null) => m_serviceDefinitionText == null ? null : new ServicePart(ServicePartKind.Keyword, CreatePosition(path)!);
 
 		public ServiceDefinitionError CreateError(string error, string? path = null) => new ServiceDefinitionError(error, CreatePosition(path));
 
