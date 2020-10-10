@@ -11,29 +11,29 @@ namespace Facility.Definition.Swagger
 	{
 		[JsonProperty("$ref")]
 		[YamlMember(Alias = "$ref")]
-		public string Ref { get; set; } // parameters, schema
+		public string? Ref { get; set; } // parameters, schema
 
-		public string In { get; set; } // parameters
+		public string? In { get; set; } // parameters
 
-		public string Name { get; set; } // parameters
+		public string? Name { get; set; } // parameters
 
-		public string Description { get; set; } // parameters, headers, schema
+		public string? Description { get; set; } // parameters, headers, schema
 
 		public bool? Required { get; set; } // parameters
 
-		public SwaggerSchema Schema { get; set; } // parameters (body)
+		public SwaggerSchema? Schema { get; set; } // parameters (body)
 
-		public string Type { get; set; } // parameters (non-body), headers, schema
+		public string? Type { get; set; } // parameters (non-body), headers, schema
 
-		public string Format { get; set; } // parameters (non-body), headers, schema
+		public string? Format { get; set; } // parameters (non-body), headers, schema
 
 		public bool? AllowEmptyValue { get; set; } // parameters (non-body)
 
-		public SwaggerSchema Items { get; set; } // parameters (non-body), headers, schema
+		public SwaggerSchema? Items { get; set; } // parameters (non-body), headers, schema
 
-		public string CollectionFormat { get; set; } // parameters (non-body), headers
+		public string? CollectionFormat { get; set; } // parameters (non-body), headers
 
-		public JToken Default { get; set; } // parameters (non-body), headers, schema
+		public JToken? Default { get; set; } // parameters (non-body), headers, schema
 
 		public double? Maximum { get; set; } // parameters (non-body), headers, schema
 
@@ -47,7 +47,7 @@ namespace Facility.Definition.Swagger
 
 		public int? MinLength { get; set; } // parameters (non-body), headers, schema
 
-		public string Pattern { get; set; } // parameters (non-body), headers, schema
+		public string? Pattern { get; set; } // parameters (non-body), headers, schema
 
 		public int? MaxItems { get; set; } // parameters (non-body), headers, schema
 
@@ -55,13 +55,13 @@ namespace Facility.Definition.Swagger
 
 		public bool? UniqueItems { get; set; } // parameters (non-body), headers, schema
 
-		public IList<JToken> Enum { get; set; } // parameters (non-body), headers, schema
+		public IList<JToken>? Enum { get; set; } // parameters (non-body), headers, schema
 
 		public double? MultipleOf { get; set; } // parameters (non-body), headers, schema
 
 		[JsonProperty("x-identifier")]
 		[YamlMember(Alias = "x-identifier")]
-		public string Identifier { get; set; } // parameters, headers, schema
+		public string? Identifier { get; set; } // parameters, headers, schema
 
 		[JsonProperty("x-obsolete")]
 		[YamlMember(Alias = "x-obsolete")]

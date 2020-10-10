@@ -23,7 +23,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		public void GenerateSimpleServiceJson()
 		{
 			var generator = new SwaggerGenerator { Json = true, GeneratorName = "tests" };
-			var fsdService = TestUtility.ParseTestApi(s_fsdText);
+			var fsdService = TestUtility.ParseTestApi(c_fsdText);
 			var file = generator.GenerateOutput(fsdService).Files.Single();
 			file.Name.Should().Be("TestApi.json");
 			var jToken = JToken.Parse(file.Text);
@@ -43,7 +43,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		public void GenerateSimpleServiceYaml()
 		{
 			var generator = new SwaggerGenerator { Json = false, GeneratorName = "tests" };
-			var fsdService = TestUtility.ParseTestApi(s_fsdText);
+			var fsdService = TestUtility.ParseTestApi(c_fsdText);
 			var file = generator.GenerateOutput(fsdService).Files.Single();
 			file.Name.Should().Be("TestApi.yaml");
 			var jToken = JToken.FromObject(new YamlDotNet.Serialization.DeserializerBuilder().Build().Deserialize(new StringReader(file.Text)));
@@ -55,7 +55,7 @@ namespace Facility.Definition.Swagger.UnitTests
 			service.Methods.Count.Should().Be(fsdService.Methods.Count);
 		}
 
-		static readonly string s_fsdText = @"
+		private const string c_fsdText = @"
 			service TestApi
 			{
 				method do
@@ -65,7 +65,7 @@ namespace Facility.Definition.Swagger.UnitTests
 				}
 			}";
 
-		static readonly SwaggerService s_swaggerService = new SwaggerService
+		private static readonly SwaggerService s_swaggerService = new SwaggerService
 		{
 			Swagger = "2.0",
 			Info = new SwaggerInfo
@@ -88,10 +88,10 @@ namespace Facility.Definition.Swagger.UnitTests
 							{
 								Description = "",
 							},
-						}
-					}
-				}
-			}
+						},
+					},
+				},
+			},
 		};
 	}
 }

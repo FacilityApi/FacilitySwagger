@@ -9,18 +9,18 @@ namespace Facility.Definition.Swagger
 {
 	internal sealed class SwaggerConversion
 	{
-		public static SwaggerConversion Create(SwaggerService swaggerService, string serviceName, SwaggerParserContext context)
+		public static SwaggerConversion Create(SwaggerService swaggerService, string? serviceName, SwaggerParserContext context)
 		{
 			var conversion = new SwaggerConversion(swaggerService, serviceName);
 			conversion.Convert(context);
 			return conversion;
 		}
 
-		public ServiceInfo Service { get; private set; }
+		public ServiceInfo? Service { get; private set; }
 
 		public IReadOnlyList<ServiceDefinitionError> Errors => m_errors;
 
-		private SwaggerConversion(SwaggerService swaggerService, string serviceName)
+		private SwaggerConversion(SwaggerService swaggerService, string? serviceName)
 		{
 			m_swaggerService = swaggerService;
 			m_serviceName = serviceName;
@@ -37,7 +37,7 @@ namespace Facility.Definition.Swagger
 			if (m_swaggerService.Info == null)
 				m_errors.Add(context.CreateError("info is missing."));
 
-			string name = m_serviceName;
+			var name = m_serviceName;
 			if (name != null && !ServiceDefinitionUtility.IsValidName(name))
 				m_errors.Add(context.CreateError("ServiceName generator option is not a valid service name."));
 			if (name == null)
@@ -53,7 +53,7 @@ namespace Facility.Definition.Swagger
 
 			var attributes = new List<ServiceAttributeInfo>();
 
-			string version = m_swaggerService.Info?.Version;
+			var version = m_swaggerService.Info?.Version;
 			if (!string.IsNullOrWhiteSpace(version))
 			{
 				attributes.Add(new ServiceAttributeInfo("info",
@@ -61,12 +61,12 @@ namespace Facility.Definition.Swagger
 					context.CreatePart("info")));
 			}
 
-			string scheme = GetBestScheme(m_swaggerService.Schemes);
-			string host = m_swaggerService.Host;
-			string basePath = m_swaggerService.BasePath ?? "";
+			var scheme = GetBestScheme(m_swaggerService.Schemes);
+			var host = m_swaggerService.Host;
+			var basePath = m_swaggerService.BasePath ?? "";
 			if (!string.IsNullOrWhiteSpace(host) && !string.IsNullOrWhiteSpace(scheme))
 			{
-				string url = new UriBuilder(scheme, host) { Path = basePath }.Uri.AbsoluteUri;
+				string url = new UriBuilder(scheme!, host!) { Path = basePath }.Uri.AbsoluteUri;
 				attributes.Add(new ServiceAttributeInfo("http",
 					new[] { new ServiceAttributeParameterInfo("url", url, context.CreatePart()) },
 					context.CreatePart()));
@@ -98,7 +98,7 @@ namespace Facility.Definition.Swagger
 					!IsFacilityError(swaggerDefinition) &&
 					TryGetFacilityResultOfType(swaggerDefinition, position) == null)
 				{
-					AddServiceDto(members, swaggerDefinition.Key, swaggerDefinition.Value, context.CreatePart("definitions/" + swaggerDefinition.Key));
+					AddServiceDto(members, swaggerDefinition.Key, swaggerDefinition.Value, context.CreatePart("definitions/" + swaggerDefinition.Key)!);
 				}
 			}
 
@@ -109,7 +109,7 @@ namespace Facility.Definition.Swagger
 			m_errors.AddRange(Service.GetValidationErrors());
 		}
 
-		private static string GetBestScheme(IList<string> schemes)
+		private static string? GetBestScheme(IList<string>? schemes)
 		{
 			return schemes?.FirstOrDefault(x => x == "https") ?? schemes?.FirstOrDefault(x => x == "http") ?? schemes?.FirstOrDefault();
 		}
@@ -130,7 +130,7 @@ namespace Facility.Definition.Swagger
 				if (property.Value.Obsolete.GetValueOrDefault())
 					fieldAttributes.Add(new ServiceAttributeInfo("obsolete"));
 
-				string typeName = TryGetFacilityTypeName(property.Value, part.Position);
+				var typeName = TryGetFacilityTypeName(property.Value, part.Position);
 				if (typeName != null)
 				{
 					fields.Add(new ServiceFieldInfo(
@@ -151,7 +151,7 @@ namespace Facility.Definition.Swagger
 				parts: part));
 		}
 
-		private void AddServiceMethod(IList<ServiceMemberInfo> members, string method, string path, SwaggerOperation swaggerOperation, IList<SwaggerParameter> swaggerOperationsParameters, SwaggerParserContext context)
+		private void AddServiceMethod(IList<ServiceMemberInfo> members, string method, string path, SwaggerOperation? swaggerOperation, IList<SwaggerParameter>? swaggerOperationsParameters, SwaggerParserContext context)
 		{
 			if (swaggerOperation == null)
 				return;
@@ -186,7 +186,7 @@ namespace Facility.Definition.Swagger
 			foreach (var swaggerResponsePair in swaggerResponsePairs)
 			{
 				AddResponseFields(responseFields, swaggerResponsePair.Key, ResolveResponse(swaggerResponsePair.Value, part?.Position),
-					name, httpAttributeValues, swaggerOperation.Responses.Count == 1, part);
+					name, httpAttributeValues, swaggerOperation.Responses!.Count == 1, part);
 			}
 
 			var attributes = new List<ServiceAttributeInfo> { new ServiceAttributeInfo("http", httpAttributeValues) };
@@ -205,12 +205,12 @@ namespace Facility.Definition.Swagger
 				parts: part));
 		}
 
-		private void AddRequestFields(IList<ServiceFieldInfo> requestFields, SwaggerParameter swaggerParameter, string serviceMethodName, string httpMethod, ServicePart part)
+		private void AddRequestFields(IList<ServiceFieldInfo> requestFields, SwaggerParameter swaggerParameter, string serviceMethodName, string httpMethod, ServicePart? part)
 		{
-			string kind = swaggerParameter.In;
+			var kind = swaggerParameter.In;
 			if (kind == SwaggerParameterKind.Path || kind == SwaggerParameterKind.Query || kind == SwaggerParameterKind.Header)
 			{
-				string typeName = TryGetFacilityTypeName(swaggerParameter, part.Position);
+				var typeName = TryGetFacilityTypeName(swaggerParameter, part!.Position);
 				if (typeName != null)
 				{
 					if (typeName.EndsWith("[]", StringComparison.Ordinal))
@@ -221,7 +221,7 @@ namespace Facility.Definition.Swagger
 					if (swaggerParameter.Obsolete.GetValueOrDefault())
 						attributes.Add(new ServiceAttributeInfo("obsolete"));
 
-					string fieldName = swaggerParameter.Identifier ?? swaggerParameter.Name;
+					var fieldName = swaggerParameter.Identifier ?? swaggerParameter.Name;
 					if (!ServiceDefinitionUtility.IsValidName(fieldName))
 						fieldName = CodeGenUtility.ToCamelCase(fieldName);
 
@@ -255,7 +255,7 @@ namespace Facility.Definition.Swagger
 			}
 			else if (kind == SwaggerParameterKind.Body)
 			{
-				var bodySchema = ResolveDefinition(swaggerParameter.Schema, part.Position);
+				var bodySchema = ResolveDefinition(swaggerParameter.Schema!, part!.Position);
 				if ((bodySchema.Value.Type ?? SwaggerSchemaType.Object) == SwaggerSchemaType.Object &&
 					(bodySchema.Key == null || bodySchema.Key.Equals(serviceMethodName + "Request", StringComparison.OrdinalIgnoreCase)))
 				{
@@ -263,7 +263,7 @@ namespace Facility.Definition.Swagger
 				}
 				else
 				{
-					string typeName = bodySchema.Key ?? FilterBodyTypeName(TryGetFacilityTypeName(bodySchema.Value, part.Position));
+					var typeName = bodySchema.Key ?? FilterBodyTypeName(TryGetFacilityTypeName(bodySchema.Value, part.Position));
 					if (typeName != null)
 					{
 						requestFields.Add(new ServiceFieldInfo(
@@ -277,18 +277,18 @@ namespace Facility.Definition.Swagger
 			}
 		}
 
-		private void AddResponseFields(IList<ServiceFieldInfo> responseFields, string statusCode, SwaggerResponse swaggerResponse, string serviceMethodName, IList<ServiceAttributeParameterInfo> httpAttributeValues, bool isOnlyResponse, ServicePart part)
+		private void AddResponseFields(IList<ServiceFieldInfo> responseFields, string statusCode, SwaggerResponse swaggerResponse, string serviceMethodName, IList<ServiceAttributeParameterInfo> httpAttributeValues, bool isOnlyResponse, ServicePart? part)
 		{
 			var bodySchema = default(KeyValuePair<string, SwaggerSchema>);
 
 			if (swaggerResponse.Schema != null)
-				bodySchema = ResolveDefinition(swaggerResponse.Schema, part.Position);
+				bodySchema = ResolveDefinition(swaggerResponse.Schema, part!.Position);
 
 			if (bodySchema.Value != null && (bodySchema.Value.Type ?? SwaggerSchemaType.Object) == SwaggerSchemaType.Object &&
 				(bodySchema.Key == null || bodySchema.Key.Equals(serviceMethodName + "Response", StringComparison.OrdinalIgnoreCase)))
 			{
 				httpAttributeValues.Add(new ServiceAttributeParameterInfo("code", statusCode, part));
-				AddFieldsFromSchema(responseFields, part, bodySchema);
+				AddFieldsFromSchema(responseFields, part!, bodySchema);
 			}
 			else if (swaggerResponse.Identifier == null && isOnlyResponse && swaggerResponse.Schema == null)
 			{
@@ -298,7 +298,7 @@ namespace Facility.Definition.Swagger
 			{
 				responseFields.Add(new ServiceFieldInfo(
 					swaggerResponse.Identifier ?? CodeGenUtility.ToCamelCase(bodySchema.Key) ?? GetBodyFieldNameForStatusCode(statusCode),
-					typeName: bodySchema.Key ?? (bodySchema.Value != null ? FilterBodyTypeName(TryGetFacilityTypeName(bodySchema.Value, part.Position)) : null) ?? "boolean",
+					typeName: bodySchema.Key ?? (bodySchema.Value != null ? FilterBodyTypeName(TryGetFacilityTypeName(bodySchema.Value, part!.Position)) : null) ?? "boolean",
 					attributes: new[]
 					{
 						new ServiceAttributeInfo("http",
@@ -306,7 +306,7 @@ namespace Facility.Definition.Swagger
 							{
 								new ServiceAttributeParameterInfo("from", "body", part),
 								new ServiceAttributeParameterInfo("code", statusCode, part),
-							})
+							}),
 					},
 					summary: PrepareSummary(swaggerResponse.Description),
 					parts: part));
@@ -337,7 +337,7 @@ namespace Facility.Definition.Swagger
 				if (property.Value.Obsolete.GetValueOrDefault())
 					attributes.Add(new ServiceAttributeInfo("obsolete"));
 
-				string typeName = TryGetFacilityTypeName(property.Value, part.Position);
+				var typeName = TryGetFacilityTypeName(property.Value, part.Position);
 				if (typeName != null)
 				{
 					requestFields.Add(new ServiceFieldInfo(
@@ -350,11 +350,11 @@ namespace Facility.Definition.Swagger
 			}
 		}
 
-		private static string PrepareSummary(string summary) => string.IsNullOrWhiteSpace(summary) ? null : Regex.Replace(summary.Trim(), @"\s+", " ");
+		private static string? PrepareSummary(string? summary) => string.IsNullOrWhiteSpace(summary) ? null : Regex.Replace(summary!.Trim(), @"\s+", " ");
 
-		private static IReadOnlyList<string> SplitRemarks(string remarks) => string.IsNullOrWhiteSpace(remarks) ? null : Regex.Split(remarks, @"\r?\n");
+		private static IReadOnlyList<string>? SplitRemarks(string? remarks) => string.IsNullOrWhiteSpace(remarks) ? null : Regex.Split(remarks!, @"\r?\n");
 
-		private string GetDefinitionNameFromRef(string refValue, ServiceDefinitionPosition position)
+		private string GetDefinitionNameFromRef(string refValue, ServiceDefinitionPosition? position)
 		{
 			const string refPrefix = "#/definitions/";
 			if (!refValue.StartsWith(refPrefix, StringComparison.Ordinal))
@@ -362,18 +362,18 @@ namespace Facility.Definition.Swagger
 			return UnescapeRefPart(refValue.Substring(refPrefix.Length));
 		}
 
-		private KeyValuePair<string, SwaggerSchema> ResolveDefinition(SwaggerSchema swaggerDefinition, ServiceDefinitionPosition position)
+		private KeyValuePair<string, SwaggerSchema> ResolveDefinition(SwaggerSchema swaggerDefinition, ServiceDefinitionPosition? position)
 		{
-			string name = null;
+			string? name = null;
 
 			if (swaggerDefinition.Ref != null)
 			{
 				name = GetDefinitionNameFromRef(swaggerDefinition.Ref, position);
-				if (!m_swaggerService.Definitions.TryGetValue(name, out swaggerDefinition))
+				if (!m_swaggerService.Definitions!.TryGetValue(name, out swaggerDefinition))
 					m_errors.Add(new ServiceDefinitionError($"Missing definition named '{name}'.", position));
 			}
 
-			return new KeyValuePair<string, SwaggerSchema>(name, swaggerDefinition);
+			return new KeyValuePair<string, SwaggerSchema>(name!, swaggerDefinition);
 		}
 
 		private void ResolveOperations(ref SwaggerOperations swaggerOperations, ref SwaggerParserContext context)
@@ -385,14 +385,14 @@ namespace Facility.Definition.Swagger
 					m_errors.Add(new ServiceDefinitionError("Operations $ref must start with '#/paths/'.", context.CreatePosition()));
 
 				string name = UnescapeRefPart(swaggerOperations.Ref.Substring(refPrefix.Length));
-				if (!m_swaggerService.Paths.TryGetValue(name, out swaggerOperations))
+				if (!m_swaggerService.Paths!.TryGetValue(name, out swaggerOperations))
 					m_errors.Add(new ServiceDefinitionError($"Missing path named '{name}'.", context.CreatePosition()));
 
 				context = context.Root.CreateContext("paths/" + name);
 			}
 		}
 
-		private SwaggerParameter ResolveParameter(SwaggerParameter swaggerParameter, ServiceDefinitionPosition position)
+		private SwaggerParameter ResolveParameter(SwaggerParameter swaggerParameter, ServiceDefinitionPosition? position)
 		{
 			if (swaggerParameter.Ref != null)
 			{
@@ -401,14 +401,14 @@ namespace Facility.Definition.Swagger
 					m_errors.Add(new ServiceDefinitionError("Parameter $ref must start with '#/parameters/'.", position));
 
 				string name = UnescapeRefPart(swaggerParameter.Ref.Substring(refPrefix.Length));
-				if (!m_swaggerService.Parameters.TryGetValue(name, out swaggerParameter))
+				if (!m_swaggerService.Parameters!.TryGetValue(name, out swaggerParameter))
 					m_errors.Add(new ServiceDefinitionError($"Missing parameter named '{name}'.", position));
 			}
 
 			return swaggerParameter;
 		}
 
-		private SwaggerResponse ResolveResponse(SwaggerResponse swaggerResponse, ServiceDefinitionPosition position)
+		private SwaggerResponse ResolveResponse(SwaggerResponse swaggerResponse, ServiceDefinitionPosition? position)
 		{
 			if (swaggerResponse.Ref != null)
 			{
@@ -417,14 +417,14 @@ namespace Facility.Definition.Swagger
 					m_errors.Add(new ServiceDefinitionError("Response $ref must start with '#/responses/'.", position));
 
 				string name = UnescapeRefPart(swaggerResponse.Ref.Substring(refPrefix.Length));
-				if (!m_swaggerService.Responses.TryGetValue(name, out swaggerResponse))
+				if (!m_swaggerService.Responses!.TryGetValue(name, out swaggerResponse))
 					m_errors.Add(new ServiceDefinitionError($"Missing response named '{name}'.", position));
 			}
 
 			return swaggerResponse;
 		}
 
-		private string TryGetFacilityTypeName(ISwaggerSchema swaggerSchema, ServiceDefinitionPosition position)
+		private string? TryGetFacilityTypeName(ISwaggerSchema swaggerSchema, ServiceDefinitionPosition? position)
 		{
 			switch (swaggerSchema.Type ?? SwaggerSchemaType.Object)
 			{
@@ -442,7 +442,7 @@ namespace Facility.Definition.Swagger
 
 			case SwaggerSchemaType.Array:
 				return swaggerSchema.Items?.Type == SwaggerSchemaType.Array ? null :
-					$"{TryGetFacilityTypeName(swaggerSchema.Items, position)}[]";
+					$"{TryGetFacilityTypeName(swaggerSchema.Items!, position)}[]";
 
 			case SwaggerSchemaType.Object:
 				if (swaggerSchema is SwaggerSchema fullSchema)
@@ -454,7 +454,7 @@ namespace Facility.Definition.Swagger
 						if (IsFacilityError(resolvedSchema))
 							return "error";
 
-						string resultOfType = TryGetFacilityResultOfType(resolvedSchema, position);
+						var resultOfType = TryGetFacilityResultOfType(resolvedSchema, position);
 						if (resultOfType != null)
 							return $"result<{resultOfType}>";
 
@@ -471,7 +471,7 @@ namespace Facility.Definition.Swagger
 			return null;
 		}
 
-		internal static string FilterBodyTypeName(string typeName)
+		internal static string? FilterBodyTypeName(string? typeName)
 		{
 			return typeName == "string" || typeName == "bytes" || typeName == "int32" || typeName == "int64" || typeName == "double" || typeName == "decimal" ? null : typeName;
 		}
@@ -483,10 +483,10 @@ namespace Facility.Definition.Swagger
 				swaggerSchema.Value.Properties.EmptyIfNull().Any(x => x.Key == "message" && x.Value.Type == SwaggerSchemaType.String);
 		}
 
-		internal string TryGetFacilityResultOfType(KeyValuePair<string, SwaggerSchema> swaggerSchema, ServiceDefinitionPosition position)
+		internal string? TryGetFacilityResultOfType(KeyValuePair<string, SwaggerSchema> swaggerSchema, ServiceDefinitionPosition? position)
 		{
 			const string nameSuffix = "Result";
-			if (!swaggerSchema.Key.EndsWith(nameSuffix, StringComparison.Ordinal))
+			if (!swaggerSchema.Key!.EndsWith(nameSuffix, StringComparison.Ordinal))
 				return null;
 
 			var properties = swaggerSchema.Value.Properties.EmptyIfNull();
@@ -502,10 +502,10 @@ namespace Facility.Definition.Swagger
 
 		private static string UnescapeRefPart(string value) => value.Replace("~1", "/").Replace("~0", "~");
 
-		private readonly SwaggerService m_swaggerService;
-		private readonly string m_serviceName;
-		private readonly List<ServiceDefinitionError> m_errors;
+		private static readonly Regex s_pathParameter = new Regex(@"\{[^}]+\}");
 
-		static readonly Regex s_pathParameter = new Regex(@"\{[^}]+\}");
+		private readonly SwaggerService m_swaggerService;
+		private readonly string? m_serviceName;
+		private readonly List<ServiceDefinitionError> m_errors;
 	}
 }

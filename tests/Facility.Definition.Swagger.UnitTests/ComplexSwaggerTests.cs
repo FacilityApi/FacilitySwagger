@@ -14,7 +14,7 @@ namespace Facility.Definition.Swagger.UnitTests
 		public void GenerateComplexService()
 		{
 			var generator = new SwaggerGenerator { Json = true, GeneratorName = "tests" };
-			var fsdService = TestUtility.ParseTestApi(s_fsdText);
+			var fsdService = TestUtility.ParseTestApi(c_fsdText);
 			var output = generator.GenerateOutput(fsdService);
 			var file = output.Files.Single();
 			file.Name.Should().Be("TestApi.json");
@@ -27,7 +27,7 @@ namespace Facility.Definition.Swagger.UnitTests
 			service.Methods.Count.Should().Be(fsdService.Methods.Count);
 		}
 
-		static readonly string s_fsdText = @"
+		private const string c_fsdText = @"
 /// test service
 [info(version: 1.2.3), http(url: ""https://example.com/v3"")]
 service TestApi
@@ -80,8 +80,7 @@ These are the service remarks.
 
 They are multi-line.
 ";
-
-		static readonly SwaggerService s_swaggerService = new SwaggerService
+		private static readonly SwaggerService s_swaggerService = new SwaggerService
 		{
 			Swagger = "2.0",
 			Info = new SwaggerInfo
@@ -132,7 +131,7 @@ They are multi-line.
 								Schema = new SwaggerSchema
 								{
 									Ref = "#/definitions/DoRequest",
-								}
+								},
 							},
 						},
 						Responses = new Dictionary<string, SwaggerResponse>
@@ -143,7 +142,7 @@ They are multi-line.
 								Schema = new SwaggerSchema
 								{
 									Ref = "#/definitions/DoResponse",
-								}
+								},
 							},
 							["202"] = new SwaggerResponse
 							{
@@ -160,7 +159,7 @@ They are multi-line.
 								Identifier = "noId",
 							},
 						},
-					}
+					},
 				},
 				["/kill"] = new SwaggerOperations
 				{
@@ -180,7 +179,7 @@ They are multi-line.
 								Schema = new SwaggerSchema
 								{
 									Ref = "#/definitions/Job",
-								}
+								},
 							},
 						},
 						Responses = new Dictionary<string, SwaggerResponse>
@@ -190,7 +189,7 @@ They are multi-line.
 								Description = "",
 							},
 						},
-					}
+					},
 				},
 			},
 			Definitions = new Dictionary<string, SwaggerSchema>
@@ -205,7 +204,7 @@ They are multi-line.
 						{
 							Type = SwaggerSchemaType.String,
 						},
-					}
+					},
 				},
 				["DoRequest"] = new SwaggerSchema
 				{
@@ -216,7 +215,7 @@ They are multi-line.
 						{
 							Description = "field!",
 							Type = SwaggerSchemaType.Boolean,
-						}
+						},
 					},
 				},
 				["DoResponse"] = new SwaggerSchema
@@ -228,7 +227,7 @@ They are multi-line.
 						{
 							Description = "id!",
 							Type = SwaggerSchemaType.String,
-						}
+						},
 					},
 				},
 			},

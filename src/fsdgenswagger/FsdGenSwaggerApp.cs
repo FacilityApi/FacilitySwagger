@@ -8,9 +8,9 @@ using Facility.Definition.Swagger;
 
 namespace fsdgenswagger
 {
-	public sealed class FsdGenFsdApp : CodeGeneratorApp
+	public sealed class FsdGenSwaggerApp : CodeGeneratorApp
 	{
-		public static int Main(string[] args) => new FsdGenFsdApp().Run(args);
+		public static int Main(string[] args) => new FsdGenSwaggerApp().Run(args);
 
 		protected override IReadOnlyList<string> Description => new[]
 		{

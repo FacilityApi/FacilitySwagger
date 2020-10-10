@@ -18,12 +18,12 @@ namespace Facility.Definition.Swagger
 		/// <summary>
 		/// The service name (defaults to 'info/x-identifier' or 'info/title').
 		/// </summary>
-		public string ServiceName { get; set; }
+		public string? ServiceName { get; set; }
 
 		/// <summary>
 		/// Implements TryParseDefinition.
 		/// </summary>
-		protected override bool TryParseDefinitionCore(ServiceDefinitionText source, out ServiceInfo service, out IReadOnlyList<ServiceDefinitionError> errors)
+		protected override bool TryParseDefinitionCore(ServiceDefinitionText source, out ServiceInfo? service, out IReadOnlyList<ServiceDefinitionError> errors)
 		{
 			bool isFsd = new FsdParser().TryParseDefinition(source, out service, out errors);
 			if (isFsd || source.Name.EndsWith(".fsd", StringComparison.OrdinalIgnoreCase))
@@ -107,7 +107,7 @@ namespace Facility.Definition.Swagger
 		public ServiceInfo ConvertSwaggerService(SwaggerService swaggerService)
 		{
 			if (TryConvertSwaggerService(swaggerService, out var service, out var errors))
-				return service;
+				return service!;
 			else
 				throw new ServiceDefinitionException(errors);
 		}
@@ -115,7 +115,7 @@ namespace Facility.Definition.Swagger
 		/// <summary>
 		/// Attempts to convert Swagger (OpenAPI) 2.0 into a service definition.
 		/// </summary>
-		public bool TryConvertSwaggerService(SwaggerService swaggerService, out ServiceInfo service, out IReadOnlyList<ServiceDefinitionError> errors)
+		public bool TryConvertSwaggerService(SwaggerService swaggerService, out ServiceInfo? service, out IReadOnlyList<ServiceDefinitionError>? errors)
 		{
 			var conversion = SwaggerConversion.Create(swaggerService, ServiceName, SwaggerParserContext.None);
 			service = conversion.Service;
@@ -133,6 +133,6 @@ namespace Facility.Definition.Swagger
 			}
 		}
 
-		static readonly Regex s_detectJsonRegex = new Regex(@"^\s*[{/]", RegexOptions.Singleline);
+		private static readonly Regex s_detectJsonRegex = new Regex(@"^\s*[{/]", RegexOptions.Singleline);
 	}
 }

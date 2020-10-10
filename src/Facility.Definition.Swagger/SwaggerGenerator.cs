@@ -40,7 +40,7 @@ namespace Facility.Definition.Swagger
 					Description = GetRemarksOrNull(service),
 					Version = service.TryGetAttribute("info")?.TryGetParameterValue("version") ?? "0.0.0",
 					CodeGen = CodeGenUtility.GetCodeGenComment(GeneratorName),
-				}
+				},
 			};
 
 			string defaultBaseUri = httpServiceInfo.Url;
@@ -79,7 +79,7 @@ namespace Facility.Definition.Swagger
 
 			while (true)
 			{
-				int dtoCount = dtoInfos.Count;
+				var dtoCount = dtoInfos.Count;
 				foreach (var field in dtoInfos.Values.SelectMany(x => x.Fields).ToList())
 					AddDtos(dtoInfos, GetDtosForType(service.GetFieldType(field)));
 				if (dtoCount == dtoInfos.Count)
@@ -105,8 +105,8 @@ namespace Facility.Definition.Swagger
 			{
 				return new CodeGenOutput(CreateFile($"{service.Name}.json", code =>
 				{
-					using (var jsonTextWriter = new JsonTextWriter(code.TextWriter) { Formatting = Formatting.Indented, CloseOutput = false })
-						JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings).Serialize(jsonTextWriter, swaggerService);
+					using var jsonTextWriter = new JsonTextWriter(code.TextWriter) { Formatting = Formatting.Indented, CloseOutput = false };
+					JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings).Serialize(jsonTextWriter, swaggerService);
 				}));
 			}
 			else
@@ -125,13 +125,13 @@ namespace Facility.Definition.Swagger
 				AddDto(dictionary, dto);
 		}
 
-		private void AddDto(IDictionary<string, ServiceDtoInfo> dictionary, ServiceDtoInfo dto)
+		private void AddDto(IDictionary<string, ServiceDtoInfo> dictionary, ServiceDtoInfo? dto)
 		{
 			if (dto != null && !dictionary.ContainsKey(dto.Name))
 				dictionary[dto.Name] = dto;
 		}
 
-		private static ServiceTypeInfo TryCreateMethodRequestBodyType(HttpMethodInfo httpMethodInfo)
+		private static ServiceTypeInfo? TryCreateMethodRequestBodyType(HttpMethodInfo httpMethodInfo)
 		{
 			if (httpMethodInfo.RequestNormalFields == null || httpMethodInfo.RequestNormalFields.Count == 0)
 				return null;
@@ -141,7 +141,7 @@ namespace Facility.Definition.Swagger
 				fields: httpMethodInfo.RequestNormalFields.Select(x => x.ServiceField)));
 		}
 
-		private static ServiceTypeInfo TryCreateMethodResponseBodyType(HttpMethodInfo httpMethodInfo, HttpResponseInfo httpResponseInfo)
+		private static ServiceTypeInfo? TryCreateMethodResponseBodyType(HttpMethodInfo httpMethodInfo, HttpResponseInfo httpResponseInfo)
 		{
 			if (httpResponseInfo.NormalFields == null || httpResponseInfo.NormalFields.Count == 0)
 				return null;
@@ -173,9 +173,9 @@ namespace Facility.Definition.Swagger
 			}
 		}
 
-		private static string GetSummaryOrNull(IServiceHasSummary info) => info.Summary.Length == 0 ? null : info.Summary;
+		private static string? GetSummaryOrNull(IServiceHasSummary info) => info.Summary.Length == 0 ? null : info.Summary;
 
-		private static string GetRemarksOrNull(ServiceMemberInfo info) => info.Remarks.Count == 0 ? null : string.Join("\n", info.Remarks);
+		private static string? GetRemarksOrNull(ServiceMemberInfo info) => info.Remarks.Count == 0 ? null : string.Join("\n", info.Remarks);
 
 		private static bool? GetObsoleteOrNull(ServiceElementWithAttributesInfo info) => info.IsObsolete ? true : default(bool?);
 
@@ -255,9 +255,9 @@ namespace Facility.Definition.Swagger
 
 			var requestBodyFieldType = httpMethodInfo.RequestBodyField == null ? null : service.GetFieldType(httpMethodInfo.RequestBodyField.ServiceField);
 			if (requestBodyFieldType != null && requestBodyFieldType.Kind != ServiceTypeKind.Boolean)
-				parameters.Add(CreateSwaggerRequestBodyParameter(requestBodyFieldType, "request", httpMethodInfo.RequestBodyField.ServiceField.Summary));
+				parameters.Add(CreateSwaggerRequestBodyParameter(requestBodyFieldType, "request", httpMethodInfo.RequestBodyField!.ServiceField.Summary));
 			else if (httpMethodInfo.RequestNormalFields.Count != 0)
-				parameters.Add(CreateSwaggerRequestBodyParameter(TryCreateMethodRequestBodyType(httpMethodInfo), "request"));
+				parameters.Add(CreateSwaggerRequestBodyParameter(TryCreateMethodRequestBodyType(httpMethodInfo)!, "request"));
 
 			if (parameters.Count != 0)
 				operation.Parameters = parameters;
@@ -309,7 +309,7 @@ namespace Facility.Definition.Swagger
 			}
 		}
 
-		private static SwaggerParameter CreateSwaggerParameter(ServiceInfo service, ServiceFieldInfo fieldInfo, string inKind, string name)
+		private static SwaggerParameter CreateSwaggerParameter(ServiceInfo service, ServiceFieldInfo fieldInfo, string inKind, string? name)
 		{
 			var parameterObject = GetTypeSchema<SwaggerParameter>(service.GetFieldType(fieldInfo));
 			parameterObject.In = inKind;
@@ -322,7 +322,7 @@ namespace Facility.Definition.Swagger
 			return parameterObject;
 		}
 
-		private static SwaggerParameter CreateSwaggerRequestBodyParameter(ServiceTypeInfo type, string name, string description = null)
+		private static SwaggerParameter CreateSwaggerRequestBodyParameter(ServiceTypeInfo type, string name, string? description = null)
 		{
 			return new SwaggerParameter
 			{
@@ -334,7 +334,7 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static SwaggerResponse CreateSwaggerResponse(ServiceTypeInfo type = null, string identifier = null, string description = null)
+		private static SwaggerResponse CreateSwaggerResponse(ServiceTypeInfo? type = null, string? identifier = null, string? description = null)
 		{
 			return new SwaggerResponse
 			{
@@ -344,7 +344,8 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static T GetTypeSchema<T>(ServiceTypeInfo type) where T : ISwaggerSchema, new()
+		private static T GetTypeSchema<T>(ServiceTypeInfo type)
+			where T : ISwaggerSchema, new()
 		{
 			switch (type.Kind)
 			{
@@ -406,7 +407,8 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static T GetDtoSchemaRef<T>(ServiceDtoInfo dtoInfo) where T : ISwaggerSchema, new()
+		private static T GetDtoSchemaRef<T>(ServiceDtoInfo dtoInfo)
+			where T : ISwaggerSchema, new()
 		{
 			return new T
 			{
@@ -414,7 +416,8 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static T GetEnumSchema<T>(ServiceEnumInfo enumInfo) where T : ISwaggerSchema, new()
+		private static T GetEnumSchema<T>(ServiceEnumInfo enumInfo)
+			where T : ISwaggerSchema, new()
 		{
 			return new T
 			{
@@ -423,7 +426,8 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static T GetErrorSchemaRef<T>() where T : ISwaggerSchema, new()
+		private static T GetErrorSchemaRef<T>()
+			where T : ISwaggerSchema, new()
 		{
 			return new T
 			{
@@ -431,7 +435,8 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static T GetResultTypeRef<T>(ServiceTypeInfo type) where T : ISwaggerSchema, new()
+		private static T GetResultTypeRef<T>(ServiceTypeInfo type)
+			where T : ISwaggerSchema, new()
 		{
 			return new T
 			{
@@ -439,7 +444,8 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static T GetArrayOfSchema<T>(ServiceTypeInfo type) where T : ISwaggerSchema, new()
+		private static T GetArrayOfSchema<T>(ServiceTypeInfo type)
+			where T : ISwaggerSchema, new()
 		{
 			return new T
 			{
@@ -562,7 +568,7 @@ namespace Facility.Definition.Swagger
 				get => m_dictionary[key];
 				set
 				{
-					bool replace = m_dictionary.ContainsKey(key);
+					var replace = m_dictionary.ContainsKey(key);
 					m_dictionary[key] = value;
 					if (!replace)
 						m_keys.Add(key);
@@ -579,8 +585,8 @@ namespace Facility.Definition.Swagger
 
 			IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Values;
 
-			readonly Dictionary<TKey, TValue> m_dictionary;
-			readonly List<TKey> m_keys;
+			private readonly Dictionary<TKey, TValue> m_dictionary;
+			private readonly List<TKey> m_keys;
 		}
 	}
 }

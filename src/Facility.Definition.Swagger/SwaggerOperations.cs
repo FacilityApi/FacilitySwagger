@@ -10,22 +10,22 @@ namespace Facility.Definition.Swagger
 	{
 		[JsonProperty("$ref")]
 		[YamlMember(Alias = "$ref")]
-		public string Ref { get; set; }
+		public string? Ref { get; set; }
 
-		public SwaggerOperation Get { get; set; }
+		public SwaggerOperation? Get { get; set; }
 
-		public SwaggerOperation Post { get; set; }
+		public SwaggerOperation? Post { get; set; }
 
-		public SwaggerOperation Put { get; set; }
+		public SwaggerOperation? Put { get; set; }
 
-		public SwaggerOperation Delete { get; set; }
+		public SwaggerOperation? Delete { get; set; }
 
-		public SwaggerOperation Options { get; set; }
+		public SwaggerOperation? Options { get; set; }
 
-		public SwaggerOperation Head { get; set; }
+		public SwaggerOperation? Head { get; set; }
 
-		public SwaggerOperation Patch { get; set; }
+		public SwaggerOperation? Patch { get; set; }
 
-		public IList<SwaggerParameter> Parameters { get; set; }
+		public IList<SwaggerParameter>? Parameters { get; set; }
 	}
 }
