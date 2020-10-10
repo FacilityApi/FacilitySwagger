@@ -31,6 +31,12 @@ paths:
         type: string
         x-identifier: query
       - in: query
+        name: ids
+        description: The widget IDs.
+        type: array
+        items:
+          type: string
+      - in: query
         name: limit
         description: The limit of returned results.
         type: integer
@@ -215,6 +221,55 @@ paths:
           schema:
             $ref: '#/definitions/GetWidgetWeightResponse'
       deprecated: true
+  /widgets/{id}/image:
+    get:
+      tags:
+      - widgets
+      summary: Gets the widget image.
+      operationId: getWidgetImage
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: The widget ID.
+        required: true
+        type: string
+      responses:
+        '200':
+          description: The content of the widget image.
+          schema:
+            type: string
+            format: byte
+          x-identifier: content
+    put:
+      tags:
+      - widgets
+      summary: Sets the widget image.
+      operationId: setWidgetImage
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: The widget ID.
+        required: true
+        type: string
+      - in: header
+        name: Content-Type
+        description: The media type of the widget image.
+        type: string
+        x-identifier: type
+      - in: body
+        name: request
+        description: The content of the widget image.
+        required: true
+        schema:
+          type: string
+          format: byte
+      responses:
+        '200':
+          description: ''
   /prefs/{key}:
     get:
       summary: Gets a widget preference.
@@ -281,6 +336,8 @@ paths:
       operationId: kitchen
       consumes:
       - application/json
+      produces:
+      - application/json
       parameters:
       - in: body
         name: request
@@ -290,6 +347,9 @@ paths:
       responses:
         '200':
           description: ''
+          schema:
+            type: string
+          x-identifier: text
   /transform:
     post:
       operationId: transform
