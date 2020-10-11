@@ -89,6 +89,9 @@ paths:
           x-identifier: noContent
 definitions:
   pet:
+    required:
+    - id
+    - name
     type: object
     properties:
       id:
@@ -99,6 +102,8 @@ definitions:
       tag:
         type: string
   newPet:
+    required:
+    - name
     type: object
     properties:
       id:

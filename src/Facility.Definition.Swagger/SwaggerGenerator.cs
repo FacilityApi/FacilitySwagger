@@ -352,7 +352,7 @@ namespace Facility.Definition.Swagger
 			if (parameterObject.Name != fieldInfo.Name)
 				parameterObject.Identifier = fieldInfo.Name;
 			parameterObject.Description = GetSummaryOrNull(fieldInfo);
-			parameterObject.Required = inKind == SwaggerParameterKind.Path ? true : default(bool?);
+			parameterObject.Required = fieldInfo.IsRequired || inKind == SwaggerParameterKind.Path ? true : default(bool?);
 			parameterObject.Obsolete = GetObsoleteOrNull(fieldInfo);
 			return parameterObject;
 		}
@@ -420,6 +420,7 @@ namespace Facility.Definition.Swagger
 		private static SwaggerSchema GetDtoSchema(ServiceInfo serviceInfo, ServiceDtoInfo dtoInfo)
 		{
 			var propertiesObject = new OurDictionary<string, SwaggerSchema>();
+			List<string>? requiredFieldNames = null;
 
 			foreach (var fieldInfo in dtoInfo.Fields)
 			{
@@ -428,6 +429,9 @@ namespace Facility.Definition.Swagger
 				{
 					propertyObject.Description = GetSummaryOrNull(fieldInfo);
 					propertyObject.Obsolete = GetObsoleteOrNull(fieldInfo);
+
+					if (fieldInfo.IsRequired)
+						(requiredFieldNames ??= new List<string>()).Add(fieldInfo.Name);
 				}
 				propertiesObject[fieldInfo.Name] = propertyObject;
 			}
@@ -437,6 +441,7 @@ namespace Facility.Definition.Swagger
 				Type = SwaggerSchemaType.Object,
 				Description = GetSummaryOrNull(dtoInfo),
 				Properties = propertiesObject,
+				Required = requiredFieldNames,
 				Obsolete = GetObsoleteOrNull(dtoInfo),
 				Remarks = GetRemarksOrNull(dtoInfo),
 			};

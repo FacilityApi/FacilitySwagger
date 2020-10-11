@@ -256,6 +256,7 @@ paths:
       - in: query
         name: q
         description: A query string
+        required: true
         type: string
       - in: query
         name: count

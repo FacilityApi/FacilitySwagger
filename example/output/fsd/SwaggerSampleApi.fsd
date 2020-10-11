@@ -9,7 +9,7 @@ service SwaggerSampleApi
 	method getPetsById
 	{
 		/// ID of pet to use
-		id: string;
+		id: string!;
 	}:
 	{
 		/// pet response
@@ -19,16 +19,16 @@ service SwaggerSampleApi
 
 	data Pet
 	{
-		name: string;
+		name: string!;
 
 		tag: string;
 	}
 
 	data ErrorModel
 	{
-		code: int32;
+		code: int32!;
 
-		message: string;
+		message: string!;
 	}
 }
 

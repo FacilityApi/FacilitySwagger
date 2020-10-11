@@ -127,6 +127,8 @@ namespace Facility.Definition.Swagger
 
 				if (property.Value.Obsolete.GetValueOrDefault())
 					fieldAttributes.Add(new ServiceAttributeInfo("obsolete"));
+				if (schema.Required?.Contains(property.Key) == true)
+					fieldAttributes.Add(new ServiceAttributeInfo("required"));
 
 				var typeName = TryGetFacilityTypeName(property.Value, part.Position);
 				if (typeName != null)
@@ -218,6 +220,8 @@ namespace Facility.Definition.Swagger
 
 					if (swaggerParameter.Obsolete.GetValueOrDefault())
 						attributes.Add(new ServiceAttributeInfo("obsolete"));
+					if (swaggerParameter.Required.GetValueOrDefault())
+						attributes.Add(new ServiceAttributeInfo("required"));
 
 					var fieldName = swaggerParameter.Identifier ?? swaggerParameter.Name;
 					if (!ServiceDefinitionUtility.IsValidName(fieldName))
@@ -334,6 +338,8 @@ namespace Facility.Definition.Swagger
 
 				if (property.Value.Obsolete.GetValueOrDefault())
 					attributes.Add(new ServiceAttributeInfo("obsolete"));
+				if (bodySchema.Value.Required?.Contains(property.Key) == true)
+					attributes.Add(new ServiceAttributeInfo("required"));
 
 				var typeName = TryGetFacilityTypeName(property.Value, part.Position);
 				if (typeName != null)

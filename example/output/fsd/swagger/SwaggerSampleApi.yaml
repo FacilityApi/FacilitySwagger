@@ -29,6 +29,8 @@ paths:
           x-identifier: ok
 definitions:
   Pet:
+    required:
+    - name
     type: object
     properties:
       name:

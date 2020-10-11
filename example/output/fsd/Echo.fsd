@@ -23,7 +23,7 @@ service Echo
 	method getTestPathId
 	{
 		/// ID
-		id: string;
+		id: string!;
 	}:
 	{
 	}

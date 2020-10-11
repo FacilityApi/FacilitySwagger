@@ -90,7 +90,7 @@ service TwitterRestApi
 	method postStatusesRetweetsId
 	{
 		/// The numerical ID of the desired status
-		id: string;
+		id: string!;
 
 		/// When set to either true, t or 1, each tweet returned in a timeline will include a user object
 		[http(from: query)]
@@ -106,13 +106,13 @@ service TwitterRestApi
 	method getStatusesShowId
 	{
 		/// The numerical ID of the desired status
-		id: string;
+		id: string!;
 
 		/// When set to either true, t or 1, each tweet returned in a timeline will include a user object
 		trim_user: string;
 
 		/// When set to either true, t or 1, any Tweets returned that have been retweeted by the authenticating
-		include_my_retweet: string;
+		include_my_retweet: string!;
 
 		/// The entities node will be disincluded when set to false
 		include_entities: string;
@@ -127,7 +127,7 @@ service TwitterRestApi
 	method postStatusesDestroyId
 	{
 		/// The numerical ID of the desired status
-		id: string;
+		id: string!;
 
 		/// When set to either true, t or 1, each tweet returned in a timeline will include a user object
 		[http(from: query)]
@@ -144,7 +144,7 @@ service TwitterRestApi
 	{
 		/// The text of your status update
 		[http(from: query)]
-		status: string;
+		status: string!;
 
 		/// The ID of an existing status
 		[http(from: query)]
@@ -180,10 +180,10 @@ service TwitterRestApi
 	method getStatusesOembed
 	{
 		/// The tweet/status id to return embed code for
-		id: string;
+		id: string!;
 
 		/// The encoded URL of the Tweet status to be embedded
-		url: string;
+		url: string!;
 
 		/// The maximum width in pixels that the embed should be rendered at
 		maxwidth: string;
@@ -213,10 +213,10 @@ service TwitterRestApi
 	method getListsList
 	{
 		/// The screen name of the user for whom to return results for
-		screen_name: string;
+		screen_name: string!;
 
 		/// The ID of the user for whom to return results for
-		user_id: string;
+		user_id: string!;
 	}:
 	{
 		/// Success
@@ -228,10 +228,10 @@ service TwitterRestApi
 	method getListsStatuses
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list by its slug instead of its numerical id
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -264,10 +264,10 @@ service TwitterRestApi
 	method getListsMembersDestroy
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list by its slug instrad of its numerical id
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -309,10 +309,10 @@ service TwitterRestApi
 	method getListsSubscribers
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list by its slug insted of its numerical id
-		slug: string;
+		slug: string!;
 
 		/// the screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -340,11 +340,11 @@ service TwitterRestApi
 	{
 		/// The numerical id of the list
 		[http(from: query)]
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
 		[http(from: query)]
-		slug: string;
+		slug: string!;
 
 		/// the screen name of the user who owns the list being requested by a slug
 		[http(from: query)]
@@ -364,10 +364,10 @@ service TwitterRestApi
 	method getListsSubscribersShow
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -397,10 +397,10 @@ service TwitterRestApi
 	method getListsSubscribersDestroy
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
-		slug: string;
+		slug: string!;
 
 		/// the screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -415,10 +415,10 @@ service TwitterRestApi
 	method getListsMembersCreateAll
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
-		slug: string;
+		slug: string!;
 
 		/// the screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -439,10 +439,10 @@ service TwitterRestApi
 	method getListMembersShow
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
-		slug: string;
+		slug: string!;
 
 		/// The id of the user for whom to remove from the list
 		user_id: string;
@@ -472,10 +472,10 @@ service TwitterRestApi
 	method getListMembers
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -503,11 +503,11 @@ service TwitterRestApi
 	{
 		/// The numerical id of the list
 		[http(from: query)]
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
 		[http(from: query)]
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user for whom to remove from the list
 		[http(from: query)]
@@ -529,11 +529,11 @@ service TwitterRestApi
 	{
 		/// The numerical id of the list
 		[http(from: query)]
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
 		[http(from: query)]
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user who owns the list being requested by a slug
 		[http(from: query)]
@@ -554,11 +554,11 @@ service TwitterRestApi
 	{
 		/// The numerical id of the list
 		[http(from: query)]
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
 		[http(from: query)]
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user who owns the list being requested by a slug
 		[http(from: query)]
@@ -608,10 +608,10 @@ service TwitterRestApi
 	method getListsShow
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
-		slug: string;
+		slug: string!;
 
 		/// The screen name of the user who owns the list being requested by a slug
 		owner_screen_name: string;
@@ -650,10 +650,10 @@ service TwitterRestApi
 	method getListMembersDestroyAll
 	{
 		/// The numerical id of the list
-		list_id: string;
+		list_id: string!;
 
 		/// You can identify a list being requested by a slug
-		slug: string;
+		slug: string!;
 
 		/// The id of the user for whom to remove from the list
 		user_id: string;
@@ -696,7 +696,7 @@ service TwitterRestApi
 	method getDirectMessagesShow
 	{
 		/// ID of direct message
-		id: string;
+		id: string!;
 	}:
 	{
 		/// OK
@@ -708,7 +708,7 @@ service TwitterRestApi
 	method getSearchTweets
 	{
 		/// URL-encoded search query of 500 characters max
-		q: string;
+		q: string!;
 
 		/// returns tweets by users located within given radius
 		geocode: string;
@@ -760,7 +760,7 @@ service TwitterRestApi
 	method getSavedSearchesShowId
 	{
 		/// The id of the saved search
-		id: string;
+		id: string!;
 	}:
 	{
 		/// Success
@@ -773,7 +773,7 @@ service TwitterRestApi
 	{
 		/// The query of the search the user would like to save
 		[http(from: query)]
-		query: string;
+		query: string!;
 	}:
 	{
 		/// Success
@@ -785,7 +785,7 @@ service TwitterRestApi
 	method postSavedSearchesDestroyId
 	{
 		/// The id of the saved search
-		id: string;
+		id: string!;
 	}:
 	{
 		/// Success
@@ -819,7 +819,7 @@ service TwitterRestApi
 	{
 		/// ID of direct message to delete
 		[http(from: query)]
-		id: string;
+		id: string!;
 
 		/// whether or not to include entities
 		[http(from: query)]
@@ -836,7 +836,7 @@ service TwitterRestApi
 	{
 		/// description
 		[http(from: query)]
-		user_id: string;
+		user_id: string!;
 
 		/// screen name of user receiving message
 		[http(from: query)]
@@ -844,7 +844,7 @@ service TwitterRestApi
 
 		/// text of your direct message
 		[http(from: query)]
-		text: string;
+		text: string!;
 	}:
 	{
 		/// OK
@@ -956,11 +956,11 @@ service TwitterRestApi
 	{
 		/// screen name of user for whom to befriend
 		[http(from: query)]
-		screen_name: string;
+		screen_name: string!;
 
 		/// ID of user for whom to befriend
 		[http(from: query)]
-		user_id: string;
+		user_id: string!;
 	}:
 	{
 		/// OK
@@ -973,19 +973,19 @@ service TwitterRestApi
 	{
 		/// screen name of user for whom to befriend
 		[http(from: query)]
-		screen_name: string;
+		screen_name: string!;
 
 		/// ID of user for whom to befriend
 		[http(from: query)]
-		user_id: string;
+		user_id: string!;
 
 		/// enable/disable device notifications for user
 		[http(from: query)]
-		device: string;
+		device: string!;
 
 		/// enable/disable retweets from target user
 		[http(from: query)]
-		retweets: string;
+		retweets: string!;
 	}:
 	{
 		/// OK
@@ -1003,10 +1003,10 @@ service TwitterRestApi
 		source_screen_name: string;
 
 		/// user id of target user
-		target_id: string;
+		target_id: string!;
 
 		/// screen name of target user
-		target_screen_name: string;
+		target_screen_name: string!;
 	}:
 	{
 		/// OK
@@ -1065,7 +1065,7 @@ service TwitterRestApi
 	{
 		/// must be one of sms, none
 		[http(from: query)]
-		device: string;
+		device: string!;
 
 		/// whether or not to include entities
 		[http(from: query)]
@@ -1230,11 +1230,11 @@ service TwitterRestApi
 	{
 		/// screen name of user to be blocked
 		[http(from: query)]
-		screen_name: string;
+		screen_name: string!;
 
 		/// ID of user to be blocked
 		[http(from: query)]
-		user_id: string;
+		user_id: string!;
 
 		/// whether or not to include entities
 		[http(from: query)]
@@ -1256,11 +1256,11 @@ service TwitterRestApi
 	{
 		/// screen name of user to be un-blocked
 		[http(from: query)]
-		screen_name: string;
+		screen_name: string!;
 
 		/// ID of user to be un-blocked
 		[http(from: query)]
-		user_id: string;
+		user_id: string!;
 
 		/// whether or not to include entities
 		[http(from: query)]
@@ -1300,10 +1300,10 @@ service TwitterRestApi
 	method getUsersShow
 	{
 		/// screen name of user to be shown
-		screen_name: string;
+		screen_name: string!;
 
 		/// ID of user to be shown
-		user_id: string;
+		user_id: string!;
 
 		/// whether or not to include entities
 		include_entities: string;
@@ -1319,7 +1319,7 @@ service TwitterRestApi
 	method getUsersSearch
 	{
 		/// the search query to run against people search
-		q: string;
+		q: string!;
 
 		/// specifies the page of results to receive
 		page: string;
@@ -1341,10 +1341,10 @@ service TwitterRestApi
 	method getUsersContributees
 	{
 		/// screen name of user that is contributed to
-		screen_name: string;
+		screen_name: string!;
 
 		/// ID of user to that is contributed to
-		user_id: string;
+		user_id: string!;
 
 		/// whether or not to include entities
 		include_entities: string;
@@ -1363,10 +1363,10 @@ service TwitterRestApi
 	method getUsersContributors
 	{
 		/// screen name of user contributing
-		screen_name: string;
+		screen_name: string!;
 
 		/// ID of user contributing
-		user_id: string;
+		user_id: string!;
 
 		/// whether or not to include entities
 		include_entities: string;
@@ -1384,7 +1384,7 @@ service TwitterRestApi
 	method getGeoIdPlaceId
 	{
 		/// A place in the world
-		place_id: string;
+		place_id: string!;
 	}:
 	{
 		/// Success
@@ -1396,10 +1396,10 @@ service TwitterRestApi
 	method getGeoReverseGeoncode
 	{
 		/// The latitude to search around
-		lat: string;
+		lat: string!;
 
 		/// The longtitude to search around
-		long: string;
+		long: string!;
 
 		/// A hint on region in which to search
 		accuracy: string;
@@ -1423,16 +1423,16 @@ service TwitterRestApi
 	method getGeoSearch
 	{
 		/// The latitude to search around
-		lat: string;
+		lat: string!;
 
 		/// The longtitude to search around
-		long: string;
+		long: string!;
 
 		/// Free-form text to match against while executing a geo-based query
-		query: string;
+		query: string!;
 
 		/// An Ip address
-		ip: string;
+		ip: string!;
 
 		/// A hint on region in which to search
 		accuracy: string;
@@ -1460,13 +1460,13 @@ service TwitterRestApi
 	method getGeoSimilarPlaces
 	{
 		/// The latitude to search around
-		lat: string;
+		lat: string!;
 
 		/// The longtitude to search around
-		long: string;
+		long: string!;
 
 		/// The name a place is known as
-		name: string;
+		name: string!;
 
 		/// This is the place_id which you would like to restrict the search results to
 		contained_within: string;
@@ -1488,16 +1488,16 @@ service TwitterRestApi
 	method getGeoPlaces
 	{
 		/// The latitude to search around
-		lat: string;
+		lat: string!;
 
 		/// The longtitude to search around
-		long: string;
+		long: string!;
 
 		/// The name a place is known as
-		name: string;
+		name: string!;
 
 		/// The token found in the response from geo/similar_places
-		token: string;
+		token: string!;
 
 		/// This is the place_id which you would like to restrict the search results to
 		contained_within: string;
@@ -1519,10 +1519,10 @@ service TwitterRestApi
 	method getTrendsPlace
 	{
 		/// The yahoo where on earch id
-		id: string;
+		id: string!;
 
 		/// Setting this equal to hashtages will remove all hashtages from the trends list
-		exclude: string;
+		exclude: string!;
 	}:
 	{
 		/// Success
@@ -1544,10 +1544,10 @@ service TwitterRestApi
 	method getTrendsClosest
 	{
 		/// If provided with a long parameter the available trend locations wil be stored by distance
-		lat: string;
+		lat: string!;
 
 		/// If provided with a lat parameters the available trend locations will be sorted by distance
-		long: string;
+		long: string!;
 	}:
 	{
 		/// Success

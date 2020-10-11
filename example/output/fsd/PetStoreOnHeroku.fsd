@@ -41,7 +41,7 @@ service PetStoreOnHeroku
 	method getPetId
 	{
 		/// ID of the pet
-		petId: string;
+		petId: string!;
 	}:
 	{
 	}

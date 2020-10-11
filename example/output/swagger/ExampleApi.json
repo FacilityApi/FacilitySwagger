@@ -36,6 +36,7 @@
             "in": "query",
             "name": "ids",
             "description": "The widget IDs.",
+            "required": true,
             "type": "array",
             "items": {
               "type": "string"
@@ -605,6 +606,9 @@
       "x-remarks": "Additional DTO remarks.\n\n## Heading\n\nOnly top-level headings need to match a member name."
     },
     "EditWidgetRequest": {
+      "required": [
+        "ops"
+      ],
       "type": "object",
       "properties": {
         "ops": {

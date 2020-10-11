@@ -33,6 +33,7 @@ paths:
       - in: query
         name: ids
         description: The widget IDs.
+        required: true
         type: array
         items:
           type: string
@@ -421,6 +422,8 @@ definitions:
 
       Only top-level headings need to match a member name.
   EditWidgetRequest:
+    required:
+    - ops
     type: object
     properties:
       ops:
