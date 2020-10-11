@@ -27,11 +27,13 @@ paths:
       - in: query
         name: latitude
         description: Latitude component of location.
+        required: true
         type: number
         format: double
       - in: query
         name: longitude
         description: Longitude component of location.
+        required: true
         type: number
         format: double
       responses:
@@ -63,21 +65,25 @@ paths:
       - in: query
         name: start_latitude
         description: Latitude component of start location.
+        required: true
         type: number
         format: double
       - in: query
         name: start_longitude
         description: Longitude component of start location.
+        required: true
         type: number
         format: double
       - in: query
         name: end_latitude
         description: Latitude component of end location.
+        required: true
         type: number
         format: double
       - in: query
         name: end_longitude
         description: Longitude component of end location.
+        required: true
         type: number
         format: double
       responses:
@@ -101,11 +107,13 @@ paths:
       - in: query
         name: start_latitude
         description: Latitude component of start location.
+        required: true
         type: number
         format: double
       - in: query
         name: start_longitude
         description: Longitude component of start location.
+        required: true
         type: number
         format: double
       - in: query

@@ -14,6 +14,9 @@ service ExampleApi
 		[http(name: q)]
 		query: string;
 
+		/// The widget IDs.
+		ids: string!;
+
 		/// The limit of returned results.
 		limit: int32;
 
@@ -67,7 +70,7 @@ service ExampleApi
 	method getWidget
 	{
 		/// The widget ID.
-		id: string;
+		id: string!;
 
 		[http(from: header, name: If-None-Match)]
 		ifNoneMatch: string;
@@ -88,7 +91,7 @@ service ExampleApi
 	method deleteWidget
 	{
 		/// The widget ID.
-		id: string;
+		id: string!;
 	}:
 	{
 	}
@@ -99,14 +102,14 @@ service ExampleApi
 	method editWidget
 	{
 		/// The widget ID.
-		id: string;
+		id: string!;
 
 		/// The fields to return.
 		[http(from: query)]
 		fields: string;
 
 		/// The operations.
-		ops: object[];
+		ops: object[]!;
 
 		/// The new weight.
 		[obsolete]
@@ -144,11 +147,40 @@ service ExampleApi
 	method getWidgetWeight
 	{
 		/// The widget ID.
-		id: string;
+		id: string!;
 	}:
 	{
 		/// The widget weight.
 		value: double;
+	}
+
+	/// Gets the widget image.
+	[http(method: GET, path: "/widgets/{id}/image")]
+	[tag(name: widgets)]
+	method getWidgetImage
+	{
+		/// The widget ID.
+		id: string!;
+	}:
+	{
+		/// The content of the widget image.
+		[http(from: body, code: 200)]
+		content: boolean;
+	}
+
+	/// Sets the widget image.
+	[http(method: PUT, path: "/widgets/{id}/image", code: 200)]
+	[tag(name: widgets)]
+	method setWidgetImage
+	{
+		/// The widget ID.
+		id: string!;
+
+		/// The media type of the widget image.
+		[http(from: header, name: Content-Type)]
+		type: string;
+	}:
+	{
 	}
 
 	/// Gets a widget preference.
@@ -156,7 +188,7 @@ service ExampleApi
 	method getPreference
 	{
 		/// The preference key.
-		key: string;
+		key: string!;
 	}:
 	{
 		/// The preference value.
@@ -169,7 +201,7 @@ service ExampleApi
 	method setPreference
 	{
 		/// The preference key.
-		key: string;
+		key: string!;
 
 		/// The preference value.
 		[http(from: body)]
@@ -199,12 +231,14 @@ service ExampleApi
 	{
 	}
 
-	[http(method: POST, path: "/kitchen", code: 200)]
+	[http(method: POST, path: "/kitchen")]
 	method kitchen
 	{
 		sink: KitchenSink;
 	}:
 	{
+		[http(from: body, code: 200)]
+		text: boolean;
 	}
 
 	[http(method: POST, path: "/transform", code: 200)]

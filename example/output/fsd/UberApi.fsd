@@ -11,10 +11,10 @@ service UberApi
 	method getProducts
 	{
 		/// Latitude component of location.
-		latitude: double;
+		latitude: double!;
 
 		/// Longitude component of location.
-		longitude: double;
+		longitude: double!;
 	}:
 	{
 		/// An array of products
@@ -28,16 +28,16 @@ service UberApi
 	method getEstimatesPrice
 	{
 		/// Latitude component of start location.
-		start_latitude: double;
+		start_latitude: double!;
 
 		/// Longitude component of start location.
-		start_longitude: double;
+		start_longitude: double!;
 
 		/// Latitude component of end location.
-		end_latitude: double;
+		end_latitude: double!;
 
 		/// Longitude component of end location.
-		end_longitude: double;
+		end_longitude: double!;
 	}:
 	{
 		/// An array of price estimates by product
@@ -51,10 +51,10 @@ service UberApi
 	method getEstimatesTime
 	{
 		/// Latitude component of start location.
-		start_latitude: double;
+		start_latitude: double!;
 
 		/// Longitude component of start location.
-		start_longitude: double;
+		start_longitude: double!;
 
 		/// Unique customer identifier to be used for experience customization.
 		customer_uuid: string;

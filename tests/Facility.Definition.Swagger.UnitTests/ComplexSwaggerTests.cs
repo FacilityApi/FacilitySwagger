@@ -20,7 +20,8 @@ namespace Facility.Definition.Swagger.UnitTests
 			file.Name.Should().Be("TestApi.json");
 			var jToken = JToken.Parse(file.Text);
 			var jTokenExpected = JToken.FromObject(s_swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings));
-			JToken.DeepEquals(jToken, jTokenExpected).Should().BeTrue("{0} should be {1}", jToken, jTokenExpected);
+			if (!JToken.DeepEquals(jToken, jTokenExpected))
+				jToken.ToString(Formatting.None).Should().Be(jTokenExpected.ToString(Formatting.None));
 
 			var service = new SwaggerParser().ParseDefinition(new ServiceDefinitionText(name: file.Name, text: file.Text));
 			service.Summary.Should().Be(fsdService.Summary);
@@ -47,7 +48,7 @@ service TestApi
 	}:
 	{
 		/// id!
-		id: string;
+		id: string!;
 
 		/// job!
 		[http(from: body, code: 202)]
@@ -80,6 +81,7 @@ These are the service remarks.
 
 They are multi-line.
 ";
+
 		private static readonly SwaggerService s_swaggerService = new SwaggerService
 		{
 			Swagger = "2.0",
@@ -229,6 +231,7 @@ They are multi-line.
 							Type = SwaggerSchemaType.String,
 						},
 					},
+					Required = new[] { "id" },
 				},
 			},
 		};

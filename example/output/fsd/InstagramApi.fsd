@@ -10,7 +10,7 @@ service InstagramApi
 	method getUsersUserId
 	{
 		/// The user identifier number
-		userId: double;
+		userId: double!;
 	}:
 	{
 		data: User;
@@ -38,7 +38,7 @@ service InstagramApi
 	method getUsersUserIdMediaRecent
 	{
 		/// The user identifier number
-		userId: double;
+		userId: double!;
 
 		/// Count of media to return.
 		count: int32;
@@ -78,7 +78,7 @@ service InstagramApi
 	method getUsersSearch
 	{
 		/// A query string
-		q: string;
+		q: string!;
 
 		/// Number of users to return.
 		count: string;
@@ -92,7 +92,7 @@ service InstagramApi
 	method getUsersUserIdFollows
 	{
 		/// The user identifier number
-		userId: double;
+		userId: double!;
 	}:
 	{
 		data: MiniProfile[];
@@ -103,7 +103,7 @@ service InstagramApi
 	method getUsersUserIdFollowedBy
 	{
 		/// The user identifier number
-		userId: double;
+		userId: double!;
 	}:
 	{
 		data: MiniProfile[];
@@ -125,7 +125,7 @@ service InstagramApi
 	method postUsersUserIdRelationship
 	{
 		/// The user identifier number
-		userId: double;
+		userId: double!;
 	}:
 	{
 		data: MiniProfile[];
@@ -136,7 +136,7 @@ service InstagramApi
 	method getMediaMediaId
 	{
 		/// The media ID
-		mediaId: int32;
+		mediaId: int32!;
 	}:
 	{
 		/// OK
@@ -149,7 +149,7 @@ service InstagramApi
 	method getMedia1Shortcode
 	{
 		/// The media shortcode
-		shortcode: string;
+		shortcode: string!;
 	}:
 	{
 		/// OK
@@ -194,7 +194,7 @@ service InstagramApi
 	method getMediaMediaIdComments
 	{
 		/// Media ID
-		mediaId: int32;
+		mediaId: int32!;
 	}:
 	{
 		meta: object;
@@ -208,7 +208,7 @@ service InstagramApi
 	method postMediaMediaIdComments
 	{
 		/// Media ID
-		mediaId: int32;
+		mediaId: int32!;
 	}:
 	{
 		meta: object;
@@ -221,7 +221,7 @@ service InstagramApi
 	method deleteMediaMediaIdComments
 	{
 		/// Media ID
-		mediaId: int32;
+		mediaId: int32!;
 	}:
 	{
 		meta: object;
@@ -235,7 +235,7 @@ service InstagramApi
 	method getMediaMediaIdLikes
 	{
 		/// Media ID
-		mediaId: int32;
+		mediaId: int32!;
 	}:
 	{
 		meta: object;
@@ -248,7 +248,7 @@ service InstagramApi
 	method postMediaMediaIdLikes
 	{
 		/// Media ID
-		mediaId: int32;
+		mediaId: int32!;
 	}:
 	{
 		meta: object;
@@ -261,7 +261,7 @@ service InstagramApi
 	method deleteMediaMediaIdLikes
 	{
 		/// Media ID
-		mediaId: int32;
+		mediaId: int32!;
 	}:
 	{
 		meta: object;
@@ -274,7 +274,7 @@ service InstagramApi
 	method getTagsTagName
 	{
 		/// Tag name
-		tagName: string;
+		tagName: string!;
 	}:
 	{
 		/// OK
@@ -287,7 +287,7 @@ service InstagramApi
 	method getTagsTagNameMediaRecent
 	{
 		/// Tag name
-		tagName: string;
+		tagName: string!;
 	}:
 	{
 		data: Tag[];
@@ -311,7 +311,7 @@ service InstagramApi
 	method getLocationsLocationId
 	{
 		/// Location ID
-		locationId: int32;
+		locationId: int32!;
 	}:
 	{
 		data: Location;
@@ -323,7 +323,7 @@ service InstagramApi
 	method getLocationsLocationIdMediaRecent
 	{
 		/// Location ID
-		locationId: int32;
+		locationId: int32!;
 
 		/// Return media before this UNIX timestamp.
 		max_timestamp: int32;
@@ -371,7 +371,7 @@ service InstagramApi
 	method getGeographiesGeoIdMediaRecent
 	{
 		/// Geolocation ID
-		geoId: int32;
+		geoId: int32!;
 
 		/// Max number of media to return.
 		count: int32;

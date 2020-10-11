@@ -167,6 +167,7 @@ paths:
       - in: query
         name: include_my_retweet
         description: When set to either true, t or 1, any Tweets returned that have been retweeted by the authenticating
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -210,6 +211,7 @@ paths:
       - in: query
         name: status
         description: The text of your status update
+        required: true
         type: string
       - in: query
         name: in_reply_to_status_id
@@ -251,10 +253,12 @@ paths:
       - in: query
         name: id
         description: The tweet/status id to return embed code for
+        required: true
         type: string
       - in: query
         name: url
         description: The encoded URL of the Tweet status to be embedded
+        required: true
         type: string
       - in: query
         name: maxwidth
@@ -296,10 +300,12 @@ paths:
       - in: query
         name: screen_name
         description: The screen name of the user for whom to return results for
+        required: true
         type: string
       - in: query
         name: user_id
         description: The ID of the user for whom to return results for
+        required: true
         type: string
       responses:
         '200':
@@ -319,10 +325,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list by its slug instead of its numerical id
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -368,10 +376,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list by its slug instrad of its numerical id
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -431,10 +441,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list by its slug insted of its numerical id
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -472,10 +484,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -501,10 +515,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -544,10 +560,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -568,10 +586,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -602,10 +622,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: user_id
@@ -647,10 +669,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -686,10 +710,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: screen_name
@@ -716,10 +742,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -743,10 +771,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -806,10 +836,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: owner_screen_name
@@ -864,10 +896,12 @@ paths:
       - in: query
         name: list_id
         description: The numerical id of the list
+        required: true
         type: string
       - in: query
         name: slug
         description: You can identify a list being requested by a slug
+        required: true
         type: string
       - in: query
         name: user_id
@@ -931,6 +965,7 @@ paths:
       - in: query
         name: id
         description: ID of direct message
+        required: true
         type: string
       responses:
         '200':
@@ -950,6 +985,7 @@ paths:
       - in: query
         name: q
         description: URL-encoded search query of 500 characters max
+        required: true
         type: string
       - in: query
         name: geocode
@@ -1041,6 +1077,7 @@ paths:
       - in: query
         name: query
         description: The query of the search the user would like to save
+        required: true
         type: string
       responses:
         '200':
@@ -1107,6 +1144,7 @@ paths:
       - in: query
         name: id
         description: ID of direct message to delete
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -1128,6 +1166,7 @@ paths:
       - in: query
         name: user_id
         description: description
+        required: true
         type: string
       - in: query
         name: screen_name
@@ -1136,6 +1175,7 @@ paths:
       - in: query
         name: text
         description: text of your direct message
+        required: true
         type: string
       responses:
         '200':
@@ -1286,10 +1326,12 @@ paths:
       - in: query
         name: screen_name
         description: screen name of user for whom to befriend
+        required: true
         type: string
       - in: query
         name: user_id
         description: ID of user for whom to befriend
+        required: true
         type: string
       responses:
         '200':
@@ -1307,18 +1349,22 @@ paths:
       - in: query
         name: screen_name
         description: screen name of user for whom to befriend
+        required: true
         type: string
       - in: query
         name: user_id
         description: ID of user for whom to befriend
+        required: true
         type: string
       - in: query
         name: device
         description: enable/disable device notifications for user
+        required: true
         type: string
       - in: query
         name: retweets
         description: enable/disable retweets from target user
+        required: true
         type: string
       responses:
         '200':
@@ -1344,10 +1390,12 @@ paths:
       - in: query
         name: target_id
         description: user id of target user
+        required: true
         type: string
       - in: query
         name: target_screen_name
         description: screen name of target user
+        required: true
         type: string
       responses:
         '200':
@@ -1416,6 +1464,7 @@ paths:
       - in: query
         name: device
         description: must be one of sms, none
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -1614,10 +1663,12 @@ paths:
       - in: query
         name: screen_name
         description: screen name of user to be blocked
+        required: true
         type: string
       - in: query
         name: user_id
         description: ID of user to be blocked
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -1644,10 +1695,12 @@ paths:
       - in: query
         name: screen_name
         description: screen name of user to be un-blocked
+        required: true
         type: string
       - in: query
         name: user_id
         description: ID of user to be un-blocked
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -1702,10 +1755,12 @@ paths:
       - in: query
         name: screen_name
         description: screen name of user to be shown
+        required: true
         type: string
       - in: query
         name: user_id
         description: ID of user to be shown
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -1728,6 +1783,7 @@ paths:
       - in: query
         name: q
         description: the search query to run against people search
+        required: true
         type: string
       - in: query
         name: page
@@ -1760,10 +1816,12 @@ paths:
       - in: query
         name: screen_name
         description: screen name of user that is contributed to
+        required: true
         type: string
       - in: query
         name: user_id
         description: ID of user to that is contributed to
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -1792,10 +1850,12 @@ paths:
       - in: query
         name: screen_name
         description: screen name of user contributing
+        required: true
         type: string
       - in: query
         name: user_id
         description: ID of user contributing
+        required: true
         type: string
       - in: query
         name: include_entities
@@ -1843,10 +1903,12 @@ paths:
       - in: query
         name: lat
         description: The latitude to search around
+        required: true
         type: string
       - in: query
         name: long
         description: The longtitude to search around
+        required: true
         type: string
       - in: query
         name: accuracy
@@ -1882,18 +1944,22 @@ paths:
       - in: query
         name: lat
         description: The latitude to search around
+        required: true
         type: string
       - in: query
         name: long
         description: The longtitude to search around
+        required: true
         type: string
       - in: query
         name: query
         description: Free-form text to match against while executing a geo-based query
+        required: true
         type: string
       - in: query
         name: ip
         description: An Ip address
+        required: true
         type: string
       - in: query
         name: accuracy
@@ -1934,14 +2000,17 @@ paths:
       - in: query
         name: lat
         description: The latitude to search around
+        required: true
         type: string
       - in: query
         name: long
         description: The longtitude to search around
+        required: true
         type: string
       - in: query
         name: name
         description: The name a place is known as
+        required: true
         type: string
       - in: query
         name: contained_within
@@ -1974,18 +2043,22 @@ paths:
       - in: query
         name: lat
         description: The latitude to search around
+        required: true
         type: string
       - in: query
         name: long
         description: The longtitude to search around
+        required: true
         type: string
       - in: query
         name: name
         description: The name a place is known as
+        required: true
         type: string
       - in: query
         name: token
         description: The token found in the response from geo/similar_places
+        required: true
         type: string
       - in: query
         name: contained_within
@@ -2016,10 +2089,12 @@ paths:
       - in: query
         name: id
         description: The yahoo where on earch id
+        required: true
         type: string
       - in: query
         name: exclude
         description: Setting this equal to hashtages will remove all hashtages from the trends list
+        required: true
         type: string
       responses:
         '200':
@@ -2051,10 +2126,12 @@ paths:
       - in: query
         name: lat
         description: If provided with a long parameter the available trend locations wil be stored by distance
+        required: true
         type: string
       - in: query
         name: long
         description: If provided with a lat parameters the available trend locations will be sorted by distance
+        required: true
         type: string
       responses:
         '200':

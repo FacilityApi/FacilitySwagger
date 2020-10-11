@@ -63,7 +63,7 @@ service SwaggerPetstore
 	method getPetById
 	{
 		/// ID of pet that needs to be fetched
-		petId: int64;
+		petId: int64!;
 	}:
 	{
 		/// successful operation
@@ -77,7 +77,7 @@ service SwaggerPetstore
 	method updatePetWithForm
 	{
 		/// ID of pet that needs to be updated
-		petId: string;
+		petId: string!;
 	}:
 	{
 	}
@@ -88,10 +88,10 @@ service SwaggerPetstore
 	method deletePet
 	{
 		[http(from: header, name: api_key)]
-		api_key: string;
+		api_key: string!;
 
 		/// Pet id to delete
-		petId: int64;
+		petId: int64!;
 	}:
 	{
 	}
@@ -117,7 +117,7 @@ service SwaggerPetstore
 	method getOrderById
 	{
 		/// ID of pet that needs to be fetched
-		orderId: string;
+		orderId: string!;
 	}:
 	{
 		/// successful operation
@@ -131,7 +131,7 @@ service SwaggerPetstore
 	method deleteOrder
 	{
 		/// ID of the order that needs to be deleted
-		orderId: string;
+		orderId: string!;
 	}:
 	{
 	}
@@ -204,7 +204,7 @@ service SwaggerPetstore
 	method getUserByName
 	{
 		/// The name that needs to be fetched. Use user1 for testing.
-		username: string;
+		username: string!;
 	}:
 	{
 		/// successful operation
@@ -218,7 +218,7 @@ service SwaggerPetstore
 	method updateUser
 	{
 		/// name that need to be deleted
-		username: string;
+		username: string!;
 
 		/// Updated user object
 		[http(from: body)]
@@ -233,7 +233,7 @@ service SwaggerPetstore
 	method deleteUser
 	{
 		/// The name that needs to be deleted
-		username: string;
+		username: string!;
 	}:
 	{
 	}
@@ -271,9 +271,9 @@ service SwaggerPetstore
 
 		category: Category;
 
-		name: string;
+		name: string!;
 
-		photoUrls: string[];
+		photoUrls: string[]!;
 
 		tags: Tag[];
 

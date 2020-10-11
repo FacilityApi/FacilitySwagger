@@ -37,7 +37,7 @@ service SwaggerPetstoreSimple
 	method findPetById
 	{
 		/// ID of pet to fetch
-		id: int64;
+		id: int64!;
 	}:
 	{
 		/// pet response
@@ -49,7 +49,7 @@ service SwaggerPetstoreSimple
 	method deletePet
 	{
 		/// ID of pet to delete
-		id: int64;
+		id: int64!;
 	}:
 	{
 		/// pet deleted
@@ -59,9 +59,9 @@ service SwaggerPetstoreSimple
 
 	data pet
 	{
-		id: int64;
+		id: int64!;
 
-		name: string;
+		name: string!;
 
 		tag: string;
 	}
@@ -70,16 +70,16 @@ service SwaggerPetstoreSimple
 	{
 		id: int64;
 
-		name: string;
+		name: string!;
 
 		tag: string;
 	}
 
 	data errorModel
 	{
-		code: int32;
+		code: int32!;
 
-		message: string;
+		message: string!;
 	}
 }
 
