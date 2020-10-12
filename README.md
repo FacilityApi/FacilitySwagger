@@ -1,7 +1,8 @@
 # FacilitySwagger
 
 Swagger (OpenAPI) 2.0 support for the [Facility API Framework](https://facilityapi.github.io/).
-[![AppVeyor](https://img.shields.io/appveyor/ci/ejball/facilityswagger.svg)](https://ci.appveyor.com/project/ejball/facilityswagger)
+
+[![Build](https://github.com/FacilityApi/FacilitySwagger/workflows/Build/badge.svg)](https://github.com/FacilityApi/FacilitySwagger/actions?query=workflow%3ABuild)
 
 Name | Description | NuGet
 --- | --- | ---
