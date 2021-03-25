@@ -432,44 +432,44 @@ namespace Facility.Definition.Swagger
 		{
 			switch (swaggerSchema.Type ?? SwaggerSchemaType.Object)
 			{
-			case SwaggerSchemaType.String:
-				return swaggerSchema.Format == SwaggerSchemaTypeFormat.Byte ? "bytes" : "string";
+				case SwaggerSchemaType.String:
+					return swaggerSchema.Format == SwaggerSchemaTypeFormat.Byte ? "bytes" : "string";
 
-			case SwaggerSchemaType.Number:
-				return swaggerSchema.Format == SwaggerSchemaTypeFormat.Decimal ? "decimal" : "double";
+				case SwaggerSchemaType.Number:
+					return swaggerSchema.Format == SwaggerSchemaTypeFormat.Decimal ? "decimal" : "double";
 
-			case SwaggerSchemaType.Integer:
-				return swaggerSchema.Format == SwaggerSchemaTypeFormat.Int64 ? "int64" : "int32";
+				case SwaggerSchemaType.Integer:
+					return swaggerSchema.Format == SwaggerSchemaTypeFormat.Int64 ? "int64" : "int32";
 
-			case SwaggerSchemaType.Boolean:
-				return "boolean";
+				case SwaggerSchemaType.Boolean:
+					return "boolean";
 
-			case SwaggerSchemaType.Array:
-				return swaggerSchema.Items?.Type == SwaggerSchemaType.Array ? null :
-					$"{TryGetFacilityTypeName(swaggerSchema.Items!, position)}[]";
+				case SwaggerSchemaType.Array:
+					return swaggerSchema.Items?.Type == SwaggerSchemaType.Array ? null :
+						$"{TryGetFacilityTypeName(swaggerSchema.Items!, position)}[]";
 
-			case SwaggerSchemaType.Object:
-				if (swaggerSchema is SwaggerSchema fullSchema)
-				{
-					if (fullSchema.Ref != null)
+				case SwaggerSchemaType.Object:
+					if (swaggerSchema is SwaggerSchema fullSchema)
 					{
-						var resolvedSchema = ResolveDefinition(fullSchema, position);
+						if (fullSchema.Ref != null)
+						{
+							var resolvedSchema = ResolveDefinition(fullSchema, position);
 
-						if (IsFacilityError(resolvedSchema))
-							return "error";
+							if (IsFacilityError(resolvedSchema))
+								return "error";
 
-						var resultOfType = TryGetFacilityResultOfType(resolvedSchema, position);
-						if (resultOfType != null)
-							return $"result<{resultOfType}>";
+							var resultOfType = TryGetFacilityResultOfType(resolvedSchema, position);
+							if (resultOfType != null)
+								return $"result<{resultOfType}>";
 
-						return resolvedSchema.Key;
+							return resolvedSchema.Key;
+						}
+
+						if (fullSchema.AdditionalProperties != null)
+							return $"map<{TryGetFacilityTypeName(fullSchema.AdditionalProperties, position)}>";
 					}
 
-					if (fullSchema.AdditionalProperties != null)
-						return $"map<{TryGetFacilityTypeName(fullSchema.AdditionalProperties, position)}>";
-				}
-
-				return "object";
+					return "object";
 			}
 
 			return null;

@@ -114,16 +114,16 @@ namespace Facility.Definition.Swagger
 		/// <summary>
 		/// Generates a Swagger (OpenAPI 2.0) file for a service definition.
 		/// </summary>
-		public override CodeGenOutput GenerateOutput(ServiceInfo serviceInfo)
+		public override CodeGenOutput GenerateOutput(ServiceInfo service)
 		{
 			if (GeneratesFsd)
-				return new FsdGenerator { GeneratorName = GeneratorName, IndentText = IndentText, NewLine = NewLine }.GenerateOutput(serviceInfo);
+				return new FsdGenerator { GeneratorName = GeneratorName, IndentText = IndentText, NewLine = NewLine }.GenerateOutput(service);
 
-			var swaggerService = GenerateSwaggerService(serviceInfo);
+			var swaggerService = GenerateSwaggerService(service);
 
 			if (GeneratesJson)
 			{
-				return new CodeGenOutput(CreateFile($"{serviceInfo.Name}.json", code =>
+				return new CodeGenOutput(CreateFile($"{service.Name}.json", code =>
 				{
 					using var jsonTextWriter = new JsonTextWriter(code.TextWriter) { Formatting = Formatting.Indented, CloseOutput = false };
 					JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings).Serialize(jsonTextWriter, swaggerService);
@@ -131,7 +131,7 @@ namespace Facility.Definition.Swagger
 			}
 			else
 			{
-				return new CodeGenOutput(CreateFile($"{serviceInfo.Name}.yaml", code =>
+				return new CodeGenOutput(CreateFile($"{service.Name}.yaml", code =>
 				{
 					var yamlObject = ConvertJTokenToObject(JToken.FromObject(swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings)));
 					new SerializerBuilder().DisableAliases().EmitDefaults().WithEventEmitter(x => new OurEventEmitter(x)).Build().Serialize(code.TextWriter, yamlObject);
@@ -190,15 +190,15 @@ namespace Facility.Definition.Swagger
 		{
 			switch (type.Kind)
 			{
-			case ServiceTypeKind.Error:
-				yield return GetErrorDto();
-				break;
-			case ServiceTypeKind.Dto:
-				yield return type.Dto!;
-				break;
-			case ServiceTypeKind.Result:
-				yield return GetResultDto(type);
-				break;
+				case ServiceTypeKind.Error:
+					yield return GetErrorDto();
+					break;
+				case ServiceTypeKind.Dto:
+					yield return type.Dto!;
+					break;
+				case ServiceTypeKind.Result:
+					yield return GetResultDto(type);
+					break;
 			}
 
 			if (type.ValueType != null)
@@ -232,16 +232,16 @@ namespace Facility.Definition.Swagger
 			var typeKind = type.Kind;
 			switch (typeKind)
 			{
-			case ServiceTypeKind.Dto:
-				return type.Dto!.Name;
-			case ServiceTypeKind.Enum:
-				return type.Enum!.Name;
-			case ServiceTypeKind.Result:
-			case ServiceTypeKind.Array:
-			case ServiceTypeKind.Map:
-				return GetTypeAsDtoName(type.ValueType!) + typeKind;
-			default:
-				return typeKind.ToString();
+				case ServiceTypeKind.Dto:
+					return type.Dto!.Name;
+				case ServiceTypeKind.Enum:
+					return type.Enum!.Name;
+				case ServiceTypeKind.Result:
+				case ServiceTypeKind.Array:
+				case ServiceTypeKind.Map:
+					return GetTypeAsDtoName(type.ValueType!) + typeKind;
+				default:
+					return typeKind.ToString();
 			}
 		}
 
@@ -318,29 +318,29 @@ namespace Facility.Definition.Swagger
 			string httpMethod = httpMethodInfo.Method.ToLowerInvariant();
 			switch (httpMethod)
 			{
-			case "get":
-				operations.Get = operation;
-				break;
-			case "post":
-				operations.Post = operation;
-				break;
-			case "put":
-				operations.Put = operation;
-				break;
-			case "delete":
-				operations.Delete = operation;
-				break;
-			case "options":
-				operations.Options = operation;
-				break;
-			case "head":
-				operations.Head = operation;
-				break;
-			case "patch":
-				operations.Patch = operation;
-				break;
-			default:
-				throw new InvalidOperationException("Unexpected HTTP method: " + httpMethod);
+				case "get":
+					operations.Get = operation;
+					break;
+				case "post":
+					operations.Post = operation;
+					break;
+				case "put":
+					operations.Put = operation;
+					break;
+				case "delete":
+					operations.Delete = operation;
+					break;
+				case "options":
+					operations.Options = operation;
+					break;
+				case "head":
+					operations.Head = operation;
+					break;
+				case "patch":
+					operations.Patch = operation;
+					break;
+				default:
+					throw new InvalidOperationException("Unexpected HTTP method: " + httpMethod);
 			}
 		}
 
@@ -384,36 +384,36 @@ namespace Facility.Definition.Swagger
 		{
 			switch (type.Kind)
 			{
-			case ServiceTypeKind.String:
-				return new T { Type = SwaggerSchemaType.String };
-			case ServiceTypeKind.Boolean:
-				return new T { Type = SwaggerSchemaType.Boolean };
-			case ServiceTypeKind.Double:
-				return new T { Type = SwaggerSchemaType.Number, Format = SwaggerSchemaTypeFormat.Double };
-			case ServiceTypeKind.Int32:
-				return new T { Type = SwaggerSchemaType.Integer, Format = SwaggerSchemaTypeFormat.Int32 };
-			case ServiceTypeKind.Int64:
-				return new T { Type = SwaggerSchemaType.Integer, Format = SwaggerSchemaTypeFormat.Int64 };
-			case ServiceTypeKind.Decimal:
-				return new T { Type = SwaggerSchemaType.Number, Format = SwaggerSchemaTypeFormat.Decimal };
-			case ServiceTypeKind.Bytes:
-				return new T { Type = SwaggerSchemaType.String, Format = SwaggerSchemaTypeFormat.Byte };
-			case ServiceTypeKind.Object:
-				return new T { Type = SwaggerSchemaType.Object };
-			case ServiceTypeKind.Error:
-				return GetErrorSchemaRef<T>();
-			case ServiceTypeKind.Dto:
-				return GetDtoSchemaRef<T>(type.Dto!);
-			case ServiceTypeKind.Enum:
-				return GetEnumSchema<T>(type.Enum!);
-			case ServiceTypeKind.Result:
-				return GetResultTypeRef<T>(type);
-			case ServiceTypeKind.Array:
-				return GetArrayOfSchema<T>(type.ValueType!);
-			case ServiceTypeKind.Map:
-				return (T) (object) GetMapOfSchema(type.ValueType!);
-			default:
-				throw new InvalidOperationException("Unexpected field type kind: " + type.Kind);
+				case ServiceTypeKind.String:
+					return new T { Type = SwaggerSchemaType.String };
+				case ServiceTypeKind.Boolean:
+					return new T { Type = SwaggerSchemaType.Boolean };
+				case ServiceTypeKind.Double:
+					return new T { Type = SwaggerSchemaType.Number, Format = SwaggerSchemaTypeFormat.Double };
+				case ServiceTypeKind.Int32:
+					return new T { Type = SwaggerSchemaType.Integer, Format = SwaggerSchemaTypeFormat.Int32 };
+				case ServiceTypeKind.Int64:
+					return new T { Type = SwaggerSchemaType.Integer, Format = SwaggerSchemaTypeFormat.Int64 };
+				case ServiceTypeKind.Decimal:
+					return new T { Type = SwaggerSchemaType.Number, Format = SwaggerSchemaTypeFormat.Decimal };
+				case ServiceTypeKind.Bytes:
+					return new T { Type = SwaggerSchemaType.String, Format = SwaggerSchemaTypeFormat.Byte };
+				case ServiceTypeKind.Object:
+					return new T { Type = SwaggerSchemaType.Object };
+				case ServiceTypeKind.Error:
+					return GetErrorSchemaRef<T>();
+				case ServiceTypeKind.Dto:
+					return GetDtoSchemaRef<T>(type.Dto!);
+				case ServiceTypeKind.Enum:
+					return GetEnumSchema<T>(type.Enum!);
+				case ServiceTypeKind.Result:
+					return GetResultTypeRef<T>(type);
+				case ServiceTypeKind.Array:
+					return GetArrayOfSchema<T>(type.ValueType!);
+				case ServiceTypeKind.Map:
+					return (T) (object) GetMapOfSchema(type.ValueType!);
+				default:
+					throw new InvalidOperationException("Unexpected field type kind: " + type.Kind);
 			}
 		}
 

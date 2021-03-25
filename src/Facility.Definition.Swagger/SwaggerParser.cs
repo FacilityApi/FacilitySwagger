@@ -23,31 +23,31 @@ namespace Facility.Definition.Swagger
 		/// <summary>
 		/// Implements TryParseDefinition.
 		/// </summary>
-		protected override bool TryParseDefinitionCore(ServiceDefinitionText source, out ServiceInfo? service, out IReadOnlyList<ServiceDefinitionError> errors)
+		protected override bool TryParseDefinitionCore(ServiceDefinitionText text, out ServiceInfo? service, out IReadOnlyList<ServiceDefinitionError> errors)
 		{
-			bool isFsd = new FsdParser().TryParseDefinition(source, out service, out errors);
-			if (isFsd || source.Name.EndsWith(".fsd", StringComparison.OrdinalIgnoreCase))
+			var isFsd = new FsdParser().TryParseDefinition(text, out service, out errors);
+			if (isFsd || text.Name.EndsWith(".fsd", StringComparison.OrdinalIgnoreCase))
 				return isFsd;
 
 			service = null;
 
-			if (string.IsNullOrWhiteSpace(source.Text))
+			if (string.IsNullOrWhiteSpace(text.Text))
 			{
-				errors = new[] { new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(source.Name, 1, 1)) };
+				errors = new[] { new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(text.Name, 1, 1)) };
 				return false;
 			}
 
 			SwaggerService swaggerService;
 			SwaggerParserContext context;
 
-			if (!s_detectJsonRegex.IsMatch(source.Text))
+			if (!s_detectJsonRegex.IsMatch(text.Text))
 			{
 				// parse YAML
 				var yamlDeserializer = new DeserializerBuilder()
 					.IgnoreUnmatchedProperties()
 					.WithNamingConvention(new OurNamingConvention())
 					.Build();
-				using (var stringReader = new StringReader(source.Text))
+				using (var stringReader = new StringReader(text.Text))
 				{
 					try
 					{
@@ -57,27 +57,27 @@ namespace Facility.Definition.Swagger
 					{
 						var errorMessage = exception.InnerException?.Message ?? exception.Message;
 						const string errorStart = "): ";
-						int errorStartIndex = errorMessage.IndexOf(errorStart, StringComparison.OrdinalIgnoreCase);
+						var errorStartIndex = errorMessage.IndexOf(errorStart, StringComparison.OrdinalIgnoreCase);
 						if (errorStartIndex != -1)
 							errorMessage = errorMessage.Substring(errorStartIndex + errorStart.Length);
 
-						errors = new[] { new ServiceDefinitionError(errorMessage, new ServiceDefinitionPosition(source.Name, exception.End.Line, exception.End.Column)) };
+						errors = new[] { new ServiceDefinitionError(errorMessage, new ServiceDefinitionPosition(text.Name, exception.End.Line, exception.End.Column)) };
 						return false;
 					}
 				}
 
 				if (swaggerService == null)
 				{
-					errors = new[] { new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(source.Name, 1, 1)) };
+					errors = new[] { new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(text.Name, 1, 1)) };
 					return false;
 				}
 
-				context = SwaggerParserContext.FromYaml(source);
+				context = SwaggerParserContext.FromYaml(text);
 			}
 			else
 			{
 				// parse JSON
-				using (var stringReader = new StringReader(source.Text))
+				using (var stringReader = new StringReader(text.Text))
 				using (var jsonTextReader = new JsonTextReader(stringReader))
 				{
 					try
@@ -86,11 +86,11 @@ namespace Facility.Definition.Swagger
 					}
 					catch (JsonException exception)
 					{
-						errors = new[] { new ServiceDefinitionError(exception.Message, new ServiceDefinitionPosition(source.Name, jsonTextReader.LineNumber, jsonTextReader.LinePosition)) };
+						errors = new[] { new ServiceDefinitionError(exception.Message, new ServiceDefinitionPosition(text.Name, jsonTextReader.LineNumber, jsonTextReader.LinePosition)) };
 						return false;
 					}
 
-					context = SwaggerParserContext.FromJson(source);
+					context = SwaggerParserContext.FromJson(text);
 				}
 			}
 

@@ -30,7 +30,7 @@ namespace Facility.Definition.Swagger
 			m_path = path;
 		}
 
-		private (int, int) FindLineColumn(string? path)
+		private (int LineNumber, int ColumnNumber) FindLineColumn(string? path)
 		{
 			if (m_isYaml)
 			{

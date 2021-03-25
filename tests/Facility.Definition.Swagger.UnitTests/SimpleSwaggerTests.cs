@@ -5,6 +5,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using YamlDotNet.Serialization;
 
 namespace Facility.Definition.Swagger.UnitTests
 {
@@ -46,7 +47,7 @@ namespace Facility.Definition.Swagger.UnitTests
 			var fsdService = TestUtility.ParseTestApi(c_fsdText);
 			var file = generator.GenerateOutput(fsdService).Files.Single();
 			file.Name.Should().Be("TestApi.yaml");
-			var jToken = JToken.FromObject(new YamlDotNet.Serialization.DeserializerBuilder().Build().Deserialize(new StringReader(file.Text)));
+			var jToken = JToken.FromObject(new DeserializerBuilder().Build().Deserialize(new StringReader(file.Text)));
 			var jTokenExpected = JToken.FromObject(s_swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings));
 			JToken.DeepEquals(jToken, jTokenExpected).Should().BeTrue("{0} should be {1}", jToken, jTokenExpected);
 
