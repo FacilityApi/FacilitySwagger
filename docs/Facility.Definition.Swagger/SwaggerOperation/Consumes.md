@@ -1,7 +1,7 @@
 # SwaggerOperation.Consumes property
 
 ```csharp
-public IList<string> Consumes { get; set; }
+public IList<string>? Consumes { get; set; }
 ```
 
 ## See Also

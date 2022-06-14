@@ -1,7 +1,7 @@
 # ISwaggerSchema.Pattern property
 
 ```csharp
-public string Pattern { get; set; }
+public string? Pattern { get; set; }
 ```
 
 ## See Also

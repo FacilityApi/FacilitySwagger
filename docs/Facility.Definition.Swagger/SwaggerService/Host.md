@@ -1,7 +1,7 @@
 # SwaggerService.Host property
 
 ```csharp
-public string Host { get; set; }
+public string? Host { get; set; }
 ```
 
 ## See Also

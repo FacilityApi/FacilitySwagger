@@ -1,7 +1,7 @@
 # SwaggerService.Paths property
 
 ```csharp
-public IDictionary<string, SwaggerOperations> Paths { get; set; }
+public IDictionary<string, SwaggerOperations>? Paths { get; set; }
 ```
 
 ## See Also

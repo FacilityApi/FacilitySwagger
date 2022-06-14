@@ -3,7 +3,7 @@
 Generates a Swagger (OpenAPI 2.0) file for a service definition.
 
 ```csharp
-public override CodeGenOutput GenerateOutput(ServiceInfo serviceInfo)
+public override CodeGenOutput GenerateOutput(ServiceInfo service)
 ```
 
 ## See Also

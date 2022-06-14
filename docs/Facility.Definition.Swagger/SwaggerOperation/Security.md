@@ -1,7 +1,7 @@
 # SwaggerOperation.Security property
 
 ```csharp
-public IList<IDictionary<string, IList<string>>> Security { get; set; }
+public IList<IDictionary<string, IList<string>>>? Security { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerResponse.Identifier property
 
 ```csharp
-public string Identifier { get; set; }
+public string? Identifier { get; set; }
 ```
 
 ## See Also

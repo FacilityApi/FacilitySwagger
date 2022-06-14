@@ -45,7 +45,7 @@ public class SwaggerSchema : ISwaggerSchema
 
 ## See Also
 
-* interface [ISwaggerSchema](ISwaggerSchema.md)
+* interface [ISwaggerSchema](./ISwaggerSchema.md)
 * namespace [Facility.Definition.Swagger](../Facility.Definition.Swagger.md)
 * [SwaggerSchema.cs](https://github.com/FacilityApi/FacilitySwagger/tree/master/src/Facility.Definition.Swagger/SwaggerSchema.cs)
 

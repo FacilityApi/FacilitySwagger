@@ -1,7 +1,7 @@
 # SwaggerSecurityScheme.TokenUrl property
 
 ```csharp
-public string TokenUrl { get; set; }
+public string? TokenUrl { get; set; }
 ```
 
 ## See Also

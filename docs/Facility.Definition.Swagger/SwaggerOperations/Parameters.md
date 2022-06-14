@@ -1,7 +1,7 @@
 # SwaggerOperations.Parameters property
 
 ```csharp
-public IList<SwaggerParameter> Parameters { get; set; }
+public IList<SwaggerParameter>? Parameters { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # ISwaggerSchema.Enum property
 
 ```csharp
-public IList<JToken> Enum { get; set; }
+public IList<JToken>? Enum { get; set; }
 ```
 
 ## See Also

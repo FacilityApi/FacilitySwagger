@@ -1,7 +1,7 @@
 # SwaggerSchema.Discriminator property
 
 ```csharp
-public string Discriminator { get; set; }
+public string? Discriminator { get; set; }
 ```
 
 ## See Also

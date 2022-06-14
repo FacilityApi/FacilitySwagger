@@ -3,7 +3,7 @@
 The service name (defaults to 'info/x-identifier' or 'info/title').
 
 ```csharp
-public string ServiceName { get; set; }
+public string? ServiceName { get; set; }
 ```
 
 ## See Also

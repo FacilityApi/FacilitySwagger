@@ -1,7 +1,7 @@
 # SwaggerOperations.Patch property
 
 ```csharp
-public SwaggerOperation Patch { get; set; }
+public SwaggerOperation? Patch { get; set; }
 ```
 
 ## See Also

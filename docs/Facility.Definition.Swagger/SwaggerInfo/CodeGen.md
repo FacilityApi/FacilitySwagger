@@ -1,7 +1,7 @@
 # SwaggerInfo.CodeGen property
 
 ```csharp
-public string CodeGen { get; set; }
+public string? CodeGen { get; set; }
 ```
 
 ## See Also

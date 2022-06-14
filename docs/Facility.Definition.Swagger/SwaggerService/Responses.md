@@ -1,7 +1,7 @@
 # SwaggerService.Responses property
 
 ```csharp
-public IDictionary<string, SwaggerResponse> Responses { get; set; }
+public IDictionary<string, SwaggerResponse>? Responses { get; set; }
 ```
 
 ## See Also

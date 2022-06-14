@@ -1,7 +1,7 @@
 # SwaggerOperations.Options property
 
 ```csharp
-public SwaggerOperation Options { get; set; }
+public SwaggerOperation? Options { get; set; }
 ```
 
 ## See Also

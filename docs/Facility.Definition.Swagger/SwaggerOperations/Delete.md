@@ -1,7 +1,7 @@
 # SwaggerOperations.Delete property
 
 ```csharp
-public SwaggerOperation Delete { get; set; }
+public SwaggerOperation? Delete { get; set; }
 ```
 
 ## See Also

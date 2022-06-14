@@ -1,7 +1,7 @@
 # SwaggerService.Swagger property
 
 ```csharp
-public string Swagger { get; set; }
+public string? Swagger { get; set; }
 ```
 
 ## See Also

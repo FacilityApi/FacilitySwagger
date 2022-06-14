@@ -1,7 +1,7 @@
 # SwaggerSecurityScheme.Scopes property
 
 ```csharp
-public IDictionary<string, string> Scopes { get; set; }
+public IDictionary<string, string>? Scopes { get; set; }
 ```
 
 ## See Also

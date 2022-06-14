@@ -38,7 +38,7 @@ public class SwaggerParameter : ISwaggerSchema
 
 ## See Also
 
-* interface [ISwaggerSchema](ISwaggerSchema.md)
+* interface [ISwaggerSchema](./ISwaggerSchema.md)
 * namespace [Facility.Definition.Swagger](../Facility.Definition.Swagger.md)
 * [SwaggerParameter.cs](https://github.com/FacilityApi/FacilitySwagger/tree/master/src/Facility.Definition.Swagger/SwaggerParameter.cs)
 

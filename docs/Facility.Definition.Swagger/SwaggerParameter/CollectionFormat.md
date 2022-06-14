@@ -1,7 +1,7 @@
 # SwaggerParameter.CollectionFormat property
 
 ```csharp
-public string CollectionFormat { get; set; }
+public string? CollectionFormat { get; set; }
 ```
 
 ## See Also

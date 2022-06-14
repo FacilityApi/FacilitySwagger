@@ -1,7 +1,7 @@
 # SwaggerResponse.Headers property
 
 ```csharp
-public IDictionary<string, SwaggerSchema> Headers { get; set; }
+public IDictionary<string, SwaggerSchema>? Headers { get; set; }
 ```
 
 ## See Also

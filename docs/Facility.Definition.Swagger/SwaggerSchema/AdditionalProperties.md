@@ -1,7 +1,7 @@
 # SwaggerSchema.AdditionalProperties property
 
 ```csharp
-public SwaggerSchema AdditionalProperties { get; set; }
+public SwaggerSchema? AdditionalProperties { get; set; }
 ```
 
 ## See Also

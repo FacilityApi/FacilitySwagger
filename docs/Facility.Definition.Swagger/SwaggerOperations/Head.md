@@ -1,7 +1,7 @@
 # SwaggerOperations.Head property
 
 ```csharp
-public SwaggerOperation Head { get; set; }
+public SwaggerOperation? Head { get; set; }
 ```
 
 ## See Also

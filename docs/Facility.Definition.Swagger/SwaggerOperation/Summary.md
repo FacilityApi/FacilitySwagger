@@ -1,7 +1,7 @@
 # SwaggerOperation.Summary property
 
 ```csharp
-public string Summary { get; set; }
+public string? Summary { get; set; }
 ```
 
 ## See Also

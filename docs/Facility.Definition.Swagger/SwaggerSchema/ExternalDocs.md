@@ -1,7 +1,7 @@
 # SwaggerSchema.ExternalDocs property
 
 ```csharp
-public SwaggerExternalDocumentation ExternalDocs { get; set; }
+public SwaggerExternalDocumentation? ExternalDocs { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerInfo.Contact property
 
 ```csharp
-public SwaggerContact Contact { get; set; }
+public SwaggerContact? Contact { get; set; }
 ```
 
 ## See Also

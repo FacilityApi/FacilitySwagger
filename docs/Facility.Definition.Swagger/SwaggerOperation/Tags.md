@@ -1,7 +1,7 @@
 # SwaggerOperation.Tags property
 
 ```csharp
-public IList<string> Tags { get; set; }
+public IList<string>? Tags { get; set; }
 ```
 
 ## See Also

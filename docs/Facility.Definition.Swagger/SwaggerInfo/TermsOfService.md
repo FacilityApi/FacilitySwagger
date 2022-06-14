@@ -1,7 +1,7 @@
 # SwaggerInfo.TermsOfService property
 
 ```csharp
-public string TermsOfService { get; set; }
+public string? TermsOfService { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerSchema.Example property
 
 ```csharp
-public JToken Example { get; set; }
+public JToken? Example { get; set; }
 ```
 
 ## See Also

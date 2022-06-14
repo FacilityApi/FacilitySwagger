@@ -1,7 +1,7 @@
 # SwaggerSchema.Remarks property
 
 ```csharp
-public string Remarks { get; set; }
+public string? Remarks { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerParameter.Items property
 
 ```csharp
-public SwaggerSchema Items { get; set; }
+public SwaggerSchema? Items { get; set; }
 ```
 
 ## See Also

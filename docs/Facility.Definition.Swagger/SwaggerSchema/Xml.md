@@ -1,7 +1,7 @@
 # SwaggerSchema.Xml property
 
 ```csharp
-public JObject Xml { get; set; }
+public JObject? Xml { get; set; }
 ```
 
 ## See Also

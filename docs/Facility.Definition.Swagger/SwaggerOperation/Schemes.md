@@ -1,7 +1,7 @@
 # SwaggerOperation.Schemes property
 
 ```csharp
-public IList<string> Schemes { get; set; }
+public IList<string>? Schemes { get; set; }
 ```
 
 ## See Also

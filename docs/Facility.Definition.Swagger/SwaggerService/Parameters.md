@@ -1,7 +1,7 @@
 # SwaggerService.Parameters property
 
 ```csharp
-public IDictionary<string, SwaggerParameter> Parameters { get; set; }
+public IDictionary<string, SwaggerParameter>? Parameters { get; set; }
 ```
 
 ## See Also

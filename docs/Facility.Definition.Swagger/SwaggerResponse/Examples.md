@@ -1,7 +1,7 @@
 # SwaggerResponse.Examples property
 
 ```csharp
-public JObject Examples { get; set; }
+public JObject? Examples { get; set; }
 ```
 
 ## See Also

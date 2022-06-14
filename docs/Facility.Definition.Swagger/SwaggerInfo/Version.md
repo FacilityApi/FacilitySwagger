@@ -1,7 +1,7 @@
 # SwaggerInfo.Version property
 
 ```csharp
-public string Version { get; set; }
+public string? Version { get; set; }
 ```
 
 ## See Also

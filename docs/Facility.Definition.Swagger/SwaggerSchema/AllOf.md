@@ -1,7 +1,7 @@
 # SwaggerSchema.AllOf property
 
 ```csharp
-public IList<SwaggerSchema> AllOf { get; set; }
+public IList<SwaggerSchema>? AllOf { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerSecurityScheme.AuthorizationUrl property
 
 ```csharp
-public string AuthorizationUrl { get; set; }
+public string? AuthorizationUrl { get; set; }
 ```
 
 ## See Also

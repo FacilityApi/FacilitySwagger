@@ -1,7 +1,7 @@
 # SwaggerSchema.Default property
 
 ```csharp
-public JToken Default { get; set; }
+public JToken? Default { get; set; }
 ```
 
 ## See Also

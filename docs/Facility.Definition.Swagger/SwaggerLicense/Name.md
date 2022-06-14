@@ -1,7 +1,7 @@
 # SwaggerLicense.Name property
 
 ```csharp
-public string Name { get; set; }
+public string? Name { get; set; }
 ```
 
 ## See Also

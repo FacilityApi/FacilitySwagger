@@ -1,7 +1,7 @@
 # SwaggerService.BasePath property
 
 ```csharp
-public string BasePath { get; set; }
+public string? BasePath { get; set; }
 ```
 
 ## See Also

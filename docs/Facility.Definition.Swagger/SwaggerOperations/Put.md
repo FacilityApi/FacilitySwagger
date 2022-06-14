@@ -1,7 +1,7 @@
 # SwaggerOperations.Put property
 
 ```csharp
-public SwaggerOperation Put { get; set; }
+public SwaggerOperation? Put { get; set; }
 ```
 
 ## See Also

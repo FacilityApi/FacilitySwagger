@@ -1,7 +1,7 @@
 # SwaggerSecurityScheme.In property
 
 ```csharp
-public string In { get; set; }
+public string? In { get; set; }
 ```
 
 ## See Also

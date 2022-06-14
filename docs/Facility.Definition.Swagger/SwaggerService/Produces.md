@@ -1,7 +1,7 @@
 # SwaggerService.Produces property
 
 ```csharp
-public IList<string> Produces { get; set; }
+public IList<string>? Produces { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerParameter.Ref property
 
 ```csharp
-public string Ref { get; set; }
+public string? Ref { get; set; }
 ```
 
 ## See Also

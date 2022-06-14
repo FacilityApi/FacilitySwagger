@@ -1,7 +1,7 @@
 # SwaggerOperation.OperationId property
 
 ```csharp
-public string OperationId { get; set; }
+public string? OperationId { get; set; }
 ```
 
 ## See Also

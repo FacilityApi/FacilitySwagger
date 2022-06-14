@@ -1,7 +1,7 @@
 # SwaggerSecurityScheme.Flow property
 
 ```csharp
-public string Flow { get; set; }
+public string? Flow { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerSchema.Required property
 
 ```csharp
-public IList<string> Required { get; set; }
+public IList<string>? Required { get; set; }
 ```
 
 ## See Also

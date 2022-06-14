@@ -1,7 +1,7 @@
 # SwaggerInfo.License property
 
 ```csharp
-public SwaggerLicense License { get; set; }
+public SwaggerLicense? License { get; set; }
 ```
 
 ## See Also

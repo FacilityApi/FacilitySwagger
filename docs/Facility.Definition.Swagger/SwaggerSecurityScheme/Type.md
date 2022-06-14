@@ -1,7 +1,7 @@
 # SwaggerSecurityScheme.Type property
 
 ```csharp
-public string Type { get; set; }
+public string? Type { get; set; }
 ```
 
 ## See Also

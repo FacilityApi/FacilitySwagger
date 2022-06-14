@@ -1,7 +1,7 @@
 # SwaggerService.Tags property
 
 ```csharp
-public IList<SwaggerTag> Tags { get; set; }
+public IList<SwaggerTag>? Tags { get; set; }
 ```
 
 ## See Also

@@ -1,7 +1,7 @@
 # SwaggerInfo.Title property
 
 ```csharp
-public string Title { get; set; }
+public string? Title { get; set; }
 ```
 
 ## See Also

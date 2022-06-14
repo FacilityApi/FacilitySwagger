@@ -1,7 +1,7 @@
 # SwaggerService.SecurityDefinitions property
 
 ```csharp
-public IDictionary<string, SwaggerSecurityScheme> SecurityDefinitions { get; set; }
+public IDictionary<string, SwaggerSecurityScheme>? SecurityDefinitions { get; set; }
 ```
 
 ## See Also

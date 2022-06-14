@@ -1,7 +1,7 @@
 # SwaggerService.Info property
 
 ```csharp
-public SwaggerInfo Info { get; set; }
+public SwaggerInfo? Info { get; set; }
 ```
 
 ## See Also

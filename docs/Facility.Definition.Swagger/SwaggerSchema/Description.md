@@ -1,7 +1,7 @@
 # SwaggerSchema.Description property
 
 ```csharp
-public string Description { get; set; }
+public string? Description { get; set; }
 ```
 
 ## See Also

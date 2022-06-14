@@ -1,7 +1,7 @@
 # SwaggerSchema.Properties property
 
 ```csharp
-public IDictionary<string, SwaggerSchema> Properties { get; set; }
+public IDictionary<string, SwaggerSchema>? Properties { get; set; }
 ```
 
 ## See Also

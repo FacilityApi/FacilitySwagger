@@ -3,7 +3,7 @@
 Attempts to convert Swagger (OpenAPI) 2.0 into a service definition.
 
 ```csharp
-public bool TryConvertSwaggerService(SwaggerService swaggerService, out ServiceInfo service, 
+public bool TryConvertSwaggerService(SwaggerService swaggerService, out ServiceInfo? service, 
     out IReadOnlyList<ServiceDefinitionError> errors)
 ```
 
