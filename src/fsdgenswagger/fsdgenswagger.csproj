@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
     <Description>A tool that converts OpenAPI 2.0 (Swagger) to/from a Facility Service Definition.</Description>
     <PackageTags>Facility FSD Swagger OpenAPI CodeGen</PackageTags>
     <IsPackable>true</IsPackable>
