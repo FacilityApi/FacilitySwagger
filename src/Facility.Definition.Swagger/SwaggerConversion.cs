@@ -458,6 +458,14 @@ namespace Facility.Definition.Swagger
 							if (IsFacilityError(resolvedSchema))
 								return "error";
 
+							var resolvedType = resolvedSchema.Value.Type ?? SwaggerSchemaType.Object;
+							if ((resolvedType == SwaggerSchemaType.String || resolvedType == SwaggerSchemaType.Number ||
+								resolvedType == SwaggerSchemaType.Integer || resolvedType == SwaggerSchemaType.Boolean) &&
+								TryGetFacilityTypeName(resolvedSchema.Value, position) is string aliasType)
+							{
+								return aliasType;
+							}
+
 							var resultOfType = TryGetFacilityResultOfType(resolvedSchema, position);
 							if (resultOfType != null)
 								return $"result<{resultOfType}>";
