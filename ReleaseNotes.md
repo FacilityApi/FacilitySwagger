@@ -1,5 +1,10 @@
 # Release Notes
 
+## 2.3.0
+
+* Support simple Swagger definition types.
+* Support .NET 6.
+
 ## 2.2.0
 
 * Support required fields.
