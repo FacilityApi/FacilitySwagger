@@ -133,8 +133,8 @@ namespace Facility.Definition.Swagger
 			{
 				return new CodeGenOutput(CreateFile($"{service.Name}.yaml", code =>
 				{
-					var yamlObject = ConvertJTokenToObject(JToken.FromObject(swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings)));
-					new SerializerBuilder().DisableAliases().EmitDefaults().WithEventEmitter(x => new OurEventEmitter(x)).Build().Serialize(code.TextWriter, yamlObject);
+					var yamlObject = ConvertJTokenToObject(JToken.FromObject(swaggerService, JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings)))!;
+					new SerializerBuilder().DisableAliases().WithEventEmitter(x => new OurEventEmitter(x)).Build().Serialize(code.TextWriter, yamlObject);
 				}));
 			}
 		}
@@ -503,7 +503,7 @@ namespace Facility.Definition.Swagger
 			};
 		}
 
-		private static object ConvertJTokenToObject(JToken token)
+		private static object? ConvertJTokenToObject(JToken token)
 		{
 			if (token is JValue value)
 				return value.Value;
@@ -513,7 +513,7 @@ namespace Facility.Definition.Swagger
 
 			if (token is JObject)
 			{
-				var dictionary = new OurDictionary<string, object>();
+				var dictionary = new OurDictionary<string, object?>();
 				foreach (var property in token.AsEnumerable().Cast<JProperty>())
 					dictionary[property.Name] = ConvertJTokenToObject(property.Value);
 				return dictionary;
@@ -532,12 +532,12 @@ namespace Facility.Definition.Swagger
 			public override void Emit(ScalarEventInfo eventInfo, IEmitter emitter)
 			{
 				// prefer the literal style for multi-line strings
-				if (eventInfo.Source.Type == typeof(string) && eventInfo.Style == ScalarStyle.Any && ((string) eventInfo.Source.Value).IndexOf('\n') != -1)
+				if (eventInfo.Source.Type == typeof(string) && eventInfo.Style == ScalarStyle.Any && ((string) eventInfo.Source.Value!).IndexOf('\n') != -1)
 					eventInfo.Style = ScalarStyle.Literal;
 
 				// ensure strings that look like numbers remain strings
 				double unused;
-				if (eventInfo.Source.Type == typeof(string) && eventInfo.Style == ScalarStyle.Any && double.TryParse((string) eventInfo.Source.Value, out unused))
+				if (eventInfo.Source.Type == typeof(string) && eventInfo.Style == ScalarStyle.Any && double.TryParse((string) eventInfo.Source.Value!, out unused))
 					eventInfo.Style = ScalarStyle.SingleQuoted;
 
 				base.Emit(eventInfo, emitter);

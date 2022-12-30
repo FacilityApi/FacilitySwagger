@@ -82,7 +82,7 @@ namespace Facility.Definition.Swagger
 				{
 					try
 					{
-						swaggerService = JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings).Deserialize<SwaggerService>(jsonTextReader);
+						swaggerService = JsonSerializer.Create(SwaggerUtility.JsonSerializerSettings).Deserialize<SwaggerService>(jsonTextReader)!;
 					}
 					catch (JsonException exception)
 					{

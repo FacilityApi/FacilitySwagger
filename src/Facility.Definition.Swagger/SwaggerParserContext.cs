@@ -74,7 +74,7 @@ namespace Facility.Definition.Swagger
 						token = childToken;
 					}
 				}
-				JToken pathToken = string.IsNullOrEmpty(path) ? token : token.SelectToken(ResolvePath(path));
+				JToken pathToken = string.IsNullOrEmpty(path) ? token : token.SelectToken(ResolvePath(path)!)!;
 
 				var lineInfo = (IJsonLineInfo) (pathToken ?? token);
 				return (lineInfo.LineNumber, lineInfo.LinePosition);
