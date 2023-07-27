@@ -1,10 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
-using Faithlife.Build;
-using static Faithlife.Build.BuildUtility;
-using static Faithlife.Build.DotNetRunner;
-
 return BuildRunner.Execute(args, build =>
 {
 	var codegen = "fsdgenswagger";

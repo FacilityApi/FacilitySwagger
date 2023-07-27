@@ -1,12 +1,11 @@
 using Facility.Definition.Fsd;
 
-namespace Facility.Definition.Swagger.UnitTests
+namespace Facility.Definition.Swagger.UnitTests;
+
+internal static class TestUtility
 {
-	internal static class TestUtility
+	public static ServiceInfo ParseTestApi(string text)
 	{
-		public static ServiceInfo ParseTestApi(string text)
-		{
-			return new FsdParser().ParseDefinition(new ServiceDefinitionText("TestApi.fsd", text));
-		}
+		return new FsdParser().ParseDefinition(new ServiceDefinitionText("TestApi.fsd", text));
 	}
 }
