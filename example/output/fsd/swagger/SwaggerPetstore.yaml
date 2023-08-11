@@ -392,6 +392,7 @@ definitions:
         format: int32
       shipDate:
         type: string
+        format: date-time
       status:
         description: Order Status
         type: string

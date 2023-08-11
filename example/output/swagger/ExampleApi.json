@@ -601,6 +601,11 @@
           "description": "The price of the widget.",
           "type": "number",
           "format": "decimal"
+        },
+        "created": {
+          "description": "When the widget was created.",
+          "type": "string",
+          "format": "date-time"
         }
       },
       "x-remarks": "Additional DTO remarks.\n\n## Heading\n\nOnly top-level headings need to match a member name."
@@ -791,6 +796,10 @@
           "additionalProperties": {
             "$ref": "#/definitions/Widget"
           }
+        },
+        "ternary": {
+          "type": "boolean",
+          "x-nullable": true
         }
       }
     },

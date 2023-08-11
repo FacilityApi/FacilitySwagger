@@ -76,6 +76,10 @@ public class SwaggerSchema : ISwaggerSchema
 	[YamlMember(Alias = "x-obsolete")]
 	public bool? Obsolete { get; set; } // parameters, headers, schema
 
+	[JsonProperty("x-nullable")]
+	[YamlMember(Alias = "x-nullable")]
+	public bool? Nullable { get; set; } // schema
+
 	[JsonProperty("x-remarks")]
 	[YamlMember(Alias = "x-remarks")]
 	public string? Remarks { get; set; } // schema

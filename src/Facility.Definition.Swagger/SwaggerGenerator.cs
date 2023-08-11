@@ -395,6 +395,8 @@ public sealed class SwaggerGenerator : CodeGenerator
 				return new T { Type = SwaggerSchemaType.Number, Format = SwaggerSchemaTypeFormat.Decimal };
 			case ServiceTypeKind.Bytes:
 				return new T { Type = SwaggerSchemaType.String, Format = SwaggerSchemaTypeFormat.Byte };
+			case ServiceTypeKind.DateTime:
+				return new T { Type = SwaggerSchemaType.String, Format = SwaggerSchemaTypeFormat.DateTime };
 			case ServiceTypeKind.Object:
 				return new T { Type = SwaggerSchemaType.Object };
 			case ServiceTypeKind.Error:
@@ -409,6 +411,8 @@ public sealed class SwaggerGenerator : CodeGenerator
 				return GetArrayOfSchema<T>(type.ValueType!);
 			case ServiceTypeKind.Map:
 				return (T) (object) GetMapOfSchema(type.ValueType!);
+			case ServiceTypeKind.Nullable:
+				return (T) (object) GetNullableOfSchema(type.ValueType!);
 			default:
 				throw new InvalidOperationException("Unexpected field type kind: " + type.Kind);
 		}
@@ -498,6 +502,13 @@ public sealed class SwaggerGenerator : CodeGenerator
 			Type = SwaggerSchemaType.Object,
 			AdditionalProperties = GetTypeSchema<SwaggerSchema>(type),
 		};
+	}
+
+	private static SwaggerSchema GetNullableOfSchema(ServiceTypeInfo type)
+	{
+		var schema = GetTypeSchema<SwaggerSchema>(type);
+		schema.Nullable = true;
+		return schema;
 	}
 
 	private static object? ConvertJTokenToObject(JToken token)
