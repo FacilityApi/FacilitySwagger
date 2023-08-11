@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.5.0
+
+* Support `nullable` and `datetime`.
+
 ## 2.4.0
 
 * Update dependencies.

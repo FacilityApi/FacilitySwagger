@@ -430,7 +430,7 @@ internal sealed class SwaggerConversion
 		switch (swaggerSchema.Type ?? SwaggerSchemaType.Object)
 		{
 			case SwaggerSchemaType.String:
-				return swaggerSchema.Format == SwaggerSchemaTypeFormat.Byte ? "bytes" : "string";
+				return swaggerSchema.Format == SwaggerSchemaTypeFormat.DateTime ? "datetime" : swaggerSchema.Format == SwaggerSchemaTypeFormat.Byte ? "bytes" : "string";
 
 			case SwaggerSchemaType.Number:
 				return swaggerSchema.Format == SwaggerSchemaTypeFormat.Decimal ? "decimal" : "double";

@@ -296,7 +296,7 @@ service SwaggerPetstore
 
 		quantity: int32;
 
-		shipDate: string;
+		shipDate: datetime;
 
 		/// Order Status
 		status: string;
