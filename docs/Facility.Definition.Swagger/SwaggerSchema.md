@@ -31,6 +31,7 @@ public class SwaggerSchema : ISwaggerSchema
 | [MinLength](SwaggerSchema/MinLength.md) { get; set; } |  |
 | [MinProperties](SwaggerSchema/MinProperties.md) { get; set; } |  |
 | [MultipleOf](SwaggerSchema/MultipleOf.md) { get; set; } |  |
+| [Nullable](SwaggerSchema/Nullable.md) { get; set; } |  |
 | [Obsolete](SwaggerSchema/Obsolete.md) { get; set; } |  |
 | [Pattern](SwaggerSchema/Pattern.md) { get; set; } |  |
 | [Properties](SwaggerSchema/Properties.md) { get; set; } |  |
