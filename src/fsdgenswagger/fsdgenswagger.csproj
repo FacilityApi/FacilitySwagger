@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <Description>A tool that converts OpenAPI 2.0 (Swagger) to/from a Facility Service Definition.</Description>
     <PackageTags>Facility FSD Swagger OpenAPI CodeGen</PackageTags>
     <IsPackable>true</IsPackable>

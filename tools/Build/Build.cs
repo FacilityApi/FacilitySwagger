@@ -39,21 +39,22 @@ return BuildRunner.Execute(args, build =>
 	void CodeGen(bool verify)
 	{
 		var configuration = dotNetBuildSettings.GetConfiguration();
-		var toolPath = FindFiles($"src/{codegen}/bin/{configuration}/net6.0/{codegen}.dll").FirstOrDefault() ?? throw new BuildException($"Missing {codegen}.dll.");
-
 		var verifyOption = verify ? "--verify" : null;
 
-		RunDotNet(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--json", "--newline", "lf", verifyOption);
-		RunDotNet(toolPath, "example/ExampleApi.fsd", "example/output/swagger", "--newline", "lf", verifyOption);
-		RunDotNet(toolPath, "example/output/swagger/ExampleApi.json", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
+		RunCodeGen("example/ExampleApi.fsd", "example/output/swagger", "--json");
+		RunCodeGen("example/ExampleApi.fsd", "example/output/swagger");
+		RunCodeGen("example/output/swagger/ExampleApi.json", "example/output/swagger/fsd", "--fsd");
 		if (verify)
-			RunDotNet(toolPath, "example/output/swagger/ExampleApi.yaml", "example/output/swagger/fsd", "--fsd", "--newline", "lf", verifyOption);
+			RunCodeGen("example/output/swagger/ExampleApi.yaml", "example/output/swagger/fsd", "--fsd");
 
 		foreach (var yamlPath in FindFiles("example/*.yaml"))
-			RunDotNet(toolPath, yamlPath, "example/output/fsd", "--fsd", "--newline", "lf", verifyOption);
+			RunCodeGen(yamlPath, "example/output/fsd", "--fsd");
 
 		Directory.CreateDirectory("example/output/fsd/swagger");
 		foreach (var fsdPath in FindFiles("example/output/fsd/*.fsd"))
-			RunDotNet(toolPath, fsdPath, $"example/output/fsd/swagger/{Path.GetFileNameWithoutExtension(fsdPath)}.yaml", "--newline", "lf", verifyOption);
+			RunCodeGen(fsdPath, $"example/output/fsd/swagger/{Path.GetFileNameWithoutExtension(fsdPath)}.yaml");
+
+		void RunCodeGen(params string?[] args) =>
+			RunDotNet(new[] { "run", "--no-build", "--project", $"src/{codegen}", "-f", "net6.0", "-c", configuration, "--", "--newline", "lf", verifyOption }.Concat(args));
 	}
 });
