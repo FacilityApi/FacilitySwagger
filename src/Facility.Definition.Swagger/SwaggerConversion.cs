@@ -368,7 +368,9 @@ internal sealed class SwaggerConversion
 		if (swaggerDefinition.Ref != null)
 		{
 			name = GetDefinitionNameFromRef(swaggerDefinition.Ref, position);
-			if (!m_swaggerService.Definitions!.TryGetValue(name, out swaggerDefinition))
+			if (m_swaggerService.Definitions!.TryGetValue(name, out var resolvedDefinition))
+				swaggerDefinition = resolvedDefinition;
+			else
 				m_errors.Add(new ServiceDefinitionError($"Missing definition named '{name}'.", position));
 		}
 
@@ -383,8 +385,10 @@ internal sealed class SwaggerConversion
 			if (!swaggerOperations.Ref.StartsWith(refPrefix, StringComparison.Ordinal))
 				m_errors.Add(new ServiceDefinitionError("Operations $ref must start with '#/paths/'.", context.CreatePosition()));
 
-			string name = UnescapeRefPart(swaggerOperations.Ref.Substring(refPrefix.Length));
-			if (!m_swaggerService.Paths!.TryGetValue(name, out swaggerOperations))
+			var name = UnescapeRefPart(swaggerOperations.Ref.Substring(refPrefix.Length));
+			if (m_swaggerService.Paths!.TryGetValue(name, out var resolvedOperations))
+				swaggerOperations = resolvedOperations;
+			else
 				m_errors.Add(new ServiceDefinitionError($"Missing path named '{name}'.", context.CreatePosition()));
 
 			context = context.Root.CreateContext("paths/" + name);
@@ -399,8 +403,10 @@ internal sealed class SwaggerConversion
 			if (!swaggerParameter.Ref.StartsWith(refPrefix, StringComparison.Ordinal))
 				m_errors.Add(new ServiceDefinitionError("Parameter $ref must start with '#/parameters/'.", position));
 
-			string name = UnescapeRefPart(swaggerParameter.Ref.Substring(refPrefix.Length));
-			if (!m_swaggerService.Parameters!.TryGetValue(name, out swaggerParameter))
+			var name = UnescapeRefPart(swaggerParameter.Ref.Substring(refPrefix.Length));
+			if (m_swaggerService.Parameters!.TryGetValue(name, out var resolvedParameter))
+				swaggerParameter = resolvedParameter;
+			else
 				m_errors.Add(new ServiceDefinitionError($"Missing parameter named '{name}'.", position));
 		}
 
@@ -415,8 +421,10 @@ internal sealed class SwaggerConversion
 			if (!swaggerResponse.Ref.StartsWith(refPrefix, StringComparison.Ordinal))
 				m_errors.Add(new ServiceDefinitionError("Response $ref must start with '#/responses/'.", position));
 
-			string name = UnescapeRefPart(swaggerResponse.Ref.Substring(refPrefix.Length));
-			if (!m_swaggerService.Responses!.TryGetValue(name, out swaggerResponse))
+			var name = UnescapeRefPart(swaggerResponse.Ref.Substring(refPrefix.Length));
+			if (m_swaggerService.Responses!.TryGetValue(name, out var resolvedResponse))
+				swaggerResponse = resolvedResponse;
+			else
 				m_errors.Add(new ServiceDefinitionError($"Missing response named '{name}'.", position));
 		}
 
@@ -507,7 +515,7 @@ internal sealed class SwaggerConversion
 		return TryGetFacilityTypeName(valueSchema, position);
 	}
 
-	private static string UnescapeRefPart(string value) => value.Replace("~1", "/").Replace("~0", "~");
+	private static string UnescapeRefPart(string value) => value.ReplaceOrdinal("~1", "/").ReplaceOrdinal("~0", "~");
 
 	private static readonly Regex s_pathParameter = new Regex(@"\{[^}]+\}");
 

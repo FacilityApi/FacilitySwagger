@@ -29,9 +29,19 @@ public static class SwaggerUtility
 
 	internal static IList<T> EmptyIfNull<T>(this IList<T>? list) => list ?? Array.Empty<T>();
 
-	internal static IReadOnlyDictionary<TKey, TValue> EmptyIfNull<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue>? list) => list ?? new Dictionary<TKey, TValue>();
+	internal static IReadOnlyDictionary<TKey, TValue> EmptyIfNull<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue>? list)
+		where TKey : notnull => list ?? new Dictionary<TKey, TValue>();
 
-	internal static IDictionary<TKey, TValue> EmptyIfNull<TKey, TValue>(this IDictionary<TKey, TValue>? list) => list ?? new Dictionary<TKey, TValue>();
+	internal static IDictionary<TKey, TValue> EmptyIfNull<TKey, TValue>(this IDictionary<TKey, TValue>? list)
+		where TKey : notnull => list ?? new Dictionary<TKey, TValue>();
+
+#if NET6_0_OR_GREATER
+	internal static bool ContainsOrdinal(this string text, string value) => text.Contains(value, StringComparison.Ordinal);
+	internal static string ReplaceOrdinal(this string text, string oldValue, string newValue) => text.Replace(oldValue, newValue, StringComparison.Ordinal);
+#else
+	internal static bool ContainsOrdinal(this string text, string value) => text.Contains(value);
+	internal static string ReplaceOrdinal(this string text, string oldValue, string newValue) => text.Replace(oldValue, newValue);
+#endif
 
 	private sealed class CamelCaseExceptDictionaryKeysContractResolver : CamelCasePropertyNamesContractResolver
 	{

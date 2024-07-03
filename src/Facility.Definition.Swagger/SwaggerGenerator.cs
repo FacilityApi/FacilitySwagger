@@ -540,7 +540,7 @@ public sealed class SwaggerGenerator : CodeGenerator
 		public override void Emit(ScalarEventInfo eventInfo, IEmitter emitter)
 		{
 			// prefer the literal style for multi-line strings
-			if (eventInfo.Source.Type == typeof(string) && eventInfo.Style == ScalarStyle.Any && ((string) eventInfo.Source.Value!).IndexOf('\n') != -1)
+			if (eventInfo.Source.Type == typeof(string) && eventInfo.Style == ScalarStyle.Any && ((string) eventInfo.Source.Value!).ContainsOrdinal("\n"))
 				eventInfo.Style = ScalarStyle.Literal;
 
 			// ensure strings that look like numbers remain strings
@@ -552,6 +552,7 @@ public sealed class SwaggerGenerator : CodeGenerator
 	}
 
 	private sealed class OurDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
+		where TKey : notnull
 	{
 		public OurDictionary()
 		{
@@ -608,7 +609,7 @@ public sealed class SwaggerGenerator : CodeGenerator
 			return true;
 		}
 
-		public bool TryGetValue(TKey key, out TValue value) => m_dictionary.TryGetValue(key, out value);
+		public bool TryGetValue(TKey key, out TValue value) => m_dictionary.TryGetValue(key, out value!);
 
 		public TValue this[TKey key]
 		{
