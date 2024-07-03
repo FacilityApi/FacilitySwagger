@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.6.0
+
+* Add .NET 8 targets. Update dependencies.
+
 ## 2.5.0
 
 * Support `nullable` and `datetime`.
