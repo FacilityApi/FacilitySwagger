@@ -30,7 +30,7 @@ public sealed class SwaggerParser : ServiceParser
 
 		if (string.IsNullOrWhiteSpace(text.Text))
 		{
-			errors = new[] { new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(text.Name, 1, 1)) };
+			errors = [new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(text.Name, 1, 1))];
 			return false;
 		}
 
@@ -58,14 +58,14 @@ public sealed class SwaggerParser : ServiceParser
 					if (errorStartIndex != -1)
 						errorMessage = errorMessage.Substring(errorStartIndex + errorStart.Length);
 
-					errors = new[] { new ServiceDefinitionError(errorMessage, new ServiceDefinitionPosition(text.Name, exception.End.Line, exception.End.Column)) };
+					errors = [new ServiceDefinitionError(errorMessage, new ServiceDefinitionPosition(text.Name, exception.End.Line, exception.End.Column))];
 					return false;
 				}
 			}
 
 			if (swaggerService == null)
 			{
-				errors = new[] { new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(text.Name, 1, 1)) };
+				errors = [new ServiceDefinitionError("Service definition is missing.", new ServiceDefinitionPosition(text.Name, 1, 1))];
 				return false;
 			}
 
@@ -83,7 +83,7 @@ public sealed class SwaggerParser : ServiceParser
 				}
 				catch (JsonException exception)
 				{
-					errors = new[] { new ServiceDefinitionError(exception.Message, new ServiceDefinitionPosition(text.Name, jsonTextReader.LineNumber, jsonTextReader.LinePosition)) };
+					errors = [new ServiceDefinitionError(exception.Message, new ServiceDefinitionPosition(text.Name, jsonTextReader.LineNumber, jsonTextReader.LinePosition))];
 					return false;
 				}
 

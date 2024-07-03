@@ -11,20 +11,20 @@ public sealed class FsdGenSwaggerApp : CodeGeneratorApp
 {
 	public static int Main(string[] args) => new FsdGenSwaggerApp().Run(args);
 
-	protected override IReadOnlyList<string> Description => new[]
-	{
+	protected override IReadOnlyList<string> Description =>
+	[
 		"Converts Swagger (OpenAPI) 2.0 to/from a Facility Service Definition.",
-	};
+	];
 
-	protected override IReadOnlyList<string> ExtraUsage => new[]
-	{
+	protected override IReadOnlyList<string> ExtraUsage =>
+	[
 		"   --fsd",
 		"      Generates a Facility Service Definition (instead of Swagger).",
 		"   --json",
 		"      Generates JSON (instead of YAML).",
 		"   --service-name <name>",
 		"      Overrides the service name.",
-	};
+	];
 
 	protected override CodeGenerator CreateGenerator() => new SwaggerGenerator();
 

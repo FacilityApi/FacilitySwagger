@@ -25,7 +25,7 @@ public static class SwaggerUtility
 		MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
 	};
 
-	internal static IReadOnlyList<T> EmptyIfNull<T>(this IReadOnlyList<T>? list) => list ?? Array.Empty<T>();
+	internal static IReadOnlyList<T> EmptyIfNull<T>(this IReadOnlyList<T>? list) => list ?? [];
 
 	internal static IList<T> EmptyIfNull<T>(this IList<T>? list) => list ?? Array.Empty<T>();
 

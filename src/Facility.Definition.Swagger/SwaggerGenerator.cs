@@ -62,7 +62,7 @@ public sealed class SwaggerGenerator : CodeGenerator
 		{
 			var baseUri = new Uri(defaultBaseUri);
 			swaggerService.Host = baseUri.Host;
-			swaggerService.Schemes = new[] { baseUri.Scheme };
+			swaggerService.Schemes = [baseUri.Scheme];
 
 			string basePath = baseUri.PathAndQuery;
 			if (!string.IsNullOrEmpty(basePath) && basePath != "/")
@@ -214,13 +214,13 @@ public sealed class SwaggerGenerator : CodeGenerator
 	private static ServiceDtoInfo GetErrorDto()
 	{
 		return new ServiceDtoInfo(name: "Error",
-			fields: new[]
-			{
+			fields:
+			[
 				new ServiceFieldInfo(name: "code", typeName: "string", summary: "The error code."),
 				new ServiceFieldInfo(name: "message", typeName: "string", summary: "The error message."),
 				new ServiceFieldInfo(name: "details", typeName: "object", summary: "Advanced error details."),
 				new ServiceFieldInfo(name: "innerError", typeName: "error", summary: "The inner error."),
-			},
+			],
 			summary: "An error.");
 	}
 
@@ -245,11 +245,11 @@ public sealed class SwaggerGenerator : CodeGenerator
 	private static ServiceDtoInfo GetResultDto(ServiceTypeInfo type)
 	{
 		return new ServiceDtoInfo(name: GetTypeAsDtoName(type),
-			fields: new[]
-			{
+			fields:
+			[
 				new ServiceFieldInfo(name: "value", typeName: type.ValueType!.ToString(), summary: "The value."),
 				new ServiceFieldInfo(name: "error", typeName: "error", summary: "The error."),
-			},
+			],
 			summary: "A result value or error.");
 	}
 
@@ -270,9 +270,9 @@ public sealed class SwaggerGenerator : CodeGenerator
 		};
 
 		if (httpMethodInfo.RequestNormalFields.Count != 0 || httpMethodInfo.RequestBodyField != null)
-			operation.Consumes = new[] { "application/json" };
+			operation.Consumes = ["application/json"];
 		if (httpMethodInfo.ValidResponses.Any(x => (x.NormalFields != null && x.NormalFields.Count != 0) || (x.BodyField != null && service.GetFieldType(x.BodyField.ServiceField)!.Kind != ServiceTypeKind.Boolean)))
-			operation.Produces = new[] { "application/json" };
+			operation.Produces = ["application/json"];
 
 		var parameters = new List<SwaggerParameter>();
 
@@ -622,7 +622,7 @@ public sealed class SwaggerGenerator : CodeGenerator
 			}
 		}
 
-		public ICollection<TKey> Keys => m_keys.ToList();
+		public ICollection<TKey> Keys => [.. m_keys];
 
 		public ICollection<TValue> Values => m_keys.Select(x => m_dictionary[x]).ToList();
 

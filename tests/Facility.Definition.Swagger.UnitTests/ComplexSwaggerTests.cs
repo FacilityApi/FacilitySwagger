@@ -93,7 +93,7 @@ They are multi-line.
 		},
 		Host = "example.com",
 		BasePath = "/v3",
-		Schemes = new[] { "https" },
+		Schemes = ["https"],
 		Paths = new Dictionary<string, SwaggerOperations>
 		{
 			["/do/{id}"] = new SwaggerOperations
@@ -102,10 +102,10 @@ They are multi-line.
 				{
 					Summary = "do!",
 					OperationId = "do",
-					Consumes = new[] { "application/json" },
-					Produces = new[] { "application/json" },
-					Parameters = new[]
-					{
+					Consumes = ["application/json"],
+					Produces = ["application/json"],
+					Parameters =
+					[
 						new SwaggerParameter
 						{
 							In = SwaggerParameterKind.Path,
@@ -133,7 +133,7 @@ They are multi-line.
 								Ref = "#/definitions/DoRequest",
 							},
 						},
-					},
+					],
 					Responses = new Dictionary<string, SwaggerResponse>
 					{
 						["201"] = new SwaggerResponse
@@ -165,11 +165,11 @@ They are multi-line.
 			{
 				Post = new SwaggerOperation
 				{
-					Tags = new[] { "deadly", "admin" },
+					Tags = ["deadly", "admin"],
 					OperationId = "kill",
-					Consumes = new[] { "application/json" },
-					Parameters = new[]
-					{
+					Consumes = ["application/json"],
+					Parameters =
+					[
 						new SwaggerParameter
 						{
 							In = SwaggerParameterKind.Body,
@@ -181,7 +181,7 @@ They are multi-line.
 								Ref = "#/definitions/Job",
 							},
 						},
-					},
+					],
 					Responses = new Dictionary<string, SwaggerResponse>
 					{
 						["200"] = new SwaggerResponse
@@ -229,7 +229,7 @@ They are multi-line.
 						Type = SwaggerSchemaType.String,
 					},
 				},
-				Required = new[] { "id" },
+				Required = ["id"],
 			},
 		},
 	};

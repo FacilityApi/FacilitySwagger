@@ -54,7 +54,7 @@ internal sealed class SwaggerConversion
 		if (!string.IsNullOrWhiteSpace(version))
 		{
 			attributes.Add(new ServiceAttributeInfo("info",
-				new[] { new ServiceAttributeParameterInfo("version", version!, context.CreatePart("info/version")!) },
+				[new ServiceAttributeParameterInfo("version", version!, context.CreatePart("info/version")!)],
 				context.CreatePart("info")!));
 		}
 
@@ -65,7 +65,7 @@ internal sealed class SwaggerConversion
 		{
 			string url = new UriBuilder(scheme!, host!) { Path = basePath }.Uri.AbsoluteUri;
 			attributes.Add(new ServiceAttributeInfo("http",
-				new[] { new ServiceAttributeParameterInfo("url", url) }));
+				[new ServiceAttributeParameterInfo("url", url)]));
 		}
 
 		var position = context.CreatePosition();
@@ -148,7 +148,7 @@ internal sealed class SwaggerConversion
 			parts: part));
 	}
 
-	private void AddServiceMethod(IList<ServiceMemberInfo> members, string method, string path, SwaggerOperation? swaggerOperation, IList<SwaggerParameter>? swaggerOperationsParameters, SwaggerParserContext context)
+	private void AddServiceMethod(List<ServiceMemberInfo> members, string method, string path, SwaggerOperation? swaggerOperation, IList<SwaggerParameter>? swaggerOperationsParameters, SwaggerParserContext context)
 	{
 		if (swaggerOperation == null)
 			return;
@@ -190,7 +190,7 @@ internal sealed class SwaggerConversion
 		if (swaggerOperation.Deprecated.GetValueOrDefault())
 			attributes.Add(new ServiceAttributeInfo("obsolete"));
 		if (swaggerOperation.Tags != null)
-			attributes.AddRange(swaggerOperation.Tags.Select(x => new ServiceAttributeInfo("tag", new[] { new ServiceAttributeParameterInfo("name", x) })));
+			attributes.AddRange(swaggerOperation.Tags.Select(x => new ServiceAttributeInfo("tag", [new ServiceAttributeParameterInfo("name", x)])));
 
 		members.Add(new ServiceMethodInfo(
 			name: name!,
@@ -202,7 +202,7 @@ internal sealed class SwaggerConversion
 			parts: part!));
 	}
 
-	private void AddRequestFields(IList<ServiceFieldInfo> requestFields, SwaggerParameter swaggerParameter, string serviceMethodName, string httpMethod, ServicePart? part)
+	private void AddRequestFields(List<ServiceFieldInfo> requestFields, SwaggerParameter swaggerParameter, string serviceMethodName, string httpMethod, ServicePart? part)
 	{
 		var kind = swaggerParameter.In;
 		if (kind == SwaggerParameterKind.Path || kind == SwaggerParameterKind.Query || kind == SwaggerParameterKind.Header)
@@ -237,11 +237,10 @@ internal sealed class SwaggerConversion
 				else if (kind == SwaggerParameterKind.Header)
 				{
 					attributes.Add(new ServiceAttributeInfo("http",
-						new[]
-						{
+						[
 							new ServiceAttributeParameterInfo("from", "header"),
 							new ServiceAttributeParameterInfo("name", swaggerParameter.Name!),
-						}));
+						]));
 				}
 
 				requestFields.Add(new ServiceFieldInfo(
@@ -268,7 +267,7 @@ internal sealed class SwaggerConversion
 					requestFields.Add(new ServiceFieldInfo(
 						bodySchema.Value.Identifier ?? "body",
 						typeName: typeName,
-						attributes: new[] { new ServiceAttributeInfo("http", new[] { new ServiceAttributeParameterInfo("from", "body", part) }) },
+						attributes: [new ServiceAttributeInfo("http", [new ServiceAttributeParameterInfo("from", "body", part)])],
 						summary: PrepareSummary(swaggerParameter.Description),
 						parts: part));
 				}
@@ -276,7 +275,7 @@ internal sealed class SwaggerConversion
 		}
 	}
 
-	private void AddResponseFields(IList<ServiceFieldInfo> responseFields, string statusCode, SwaggerResponse swaggerResponse, string serviceMethodName, IList<ServiceAttributeParameterInfo> httpAttributeValues, bool isOnlyResponse, ServicePart? part)
+	private void AddResponseFields(List<ServiceFieldInfo> responseFields, string statusCode, SwaggerResponse swaggerResponse, string serviceMethodName, List<ServiceAttributeParameterInfo> httpAttributeValues, bool isOnlyResponse, ServicePart? part)
 	{
 		var bodySchema = default(KeyValuePair<string, SwaggerSchema>);
 
@@ -298,15 +297,14 @@ internal sealed class SwaggerConversion
 			responseFields.Add(new ServiceFieldInfo(
 				swaggerResponse.Identifier ?? (bodySchema.Key == null ? null : CodeGenUtility.ToCamelCase(bodySchema.Key)) ?? GetBodyFieldNameForStatusCode(statusCode),
 				typeName: bodySchema.Key ?? (bodySchema.Value != null ? FilterBodyTypeName(TryGetFacilityTypeName(bodySchema.Value, part!.Position)) : null) ?? "boolean",
-				attributes: new[]
-				{
+				attributes:
+				[
 					new ServiceAttributeInfo("http",
-						new[]
-						{
+						[
 							new ServiceAttributeParameterInfo("from", "body", part!),
 							new ServiceAttributeParameterInfo("code", statusCode, part!),
-						}),
-				},
+						]),
+				],
 				summary: PrepareSummary(swaggerResponse.Description),
 				parts: part!));
 		}
@@ -324,7 +322,7 @@ internal sealed class SwaggerConversion
 		return CodeGenUtility.ToCamelCase($"status {statusCode}");
 	}
 
-	private void AddFieldsFromSchema(IList<ServiceFieldInfo> requestFields, ServicePart part, KeyValuePair<string, SwaggerSchema> bodySchema)
+	private void AddFieldsFromSchema(List<ServiceFieldInfo> requestFields, ServicePart part, KeyValuePair<string, SwaggerSchema> bodySchema)
 	{
 		if ((bodySchema.Value.Type ?? SwaggerSchemaType.Object) != SwaggerSchemaType.Object)
 			throw new NotImplementedException();
@@ -353,7 +351,7 @@ internal sealed class SwaggerConversion
 
 	private static string? PrepareSummary(string? summary) => string.IsNullOrWhiteSpace(summary) ? null : Regex.Replace(summary!.Trim(), @"\s+", " ");
 
-	private static IReadOnlyList<string>? SplitRemarks(string? remarks) => string.IsNullOrWhiteSpace(remarks) ? null : Regex.Split(remarks!, @"\r?\n");
+	private static string[]? SplitRemarks(string? remarks) => string.IsNullOrWhiteSpace(remarks) ? null : Regex.Split(remarks!, @"\r?\n");
 
 	private string GetDefinitionNameFromRef(string refValue, ServiceDefinitionPosition? position)
 	{
