@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.6.1
+
+* Ignore events for now.
+
 ## 2.6.0
 
 * Add .NET 8 targets. Update dependencies.
