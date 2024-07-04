@@ -22,7 +22,7 @@ public sealed class SwaggerParser : ServiceParser
 	/// </summary>
 	protected override bool TryParseDefinitionCore(ServiceDefinitionText text, out ServiceInfo? service, out IReadOnlyList<ServiceDefinitionError> errors)
 	{
-		var isFsd = new FsdParser().TryParseDefinition(text, out service, out errors);
+		var isFsd = new FsdParser(new() { SupportsEvents = true }).TryParseDefinition(text, out service, out errors);
 		if (isFsd || text.Name.EndsWith(".fsd", StringComparison.OrdinalIgnoreCase))
 			return isFsd;
 

@@ -6,6 +6,6 @@ internal static class TestUtility
 {
 	public static ServiceInfo ParseTestApi(string text)
 	{
-		return new FsdParser().ParseDefinition(new ServiceDefinitionText("TestApi.fsd", text));
+		return new FsdParser(new() { SupportsEvents = true }).ParseDefinition(new ServiceDefinitionText("TestApi.fsd", text));
 	}
 }

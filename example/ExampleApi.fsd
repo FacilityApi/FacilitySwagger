@@ -408,6 +408,15 @@ service ExampleApi
 
 	/// An external enum.
 	extern enum ExternalEnum;
+
+	[http(method: GET)]
+	event fibonacci
+	{
+		count: int32!;
+	}:
+	{
+		value: int32!;
+	}
 }
 
 # ExampleApi
