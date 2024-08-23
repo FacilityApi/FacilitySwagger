@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.6.2
+
+* Fix `--service-name`.
+
 ## 2.6.1
 
 * Ignore events for now.
