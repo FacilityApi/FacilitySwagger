@@ -30,17 +30,19 @@ public sealed class FsdGenSwaggerApp : CodeGeneratorApp
 
 	protected override FileGeneratorSettings CreateSettings(ArgsReader args)
 	{
-		var serviceName = args.ReadOption("service-name");
-		if (serviceName != null && !ServiceDefinitionUtility.IsValidName(serviceName))
-			throw new ArgsReaderException($"Invalid service name '{serviceName}'.");
+		m_serviceName = args.ReadOption("service-name");
+		if (m_serviceName != null && !ServiceDefinitionUtility.IsValidName(m_serviceName))
+			throw new ArgsReaderException($"Invalid service name '{m_serviceName}'.");
 
 		return new SwaggerGeneratorSettings
 		{
 			GeneratesFsd = args.ReadFlag("fsd"),
 			GeneratesJson = args.ReadFlag("json"),
-			ServiceName = serviceName,
+			ServiceName = m_serviceName,
 		};
 	}
 
-	protected override ServiceParser CreateParser() => new SwaggerParser();
+	protected override ServiceParser CreateParser() => new SwaggerParser { ServiceName = m_serviceName };
+
+	private string? m_serviceName;
 }
