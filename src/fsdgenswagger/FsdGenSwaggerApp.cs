@@ -31,7 +31,7 @@ public sealed class FsdGenSwaggerApp : CodeGeneratorApp
 	protected override FileGeneratorSettings CreateSettings(ArgsReader args)
 	{
 		var serviceName = args.ReadOption("service-name");
-		if (serviceName != null && ServiceDefinitionUtility.IsValidName(serviceName))
+		if (serviceName != null && !ServiceDefinitionUtility.IsValidName(serviceName))
 			throw new ArgsReaderException($"Invalid service name '{serviceName}'.");
 
 		return new SwaggerGeneratorSettings
