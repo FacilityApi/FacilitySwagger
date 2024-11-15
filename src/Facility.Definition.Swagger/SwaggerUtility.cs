@@ -35,7 +35,7 @@ public static class SwaggerUtility
 	internal static IDictionary<TKey, TValue> EmptyIfNull<TKey, TValue>(this IDictionary<TKey, TValue>? list)
 		where TKey : notnull => list ?? new Dictionary<TKey, TValue>();
 
-#if NET6_0_OR_GREATER
+#if !NETSTANDARD2_0
 	internal static bool ContainsOrdinal(this string text, string value) => text.Contains(value, StringComparison.Ordinal);
 	internal static string ReplaceOrdinal(this string text, string oldValue, string newValue) => text.Replace(oldValue, newValue, StringComparison.Ordinal);
 #else
