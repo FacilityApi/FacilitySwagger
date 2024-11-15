@@ -1,5 +1,10 @@
 # Release Notes
 
+## 2.7.0
+
+* Drop support for end-of-life frameworks.
+* Use roll forward with .NET tools.
+
 ## 2.6.2
 
 * Fix `--service-name`.
