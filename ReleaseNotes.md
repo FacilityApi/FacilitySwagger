@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.8.0
+
+* Support `float` field type.
+
 ## 2.7.0
 
 * Drop support for end-of-life frameworks.
