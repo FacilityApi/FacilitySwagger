@@ -385,6 +385,8 @@ public sealed class SwaggerGenerator : CodeGenerator
 				return new T { Type = SwaggerSchemaType.String };
 			case ServiceTypeKind.Boolean:
 				return new T { Type = SwaggerSchemaType.Boolean };
+			case ServiceTypeKind.Float:
+				return new T { Type = SwaggerSchemaType.Number, Format = SwaggerSchemaTypeFormat.Float };
 			case ServiceTypeKind.Double:
 				return new T { Type = SwaggerSchemaType.Number, Format = SwaggerSchemaTypeFormat.Double };
 			case ServiceTypeKind.Int32:
