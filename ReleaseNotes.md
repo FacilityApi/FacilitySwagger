@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.8.1
+
+* Update NuGet package README.
+
 ## 2.8.0
 
 * Support `float` field type.
