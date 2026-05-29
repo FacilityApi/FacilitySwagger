@@ -1,22 +1,6 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path=".editorconfig" />
-    <File Path=".gitattributes" />
-    <File Path=".github/workflows/build.yaml" />
-    <File Path=".gitignore" />
-    <File Path="build.ps1" />
-    <File Path="Directory.Build.props" />
-    <File Path="Directory.Packages.props" />
-    <File Path="example/ExampleApi.fsd" />
-    <File Path="global.json" />
-    <File Path="LICENSE" />
-    <File Path="nuget.config" />
-    <File Path="README.md" />
-    <File Path="ReleaseNotes.md" />
-  </Folder>
   <Project Path="src/Facility.Definition.Swagger/Facility.Definition.Swagger.csproj" />
   <Project Path="src/fsdgenswagger/fsdgenswagger.csproj" />
   <Project Path="tests/Facility.Definition.Swagger.UnitTests/Facility.Definition.Swagger.UnitTests.csproj" />
   <Project Path="tools/Build/Build.csproj" />
-  <Project Path="tools/XmlDocGen/XmlDocGen.csproj" />
 </Solution>

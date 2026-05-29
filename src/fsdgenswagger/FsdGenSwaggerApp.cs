@@ -7,7 +7,7 @@ using Facility.Definition.Swagger;
 
 namespace fsdgenswagger;
 
-public sealed class FsdGenSwaggerApp : CodeGeneratorApp
+internal sealed class FsdGenSwaggerApp : CodeGeneratorApp
 {
 	public static int Main(string[] args) => new FsdGenSwaggerApp().Run(args);
 

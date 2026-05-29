@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Facility.Definition.Swagger.UnitTests;
 
 [TestFixture]
-public class ComplexSwaggerTests
+internal sealed class ComplexSwaggerTests
 {
 	[Test]
 	public void GenerateComplexService()
