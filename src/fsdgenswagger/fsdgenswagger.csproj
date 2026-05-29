@@ -8,6 +8,8 @@
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <RollForward>Major</RollForward>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RewritePackageReadmeLinks>true</RewritePackageReadmeLinks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +18,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Facility.Definition.Swagger\Facility.Definition.Swagger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

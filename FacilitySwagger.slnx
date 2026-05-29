@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/Facility.Definition.Swagger/Facility.Definition.Swagger.csproj" />
+  <Project Path="src/fsdgenswagger/fsdgenswagger.csproj" />
+  <Project Path="tests/Facility.Definition.Swagger.UnitTests/Facility.Definition.Swagger.UnitTests.csproj" />
+  <Project Path="tools/Build/Build.csproj" />
+</Solution>

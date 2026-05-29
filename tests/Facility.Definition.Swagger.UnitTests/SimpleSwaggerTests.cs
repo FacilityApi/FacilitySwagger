@@ -7,7 +7,7 @@ using YamlDotNet.Serialization;
 namespace Facility.Definition.Swagger.UnitTests;
 
 [TestFixture]
-public class SimpleSwaggerTests
+internal sealed class SimpleSwaggerTests
 {
 	[Test]
 	public void GenerateSimpleService()

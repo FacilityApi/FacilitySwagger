@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Facility.Definition.Swagger.UnitTests;
 
 [TestFixture]
-public class BrokenSwaggerTests
+internal sealed class BrokenSwaggerTests
 {
 	[TestCase("", "(1,1): Service definition is missing.")]
 	[TestCase("{", "(1,1): Unexpected end when reading JSON.")]
