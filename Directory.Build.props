@@ -7,11 +7,6 @@
     <Authors>Ed Ball</Authors>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(BuildNumber)' != '' ">
-    <AssemblyVersion>$(VersionPrefix).$(BuildNumber)</AssemblyVersion>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
-
   <!-- DO NOT EDIT: facility-dotnet-package-props convention -->
   <PropertyGroup>
     <GitHubOrganization>FacilityApi</GitHubOrganization>
