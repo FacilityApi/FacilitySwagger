@@ -53,7 +53,7 @@ internal sealed class SwaggerParserContext
 				}
 			}
 
-			return (node.End.Line, node.End.Column);
+			return (checked((int) node.End.Line), checked((int) node.End.Column));
 		}
 		else
 		{
