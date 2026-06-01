@@ -124,6 +124,9 @@ public sealed class SwaggerParser : ServiceParser
 	{
 		public string Apply(string value)
 		{
+			if (value.Length == 0)
+				return value;
+
 			if (value[0] >= 'A' && value[0] <= 'Z')
 				value = CodeGenUtility.ToCamelCase(value);
 			return value;
@@ -131,6 +134,9 @@ public sealed class SwaggerParser : ServiceParser
 
 		public string Reverse(string value)
 		{
+			if (value.Length == 0)
+				return value;
+
 			if (value[0] >= 'a' && value[0] <= 'z')
 				value = CodeGenUtility.ToPascalCase(value);
 			return value;
