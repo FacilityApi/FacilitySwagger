@@ -58,7 +58,7 @@ public sealed class SwaggerParser : ServiceParser
 					if (errorStartIndex != -1)
 						errorMessage = errorMessage.Substring(errorStartIndex + errorStart.Length);
 
-					errors = [new ServiceDefinitionError(errorMessage, new ServiceDefinitionPosition(text.Name, exception.End.Line, exception.End.Column))];
+					errors = [new ServiceDefinitionError(errorMessage, new ServiceDefinitionPosition(text.Name, checked((int) exception.End.Line), checked((int) exception.End.Column)))];
 					return false;
 				}
 			}
@@ -124,8 +124,21 @@ public sealed class SwaggerParser : ServiceParser
 	{
 		public string Apply(string value)
 		{
+			if (value.Length == 0)
+				return value;
+
 			if (value[0] >= 'A' && value[0] <= 'Z')
 				value = CodeGenUtility.ToCamelCase(value);
+			return value;
+		}
+
+		public string Reverse(string value)
+		{
+			if (value.Length == 0)
+				return value;
+
+			if (value[0] >= 'a' && value[0] <= 'z')
+				value = CodeGenUtility.ToPascalCase(value);
 			return value;
 		}
 	}
