@@ -3,5 +3,4 @@ conventions:
   - path: FacilityApi/Facility/conventions/facility-dotnet-package-workflows
 
 pull-request:
-  reviewers:
-    - ejball
+  reviewers: [ejball]
