@@ -14,7 +14,7 @@ internal sealed class BrokenSwaggerTests
 	[TestCase(" \n {}", "(2,2): swagger field is missing.")]
 	[TestCase("info: {}", "(1,1): swagger field is missing.")]
 	[TestCase("{swagger:{}}", "(1,10): Unexpected character")]
-	[TestCase("swagger: {}", "(1,10): Failed to create an instance of type")]
+	[TestCase("swagger: {}", "(1,10): Cannot dynamically create an instance of type")]
 	[TestCase("{swagger:'1.0'}", "(1,14): swagger should be '2.0'.")]
 	[TestCase("swagger: '1.0'", "(1,15): swagger should be '2.0'.")]
 	[TestCase("{swagger:'2.0'}", "(1,1): info is missing.")]
@@ -36,5 +36,31 @@ internal sealed class BrokenSwaggerTests
 		{
 			exception.Message.Should().StartWith(messagePrefix);
 		}
+	}
+
+	[Test]
+	public void SwaggerParseYamlWithEnumValues()
+	{
+		const string text = "swagger: '2.0'\n"
+			+ "info:\n"
+			+ "  title: TestApi\n"
+			+ "paths:\n"
+			+ "  /widgets:\n"
+			+ "    get:\n"
+			+ "      operationId: getWidgets\n"
+			+ "      parameters:\n"
+			+ "      - in: query\n"
+			+ "        name: sort\n"
+			+ "        type: string\n"
+			+ "        enum:\n"
+			+ "        - id\n"
+			+ "        - name\n"
+			+ "      responses:\n"
+			+ "        '200':\n"
+			+ "          description: ''\n";
+
+		var service = new SwaggerParser().ParseDefinition(new ServiceDefinitionText("TestApi.yaml", text));
+		service.Name.Should().Be("TestApi");
+		service.Methods.Should().ContainSingle(x => x.Name == "getWidgets");
 	}
 }
