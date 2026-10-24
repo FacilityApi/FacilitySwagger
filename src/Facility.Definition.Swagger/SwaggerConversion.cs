@@ -448,8 +448,9 @@ internal sealed class SwaggerConversion
 				return "boolean";
 
 			case SwaggerSchemaType.Array:
-				return swaggerSchema.Items?.Type == SwaggerSchemaType.Array ? null :
-					$"{TryGetFacilityTypeName(swaggerSchema.Items!, position)}[]";
+				return swaggerSchema.Items?.Type == SwaggerSchemaType.Array
+					? null
+					: $"{TryGetFacilityTypeName(swaggerSchema.Items!, position)}[]";
 
 			case SwaggerSchemaType.Object:
 				if (swaggerSchema is SwaggerSchema fullSchema)
